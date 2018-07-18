@@ -39,6 +39,8 @@ public:
 	glm::vec3 tipPosition;
 
 	bool isItem;
+	int recDepth = 0;
+
 
 	enum{triangles,lines};
 	Shape(const Shape& shape);

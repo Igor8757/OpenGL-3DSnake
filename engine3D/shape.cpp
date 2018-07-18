@@ -172,15 +172,26 @@ bool Shape::_isColliding(BoundingBox& A, BoundingBox& B, Shape& other) {
 	A.P = glm::vec3(A.mat[3][0], A.mat[3][1], A.mat[3][2]);
 	B.mat = B.mat*other.makeTransScale(glm::mat4(1));
 	B.P = glm::vec3(B.mat[3][0], B.mat[3][1], B.mat[3][2]);
+
+	if (tipPosition != glm::vec3(0))
+		A.P = tipPosition;
+	else
+		A.P = glm::vec3(A.mat[3][0], A.mat[3][1], A.mat[3][2]);
+
+	if (other.tipPosition != glm::vec3(0))
+		B.P = other.tipPosition;
+	else
+		B.P = glm::vec3(B.mat[3][0], B.mat[3][1], B.mat[3][2]);
+
 	glm::vec3 T = B.P - A.P;
 	glm::vec3 L;
 
-	A.uX = findAxis(A.uX);
-	A.uY = findAxis(A.uY);
-	A.uZ = findAxis(A.uZ);
-	B.uX = findAxis(B.uX);
-	B.uY = findAxis(B.uY);
-	B.uZ = findAxis(B.uZ);
+	A.uX = glm::vec3(1, 0, 0);
+	A.uY = glm::vec3(0, 1, 0);
+	A.uZ = glm::vec3(0, 0, 1);
+	B.uX = glm::vec3(1, 0, 0);;
+	B.uY = glm::vec3(0, 1, 0);;
+	B.uZ = glm::vec3(0, 0, 1);;
 	float Rxx = glm::dot(A.uX, B.uX);
 	float Rxy = glm::dot(A.uX, B.uY);
 	float Rxz = glm::dot(A.uX, B.uZ);
@@ -288,6 +299,8 @@ bool Shape::_isColliding(BoundingBox& A, BoundingBox& B, Shape& other) {
 		return false;
 	}
 
+
+	recDepth++;
 	return true;
 }
 
@@ -350,6 +363,7 @@ bool Shape::_isCollidingA(Node& nodeA, Node& nodeB, Shape &other, Node &current)
 		return true;
 		}
 		*/
+		
 		if (_isCollidingB(current, *(other.kdtree.getRoot()), *(other.kdtree.getRoot()), other)) {
 			//node = &current;
 			if (_isCollidingA(*nodeA.left, nodeB, other, nodeA))
@@ -372,12 +386,15 @@ bool Shape::_isCollidingB(Node& nodeA, Node& nodeB, Node &current, Shape& other)
 
 		return true;
 	}
+	if (recDepth >= 5)
+	{
+		return true;
+	}
 	BoundingBox A = nodeA.data;
 	BoundingBox B = nodeB.data;
 	//other.node = &current;
 	//other.node = &current;
 	if (_isColliding(A, B, other)) {
-
 
 		if (_isCollidingB(nodeA, *nodeB.left, nodeB, other)) {
 			if (nodeB.left == nullptr) {
@@ -398,15 +415,14 @@ bool Shape::_isCollidingB(Node& nodeA, Node& nodeB, Node &current, Shape& other)
 		//Shape  shape1(node->data.vertices, sizeof(node->data.vertices), node->data.indices, sizeof(node->data.indices));
 		//shape = &shape1;
 	}
+	
 	return false;
 
 }
 
 bool Shape::isColliding(Shape& other) {
-	if (_isCollidingA(*(kdtree.getRoot()), *(other.kdtree.getRoot()), other, *(kdtree.getRoot()))) {
+	recDepth = 0;
+	return _isCollidingA(*(kdtree.getRoot()), *(other.kdtree.getRoot()), other, *(kdtree.getRoot()));
 
-		return true;
-	}
-	return false;
 }
 

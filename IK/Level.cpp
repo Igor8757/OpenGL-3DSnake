@@ -120,8 +120,7 @@ int Level::addItem(const std::string& fileName, const std::string& textureFileNa
 	LevelShapeTransformation(item1, yScale, 3);
 	LevelShapeTransformation(item1, zScale, 3);*/
 	LevelShapeTransformation(item1, xGlobalTranslate, 4);
-	LevelShapeTransformation(item1, yGlobalTranslate, 1);
-	LevelShapeTransformation(item1, xGlobalRotate, 90);
+	LevelShapeTransformation(item1, yGlobalTranslate, 2);
 	return item1;
 }
 

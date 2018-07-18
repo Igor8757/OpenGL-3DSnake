@@ -229,7 +229,7 @@ using namespace glm;
 				signX = -1;
 			//if (getDestination(linksNum).z - getDestination(i).z < 0)
 			//signZ = -1;
-			float r, gamma;;
+			float r, gamma;
 			glm::vec3 Zaxis;
 			glm::vec3 Xaxis;
 			

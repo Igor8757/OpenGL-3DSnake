@@ -220,7 +220,7 @@ int main(int argc, char** argv)
 
 		while (!glfwWindowShouldClose(display.m_window))
 		{
-			if (scn.checkCollisionInLevel(4, 5)) {
+			if (scn.checkCollisionInLevel(3, 5)) {
 			//if (scn.checkCollision(3, 4)) {
 				std::cout << "Colliding !!" << std::endl;
 			}
@@ -246,7 +246,7 @@ int main(int argc, char** argv)
 				glfwGetFramebufferSize(display.m_window, &viewport[2], &viewport[3]);
 				window_size_callback(display.m_window, viewport[2], viewport[3]);
 			}
-			scn.move();
+			//scn.move();
 			scn.UpdateLevel();
 			scn.draw(0, 0, false); //change false to true for axis in every joint
 			scn.levelDraw(0, 0, false);
