@@ -13,7 +13,6 @@ Shape::Shape(const Shape& shape)
 }
 Shape::Shape(const std::string& fileName){
 	mesh = new Mesh(fileName);
-	makeKDTree(mesh->model);
 	tex = 0;
 	isCopy = false;
 	isItem = false;
@@ -23,7 +22,6 @@ Shape::Shape(const std::string& fileName){
 
 Shape::Shape(const std::string& fileName,const std::string& textureFileName){
 	mesh = new Mesh(fileName);
-	makeKDTree(mesh->model);
 	tex = new Texture(textureFileName);
 	isCopy = false;
 	isItem = false;
@@ -34,7 +32,6 @@ Shape::Shape(const std::string& fileName,const std::string& textureFileName){
 Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
 {
 	mesh = new Mesh(vertices,numVertices,indices,numIndices);
-	makeKDTree(mesh->model);
 	tex = 0; 
 	isCopy = false;
 	isItem = false;
@@ -46,7 +43,6 @@ Shape::Shape(LineVertex* vertices, unsigned int numVertices, unsigned int* indic
 {
 
 	lineMesh = new LineMesh(vertices,numVertices,indices,numIndices);
-//	makeKDTree(mesh->model);
 	tex = 0; 
 	isCopy = false;
 	isItem = false;
@@ -58,7 +54,6 @@ Shape::Shape(LineVertex* vertices, unsigned int numVertices, unsigned int* indic
 Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName)
 {
 	mesh = new Mesh(vertices,numVertices,indices,numIndices);
-	makeKDTree(mesh->model);
 	tex = new Texture(textureFileName);
 	isCopy = false;
 	isItem = false;
@@ -69,7 +64,6 @@ Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, 
 Shape::Shape(int CylParts,int linkPosition)
 {
 	mesh = new Mesh(CylParts,linkPosition);
-	makeKDTree(mesh->model);
 	tex = 0; 
 	isCopy = false;
 	isItem = false;
@@ -80,7 +74,6 @@ Shape::Shape(int CylParts,int linkPosition)
 Shape::Shape(int CylParts,int linkPosition,const std::string& textureFileName)
 {
 	mesh = new Mesh(CylParts,linkPosition);
-	makeKDTree(mesh->model);
 	tex = new Texture(textureFileName); 
 	isCopy = false;
 	isItem = false;
@@ -325,10 +318,11 @@ void Shape::makeKDTree(const IndexedModel& model) {
 	std::list<BoundingBox> posList;
 
 	for (int i = 0; i < model.positions.size(); i++) {
-		glm::vec3 vertex = model.positions.at(i);
-		glm::vec4 v4(vertex, 1);
+		glm::vec3 vertex1 = model.positions.at(i); 
+		//glm::vec3 vertex = getPointInSystem(glm::mat4(1), vertex1);
+		//glm::vec4 v4(vertex, 1);
 		BoundingBox b;
-		b.position = vertex;
+		b.position = vertex1;
 		posList.push_back(b);
 	}
 	kdtree.makeTree(posList);
@@ -386,7 +380,7 @@ bool Shape::_isCollidingB(Node& nodeA, Node& nodeB, Node &current, Shape& other)
 
 		return true;
 	}
-	if (recDepth >= 5)
+	if (recDepth >= 1)
 	{
 		return true;
 	}

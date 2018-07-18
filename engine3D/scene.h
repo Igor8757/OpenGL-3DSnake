@@ -65,6 +65,7 @@ public:
 	Camera * getCamera() { return cameras.at(0); }
 
 	bool checkCollision(int shape1,int shape2);
+	void createKDTreesForShapes();
 
 	float xMovement = 0;
 	float yMovement = 0;

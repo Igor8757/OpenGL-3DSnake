@@ -155,7 +155,7 @@ using namespace glm;
 	}
 
 	void Scene::move() {
-		shapes[0]->myTranslate(vec3(0, 0, -0.001), 1);
+		shapes[0]->myTranslate(vec3(0, 0, -0.007), 1);
 		if (shapes[0]->GerRotVecSize() > 0) {
 			pickedShape = 0;
 			glm::vec2 tempRot = shapes[0]->getRotVector();
@@ -227,6 +227,25 @@ using namespace glm;
 				shapes[i]->draw(GL_TRIANGLES);
 			else 
 				shapes[i]->draw(GL_TRIANGLES);
+
+
+			// BB drawing
+			Node *box = shapes[0]->kdtree.getRoot();
+			Shape *shape = new Shape(box->data.vertices, sizeof(box->data.vertices) / sizeof(box->data.vertices[0]),
+				box->data.indices, sizeof(box->data.indices) / sizeof(box->data.indices[0]));
+			glm::mat4 MVP2;
+			glm::mat4 Normal2;
+			if (shapes[0]->kdtree.bonus) {
+				MVP2 = MVP * shapes[0]->translateMat[0] * glm::transpose(box->data.rotmat) * shapes[0]->rotateMat * shapes[0]->translateMat[1];
+				Normal2 = Normal * shapes[0]->translateMat[0] * glm::transpose(box->data.rotmat) *shapes[0]->rotateMat * shapes[0]->translateMat[1] * box->data.rotmat;
+			}
+			else {
+				MVP2 = MVP * shapes[0]->makeTrans(glm::mat4(1));
+				Normal2 = Normal * shapes[0]->makeTrans();
+			}
+			shaders[shaderIndx]->Update(MVP1, Normal1, 4);
+			shape->draw(GL_LINE_LOOP);
+			delete shape;
 		}
 		if(shaderIndx==0 )
 		{
@@ -522,4 +541,12 @@ using namespace glm;
 
 	bool Scene::checkCollision(int shape1,int shape2) {		
 		return shapes.at(shape1)->isColliding(*shapes.at(shape2));
+	}
+
+	void Scene::createKDTreesForShapes()
+	{
+		for (int i = 0; i< shapes.size(); i++)
+		{
+			shapes.at(i)->makeKDTree(shapes.at(i)->mesh->model);
+		}
 	}

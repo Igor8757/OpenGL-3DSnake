@@ -6,9 +6,7 @@
 class MovableGLM : public EulerAngles
 {
 protected:
-	glm::mat4 translateMat[2];
-	glm::mat4 rotateMat;
-	glm::mat4 ReversRotateMat;
+
 
 	//vec3 findAxis2(vec3 vec, int indx);
 	bool deRevers = true;
@@ -20,6 +18,9 @@ protected:
 
 
 public:
+	glm::mat4 translateMat[2];
+	glm::mat4 rotateMat;
+	glm::mat4 ReversRotateMat;
 	//bool deRevers = true;
 	//vec3 findAxis(vec4 &vec, int indx);
 	//vec3 findAxis2(vec4 &vec, int indx);

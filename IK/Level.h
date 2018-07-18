@@ -18,6 +18,10 @@ public:
 	void LevelShapeTransformation(int shape,int type, float amt);
 	void UpdateLevel();
 	bool checkCollisionInLevel(int shape1, int shape2);
+	bool checkCollisionOfSnake(int shape);
+	bool checkCollisionFullLevel();
+	void createKDTreesForLevelShapes();
+
 };
 
 

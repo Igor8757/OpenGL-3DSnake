@@ -50,6 +50,26 @@ bool Level::checkCollisionInLevel(int shape1, int shape2)
 	return shapes.at(shape1)->isColliding(*LevelShapes.at(shape2));
 }
 
+bool Level::checkCollisionOfSnake(int shape)
+{
+	bool colliding = false;
+	for (int i = 0;i < linksNum & !colliding;i++)
+	{
+		colliding = shapes.at(i)->isColliding(*LevelShapes.at(shape));
+	}
+	return colliding;
+}
+
+bool Level::checkCollisionFullLevel()
+{
+	bool colliding = false;
+	for (int i = 0; i < LevelShapes.size() & !colliding; i++)
+	{
+		colliding = checkCollisionOfSnake(i);
+	}
+	return colliding;
+
+}
 
 int Level::addTerrain(const std::string &textureFlieName, float x,float y, float z)
 {
@@ -116,7 +136,7 @@ int Level::addItem(const std::string& fileName, const std::string& textureFileNa
 	LevelShapes.push_back(new Shape(fileName, textureFileName));
 	int item1 = LevelShapes.size() - 1;
 	LevelShapes.at(item1)->setItem(true);
-	/*LevelShapeTransformation(item1, xScale, 3);
+	/*LevelShapeTransformation(item1, zScale, 3);
 	LevelShapeTransformation(item1, yScale, 3);
 	LevelShapeTransformation(item1, zScale, 3);*/
 	LevelShapeTransformation(item1, xGlobalTranslate, 4);
@@ -124,6 +144,13 @@ int Level::addItem(const std::string& fileName, const std::string& textureFileNa
 	return item1;
 }
 
+void Level::createKDTreesForLevelShapes()
+{
+	for (int i = 0; i< LevelShapes.size(); i++)
+	{
+		LevelShapes.at(i)->makeKDTree(LevelShapes.at(i)->mesh->model);
+	}
+}
 
 void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis)
 {
@@ -139,12 +166,28 @@ void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis)
 		mat4 MVP1 = MVP * Normal1;
 		Normal1 = Normal * Normal1;
 
-
-
 		MVP1 = MVP1 * LevelShapes[i]->makeTransScale(mat4(1));
 		Normal1 = Normal1 * LevelShapes[i]->makeTrans();
 		shaders[shaderIndx]->Update(MVP1, Normal1, i);
-		LevelShapes[i]->draw(GL_TRIANGLES);
+		LevelShapes.at(i)->draw(GL_TRIANGLES);
+
+		//BB drawing
+		Node *box = LevelShapes.at(i)->kdtree.getRoot();
+		Shape *shape = new Shape(box->data.vertices, sizeof(box->data.vertices) / sizeof(box->data.vertices[0]),
+			box->data.indices, sizeof(box->data.indices) / sizeof(box->data.indices[0]));
+		glm::mat4 MVP2;
+		glm::mat4 Normal2;
+		if (LevelShapes.at(i)->kdtree.bonus) {
+			MVP2 = MVP * LevelShapes.at(i)->translateMat[0] * glm::transpose(box->data.rotmat) * LevelShapes.at(i)->rotateMat * LevelShapes.at(i)->translateMat[1];
+			Normal2 = Normal * LevelShapes.at(i)->translateMat[0] * glm::transpose(box->data.rotmat) *LevelShapes.at(i)->rotateMat * LevelShapes.at(i)->translateMat[1] * box->data.rotmat;
+		}
+		else {
+			MVP2 = MVP * LevelShapes.at(i)->makeTrans(glm::mat4(1));
+			Normal2 = Normal * LevelShapes.at(i)->makeTrans();
+		}
+		shaders[shaderIndx]->Update(MVP1, Normal1, 4);
+		shape->draw(GL_LINE_LOOP);
+		delete shape;
 
 	}
 }

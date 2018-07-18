@@ -10,6 +10,13 @@ void init()
 	glfwSetWindowSizeCallback(display.m_window, window_size_callback);
 }
 
+void initCollisionDetection()
+{
+	scn.createKDTreesForShapes();
+	scn.createKDTreesForLevelShapes();
+}
+
+
 
 int main(int argc, char** argv)
 {
@@ -217,15 +224,16 @@ int main(int argc, char** argv)
 		glfwSetWindowShouldClose(display.m_window, GLFW_FALSE);
 		init();
 		//glfwSetInputMode(display.m_window,GLFW_STICKY_MOUSE_BUTTONS,1);
+		initCollisionDetection();
 
 		while (!glfwWindowShouldClose(display.m_window))
 		{
-			if (scn.checkCollisionInLevel(3, 5)) {
+			if (scn.checkCollisionFullLevel()) {
 			//if (scn.checkCollision(3, 4)) {
 				std::cout << "Colliding !!" << std::endl;
 			}
 			else {
-				std::cout << "NOT Colliding !!" << std::endl;
+				
 			}
 			if (scn.isActive())
 			{

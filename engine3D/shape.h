@@ -9,12 +9,12 @@
 
 class Shape : public MovableGLM
 {
-	Mesh *mesh;
 	LineMesh *lineMesh;
 	Texture *tex;
 	bool isCopy;
 	std::vector<glm::vec2> rotVectors;
 public:
+	Mesh * mesh;
 	glm::vec2 getRotVector();
 	inline int GerRotVecSize() { return rotVectors.size(); }
 	void addRotVector(glm::vec2 addVector);
