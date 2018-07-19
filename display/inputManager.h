@@ -14,7 +14,7 @@ float relation = (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT;
 
 Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "OpenGL");
 
-Level scn(glm::vec3(0.0f, 5.0f, -25.0f), CAM_ANGLE, relation, NEAR, FAR);
+Level scn(glm::vec3(0.0f, 5.0f, -20.0f), CAM_ANGLE, relation, NEAR, FAR);
 
 float factor = 1.0;
 
@@ -80,7 +80,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_DOWN:
 			if (scn.cameraMode)
 			{
-				scn.shapeTransformation(scn.xGlobalRotate, -5.1f);
+				scn.shapeTransformation(scn.xGlobalRotate, -5.f);
 			}
 			else if (scn.boxMode) {
 
@@ -109,8 +109,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
 			break;
 		case GLFW_KEY_P:
-			scn.prevLink();
-			printf("::P:: Prev Link, the current link is : %d\n", scn.getPickedShape());
+			scn.Pause();
 			break;
 		case GLFW_KEY_B:
 			scn.selectBox();
@@ -119,35 +118,46 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			scn.selectCamera();
 			break;
 		case GLFW_KEY_W:
-			//clock_t this_time = clock();
-			scn.addRotTime(this_time);
-			//scn.addRotTime(scn.getDestination(0));
-			scn.addVectorToShapes(glm::vec2(scn.xLocalRotate, 5.f));
-			//scn.shapeTransformation(scn.xLocalRotate, 5.f);
+			if(!scn.paused)
+			{
+				//clock_t this_time = clock();
+				scn.addRotTime(this_time);
+				//scn.addRotTime(scn.getDestination(0));
+				scn.addVectorToShapes(glm::vec2(scn.xLocalRotate, 3.f));
+				//scn.shapeTransformation(scn.xLocalRotate, 5.f);
+			}		
 
 			break;
 		case GLFW_KEY_S:
-			//clock_t this_time = clock();
-			scn.addRotTime(this_time);
-			//scn.addRotTime(scn.getDestination(0));
-			scn.addVectorToShapes(glm::vec2(scn.xLocalRotate, -5.f));
-			//scn.shapeTransformation(scn.xLocalRotate, -5.f);
+			if (!scn.paused)
+			{
+				//clock_t this_time = clock();
+				scn.addRotTime(this_time);
+				//scn.addRotTime(scn.getDestination(0));
+				scn.addVectorToShapes(glm::vec2(scn.xLocalRotate, -3.f));
+				//scn.shapeTransformation(scn.xLocalRotate, -5.f);
+			}
 			break;
 		case GLFW_KEY_D:
-			//clock_t this_time = clock();
-			scn.addRotTime(this_time);
-			//scn.addRotTime(scn.getDestination(0));
-			//scn.shapeTransformation(scn.zGlobalTranslate, -0.5f);
-			scn.addVectorToShapes(glm::vec2(scn.yLocalRotate, -5.f));
-			//scn.shapeTransformation(scn.yLocalRotate, -5.f);
-
+			if (!scn.paused)
+			{
+				//clock_t this_time = clock();
+				scn.addRotTime(this_time);
+				//scn.addRotTime(scn.getDestination(0));
+				//scn.shapeTransformation(scn.zGlobalTranslate, -0.5f);
+				scn.addVectorToShapes(glm::vec2(scn.yLocalRotate, -5.f));
+				//scn.shapeTransformation(scn.yLocalRotate, -5.f);
+			}
 			break;
 		case GLFW_KEY_A:
-			//clock_t this_time = clock();
-			scn.addRotTime(this_time);
-			//scn.addRotTime(scn.getDestination(0));
-			scn.addVectorToShapes(glm::vec2(scn.yLocalRotate, 5.f));
-			//scn.shapeTransformation(scn.yLocalRotate, 5.f);
+			if (!scn.paused)
+			{
+				//clock_t this_time = clock();
+				scn.addRotTime(this_time);
+				//scn.addRotTime(scn.getDestination(0));
+				scn.addVectorToShapes(glm::vec2(scn.yLocalRotate, 5.f));
+				//scn.shapeTransformation(scn.yLocalRotate, 5.f);
+			}
 			break;
 		default:
 			break;

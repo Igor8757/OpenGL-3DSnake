@@ -42,6 +42,14 @@ void Level::UpdateLevel()
 			//LevelShapeTransformation(i, yGlobalRotate, 1);
 		}
 	}
+	for(int i=0;i<shapes.size()-1;i++)
+	{
+		shapes[i]->snakeLinkPosition = glm::mat4(1);
+		for (int j = 0; j <= i; j++)
+		{
+			shapes[i]->snakeLinkPosition = shapes[i]->snakeLinkPosition * shapes[j]->makeTrans();
+		}
+	}
 
 }
 
@@ -70,6 +78,7 @@ bool Level::checkCollisionFullLevel()
 	return colliding;
 
 }
+
 
 int Level::addTerrain(const std::string &textureFlieName, float x,float y, float z)
 {
@@ -149,6 +158,7 @@ void Level::createKDTreesForLevelShapes()
 	for (int i = 0; i< LevelShapes.size(); i++)
 	{
 		LevelShapes.at(i)->makeKDTree(LevelShapes.at(i)->mesh->model);
+		//LevelShapes.at(i)->kdtree.getRoot()->data.
 	}
 }
 
@@ -169,7 +179,7 @@ void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis)
 		MVP1 = MVP1 * LevelShapes[i]->makeTransScale(mat4(1));
 		Normal1 = Normal1 * LevelShapes[i]->makeTrans();
 		shaders[shaderIndx]->Update(MVP1, Normal1, i);
-		LevelShapes.at(i)->draw(GL_TRIANGLES);
+		//LevelShapes.at(i)->draw(GL_TRIANGLES);
 
 		//BB drawing
 		Node *box = LevelShapes.at(i)->kdtree.getRoot();

@@ -59,12 +59,15 @@ using namespace glm;
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
 		addShape(0,2,"./res/textures/grass.bmp",-1);
 		pickedShape = 0;
+		shapes.at(pickedShape)->linkNumber = pickedShape;
 		shapeTransformation(zScale,scaleFactor);
 		shapesNormal.push_back(glm::mat4(1));
 		for (int i = 1; i < linksNum-1; i++)
 		{
 			pickedShape = i;
 			addShape(1,1,"./res/textures/plane.png",-1);
+			shapes.at(pickedShape)->linkNumber = pickedShape;
+
 			shapeTransformation(zScale,scaleFactor);	
 			shapesNormal.push_back (glm::mat4(1));
 			shapeTransformation(zGlobalTranslate,1.0);
@@ -73,6 +76,7 @@ using namespace glm;
 		shapesNormal.push_back(glm::mat4(1));
 		pickedShape = linksNum-1;
 		addShape(0,3,"./res/textures/plane.png",-1);
+		shapes.at(pickedShape)->linkNumber = pickedShape;
 		shapeTransformation(zScale,scaleFactor);	
 			
 		shapeTransformation(zGlobalTranslate,1.0);
@@ -94,6 +98,7 @@ using namespace glm;
 
 		for (int i = 0; i < linksNum; i++) {
 			euler.push_back(EulerAngles());
+			shapes.at(i)->isSnake = true;
 		}
 
 		updateData();
@@ -340,10 +345,6 @@ using namespace glm;
 		distanceBetweenJoints = jointDistances.at(0);
 		distanceRootToTagret = glm::distance(glm::vec3(0, 0, 0), destPosition);
 		reachable = distanceRootToTagret <= maxDistance;
-		for (int i=0;i<shapes.size();i++)
-		{
-			shapes.at(i)->tipPosition = getTipPosition(i);
-		}
 	}
 
 	void IK::printData() {

@@ -54,3 +54,5 @@ display/Debug/display.tlog/Lib-link.read.1.tlog
 display/Debug/display.tlog/Lib-link.write.1.tlog
 display/Debug/display.tlog/Lib.command.1.tlog
 *.tlog
+*.lib
+*.pdb

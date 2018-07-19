@@ -67,6 +67,9 @@ public:
 	bool checkCollision(int shape1,int shape2);
 	void createKDTreesForShapes();
 
+	bool paused = false;
+	inline void Pause() { paused = !paused; }
+
 	float xMovement = 0;
 	float yMovement = 0;
 	float zMovement = 0;

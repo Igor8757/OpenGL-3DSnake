@@ -9,14 +9,12 @@ Shape::Shape(const Shape& shape)
 	tex = shape.tex;
 	isCopy = true;
 	isItem = false;
-	tipPosition = glm::vec3(0);
 }
 Shape::Shape(const std::string& fileName){
 	mesh = new Mesh(fileName);
 	tex = 0;
 	isCopy = false;
 	isItem = false;
-	tipPosition = glm::vec3(0);
 
 }
 
@@ -25,7 +23,6 @@ Shape::Shape(const std::string& fileName,const std::string& textureFileName){
 	tex = new Texture(textureFileName);
 	isCopy = false;
 	isItem = false;
-	tipPosition = glm::vec3(0);
 
 }
 
@@ -35,7 +32,6 @@ Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, 
 	tex = 0; 
 	isCopy = false;
 	isItem = false;
-	tipPosition = glm::vec3(0);
 
 }
 
@@ -46,7 +42,6 @@ Shape::Shape(LineVertex* vertices, unsigned int numVertices, unsigned int* indic
 	tex = 0; 
 	isCopy = false;
 	isItem = false;
-	tipPosition = glm::vec3(0);
 
 }
 
@@ -57,7 +52,6 @@ Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, 
 	tex = new Texture(textureFileName);
 	isCopy = false;
 	isItem = false;
-	tipPosition = glm::vec3(0);
 
 }
 
@@ -67,7 +61,6 @@ Shape::Shape(int CylParts,int linkPosition)
 	tex = 0; 
 	isCopy = false;
 	isItem = false;
-	tipPosition = glm::vec3(0);
 
 }
 
@@ -77,7 +70,6 @@ Shape::Shape(int CylParts,int linkPosition,const std::string& textureFileName)
 	tex = new Texture(textureFileName); 
 	isCopy = false;
 	isItem = false;
-	tipPosition = glm::vec3(0);
 
 }
 glm::vec2 Shape::getRotVector() {
@@ -166,15 +158,13 @@ bool Shape::_isColliding(BoundingBox& A, BoundingBox& B, Shape& other) {
 	B.mat = B.mat*other.makeTransScale(glm::mat4(1));
 	B.P = glm::vec3(B.mat[3][0], B.mat[3][1], B.mat[3][2]);
 
-	if (tipPosition != glm::vec3(0))
-		A.P = tipPosition;
+	if (isSnake)
+	{
+		A.P = glm::vec3(snakeLinkPosition[3][0], snakeLinkPosition[3][1], snakeLinkPosition[3][2]);
+	}
 	else
 		A.P = glm::vec3(A.mat[3][0], A.mat[3][1], A.mat[3][2]);
 
-	if (other.tipPosition != glm::vec3(0))
-		B.P = other.tipPosition;
-	else
-		B.P = glm::vec3(B.mat[3][0], B.mat[3][1], B.mat[3][2]);
 
 	glm::vec3 T = B.P - A.P;
 	glm::vec3 L;
@@ -293,7 +283,7 @@ bool Shape::_isColliding(BoundingBox& A, BoundingBox& B, Shape& other) {
 	}
 
 
-	recDepth++;
+	collisionRecDepth++;
 	return true;
 }
 
@@ -320,9 +310,10 @@ void Shape::makeKDTree(const IndexedModel& model) {
 	for (int i = 0; i < model.positions.size(); i++) {
 		glm::vec3 vertex1 = model.positions.at(i); 
 		//glm::vec3 vertex = getPointInSystem(glm::mat4(1), vertex1);
-		//glm::vec4 v4(vertex, 1);
+		glm::vec3 vertex = getVectorInSystem(glm::mat4(1), vertex1);
+
 		BoundingBox b;
-		b.position = vertex1;
+		b.position = vertex;
 		posList.push_back(b);
 	}
 	kdtree.makeTree(posList);
@@ -335,7 +326,10 @@ bool Shape::_isCollidingA(Node& nodeA, Node& nodeB, Shape &other, Node &current)
 
 		return true;
 	}
-
+	if (collisionRecDepth >= 3)
+	{
+		return true;
+	}
 
 	BoundingBox A = nodeA.data;
 	BoundingBox B = nodeB.data;
@@ -380,10 +374,7 @@ bool Shape::_isCollidingB(Node& nodeA, Node& nodeB, Node &current, Shape& other)
 
 		return true;
 	}
-	if (recDepth >= 1)
-	{
-		return true;
-	}
+	
 	BoundingBox A = nodeA.data;
 	BoundingBox B = nodeB.data;
 	//other.node = &current;
@@ -415,7 +406,7 @@ bool Shape::_isCollidingB(Node& nodeA, Node& nodeB, Node &current, Shape& other)
 }
 
 bool Shape::isColliding(Shape& other) {
-	recDepth = 0;
+	collisionRecDepth = 0;
 	return _isCollidingA(*(kdtree.getRoot()), *(other.kdtree.getRoot()), other, *(kdtree.getRoot()));
 
 }

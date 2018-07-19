@@ -36,11 +36,11 @@ public:
 	Shape *shape;
 	Node *node;
 
-	glm::vec3 tipPosition;
-
+	int linkNumber;
 	bool isItem;
-	int recDepth = 0;
-
+	bool isSnake = false;
+	int collisionRecDepth = 0;
+	glm::mat4 snakeLinkPosition = glm::mat4(1);
 
 	enum{triangles,lines};
 	Shape(const Shape& shape);
