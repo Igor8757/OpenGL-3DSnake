@@ -69,7 +69,7 @@ mat4 MovableGLM::makeTrans() const
 	return  translateMat[0] * rotateMat * makeRot() * translateMat[1];
 }
 mat4 MovableGLM::makeTrans2() const {
-	return    rotateMat * makeRot() * translateMat[1];
+	return     translateMat[0] * rotateMat * makeRot();
 }
 
 void MovableGLM::myRotate(float ang, glm::vec3 &vec, int indx)

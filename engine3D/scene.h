@@ -3,12 +3,21 @@
 #include "shape.h"
 #include "camera.h"
 #include <vector>
-
+class addRemovLinks {
+public:
+	bool add;
+	clock_t time;
+	addRemovLinks(clock_t time, bool add);
+	void setAddLink(clock_t currTime, bool addOrRemove);
+	virtual ~addRemovLinks(void);
+};
 class Scene : public MovableGLM
 {
-	
-	
+
+
 protected:
+	void checkIftimeToAddRemove();
+	//bool checkIftimeToAddRemove();
 	std::vector<int> chainParents;
 	int pickedShape;
 	static const int scaleFactor = 3;
@@ -17,10 +26,18 @@ protected:
 	Shape *axisMesh;
 	int Links;
 	int linksNum = 4;
+	int counter = 0;
+	float speed = 0.007;
 	std::vector<Camera*> cameras; //light will have the properties of camera
 	std::vector<glm::vec3> rotPositions;
 	std::vector<clock_t> TimeOfRotiains;
+	bool stopMove = false;
+	std::vector<addRemovLinks> addRemoveLinksVec;
+	std::vector<int>tranlateBack;
 public:
+	void addRemoveLinks(clock_t curr_time, bool add) ;
+	inline void increseSpeed() { speed = speed + 0.2; };
+	inline void decreseSpeed() { speed = speed - 0.2; };
 	inline void addRotTime(clock_t curr_time) { TimeOfRotiains.push_back(curr_time); }
 	inline void addRotPositions(glm::vec3 rotPosition) { rotPositions.push_back(rotPosition); }
 	inline int GetLinkNum() { return linksNum; }
@@ -29,50 +46,54 @@ public:
 	void addVectorToShapes(glm::vec2 addVector);
 	bool checkIftimeToMove(int shapeIdx);
 	std::vector<glm::mat4> shapesNormal;
-	enum axis{xAxis,yAxis,zAxis};
-	enum transformations{xLocalTranslate,yLocalTranslate,zLocalTranslate,xGlobalTranslate,yGlobalTranslate,zGlobalTranslate,
-		xLocalRotate,yLocalRotate,zLocalRotate,xGlobalRotate,yGlobalRotate,zGlobalRotate,xScale,yScale,zScale,xCameraTranslate,yCameraTranslate,zCameraTranslate};
+	enum axis { xAxis, yAxis, zAxis };
+	enum transformations {
+		xLocalTranslate, yLocalTranslate, zLocalTranslate, xGlobalTranslate, yGlobalTranslate, zGlobalTranslate,
+		xLocalRotate, yLocalRotate, zLocalRotate, xGlobalRotate, yGlobalRotate, zGlobalRotate, xScale, yScale, zScale, xCameraTranslate, yCameraTranslate, zCameraTranslate
+	};
 	Scene();
-	Scene(glm::vec3 position,float angle,float hwRelation,float near, float far);
-	void addShape(int type,int parent);
-	void addShape(const std::string& fileName,int parent);
-	void addShape(const std::string& fileName,const std::string& textureFileName,int parent);
-	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,int parent);
-	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName,int parent);
-	void addShape(int Cyparts,int linkPosition,int parent);
-	void addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent);
+	Scene(glm::vec3 position, float angle, float hwRelation, float near, float far);
+	void addShape(int type, int parent);
+	void addShape(const std::string& fileName, int parent);
+	void addShape(const std::string& fileName, const std::string& textureFileName, int parent);
+	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, int parent);
+	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string& textureFileName, int parent);
+	void addShape(int Cyparts, int linkPosition, int parent);
+	void addShape(int CylParts, int linkPosition, const std::string& textureFileName, int parent);
 	void addTerrain(const std::string & fileName, const std::string & textureFileName);
 
 	void addShader(const std::string& fileName);
-
+	void moveCamera();
+	void addLink();
+	void removeLink();
 	glm::mat4 GetViewProjection(int indx) const;
 	glm::mat4 GetShapeTransformation() const;
-	void draw(int shaderIndx,int cameraIndx,bool drawAxis);
-	void shapeTransformation(int type,float amt);
-	void shapeRotation(glm::vec3 v, float ang,int indx);
+	void draw(int shaderIndx, int cameraIndx, bool drawAxis);
+	void shapeTransformation(int type, float amt);
+	void shapeRotation(glm::vec3 v, float ang, int indx);
 	//void inline setPicked(int pickID){pickedShape = pickID;}
-	float picking(double x,double y);
-	void resize(int width,int hight,int near,int far);
+	float picking(double x, double y);
+	void resize(int width, int hight, int near, int far);
 	//void updateTipPosition(int indx);
 	glm::vec3 getTipPosition(int indx);
 	glm::vec3 getDestination(int indx);
-	glm::vec3 getAxisDirection(int indx,int axis);
-	inline void setParent(int indx,int newValue) {chainParents[indx]=newValue;}
+	glm::vec3 getAxisDirection(int indx, int axis);
+	inline void setParent(int indx, int newValue) { chainParents[indx] = newValue; }
 	virtual ~Scene(void);
 
 	int inline getPickedShape() { return pickedShape; }
 	int inline getShapesSize() { return shapes.size(); }
 	Camera * getCamera() { return cameras.at(0); }
 
-	bool checkCollision(int shape1,int shape2);
+	bool checkCollision(int shape1, int shape2);
 	void createKDTreesForShapes();
-
 	bool paused = false;
 	inline void Pause() { paused = !paused; }
-
 	float xMovement = 0;
 	float yMovement = 0;
 	float zMovement = 0;
 
 };
+
+
 

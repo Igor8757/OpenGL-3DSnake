@@ -16,6 +16,8 @@ class Shape : public MovableGLM
 public:
 	Mesh * mesh;
 	glm::vec2 getRotVector();
+	inline void setRotVectors(std::vector<glm::vec2> other) { rotVectors = other; }
+	inline std::vector<glm::vec2> getRotVectors() { return rotVectors; }
 	inline int GerRotVecSize() { return rotVectors.size(); }
 	void addRotVector(glm::vec2 addVector);
 	bool colladind = false;

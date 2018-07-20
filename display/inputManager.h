@@ -14,7 +14,7 @@ float relation = (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT;
 
 Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "OpenGL");
 
-Level scn(glm::vec3(0.0f, 5.0f, -20.0f), CAM_ANGLE, relation, NEAR, FAR);
+Level scn(glm::vec3(0.0f, 5.0f, -25.0f), CAM_ANGLE, relation, NEAR, FAR);
 
 float factor = 1.0;
 
@@ -176,6 +176,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_KP_9:
 			scn.getCamera()->MoveForward(5);
+			break;
+		
+		case GLFW_KEY_Z:
+			scn.addRemoveLinks(this_time,true);
+			//printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
+			break;
+		case GLFW_KEY_X:
+			scn.addRemoveLinks(this_time,false);
+			//printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
 			break;
 		default:
 			break;
