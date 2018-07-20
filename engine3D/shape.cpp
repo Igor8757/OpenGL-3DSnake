@@ -410,4 +410,9 @@ bool Shape::isColliding(Shape& other) {
 	return _isCollidingA(*(kdtree.getRoot()), *(other.kdtree.getRoot()), other, *(kdtree.getRoot()));
 
 }
+void Shape::operator=(Shape*other) {
+	setTraslateMat(other->getTraslateMat());
+	linkNumber = other->linkNumber;
+	setRotVectors(other->getRotVectors());
 
+}

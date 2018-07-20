@@ -207,7 +207,7 @@ void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis)
 			MVP2 = MVP * LevelShapes.at(i)->makeTrans(glm::mat4(1));
 			Normal2 = Normal * LevelShapes.at(i)->makeTrans();
 		}
-		shaders[shaderIndx]->Update(MVP1, Normal1, 4);
+		shaders[shaderIndx]->Update(MVP1, Normal1, linksNum);
 		shape->draw(GL_LINE_LOOP);
 		delete shape;
 

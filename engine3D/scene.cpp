@@ -165,7 +165,7 @@ void Scene::addLink() {
 	tempShape2->setRotVectors(shapes[linksNum - 1]->getRotVectors());
 	tempShape2->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
 	tempShape2->myScale(vec3(1, 1, scaleFactor));
-	tempShape2->makeKDTree(tempShape->mesh->model);
+	tempShape2->makeKDTree(tempShape2->mesh->model);
 	tempShape2->isSnake = true;
 	tempShape2->linkNumber = linksNum - 1;
 	shapes[linksNum - 1] = tempShape2;
@@ -323,7 +323,30 @@ void Scene::checkIftimeToAddRemove() {
 //	
 //}
 void Scene::removeLink() {
-
+	if (linksNum == 1) {
+		Pause();
+		return;
+	}
+	chainParents.erase(chainParents.end()-2);
+	std::vector<Shape*>::iterator it;
+	it = shapes.begin();
+	std::vector<glm::mat4>::iterator it2;
+	it2 = shapesNormal.begin();
+	shapesNormal.erase(it2 + linksNum - 2);
+	/*Shape *tempShape = new Shape(1, 1, "./res/textures/plane.png");
+	tempShape->setRotVectors(shapes[linksNum - 1]->getRotVectors());
+	tempShape->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
+	tempShape->myScale(vec3(1, 1, scaleFactor));
+	tempShape->makeKDTree(tempShape->mesh->model);
+	tempShape->isSnake = true;
+	tempShape->linkNumber = linksNum - 1;
+	shapes[linksNum - 1] = tempShape2;*/
+	shapes[linksNum - 1] = shapes[linksNum - 2];
+	shapes.erase(it + linksNum - 2);
+	linksNum--;
+	
+	//setParent(linksNum - 1, linksNum - 2);
+	
 }
 
 //void Scene::move() {
@@ -402,7 +425,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis)
 
 		MVP1 = MVP1 * shapes[i]->makeTransScale(mat4(1));
 		Normal1 = Normal1 * shapes[i]->makeTrans();
-		if (i<Links)
+		if (i<linksNum)
 			shapesNormal.at(i) = MVP1;
 		shaders[shaderIndx]->Update(MVP1, Normal1, i, shapesNormal);
 
@@ -426,7 +449,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis)
 			MVP2 = MVP * shapes[0]->makeTrans(glm::mat4(1));
 			Normal2 = Normal * shapes[0]->makeTrans();
 		}
-		shaders[shaderIndx]->Update(MVP1, Normal1, 4);
+		shaders[shaderIndx]->Update(MVP1, Normal1, linksNum);
 		shape->draw(GL_LINE_LOOP);
 		delete shape;
 	}
