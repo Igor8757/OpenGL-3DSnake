@@ -153,6 +153,8 @@ void Scene::addLink() {
 	pickedShape = linksNum;
 	Shape *tempShape = new Shape(0, 3, "./res/textures/plane.png");
 	tempShape->makeKDTree(tempShape->mesh->model);
+	tempShape->isSnake = true;
+	tempShape->linkNumber = linksNum ;
 	tempShape->setRotVectors(shapes[linksNum - 3]->getRotVectors());
 	shapes.insert(it + linksNum, tempShape);
 	shapes.at(pickedShape)->linkNumber = pickedShape;
@@ -164,6 +166,8 @@ void Scene::addLink() {
 	tempShape2->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
 	tempShape2->myScale(vec3(1, 1, scaleFactor));
 	tempShape2->makeKDTree(tempShape->mesh->model);
+	tempShape2->isSnake = true;
+	tempShape2->linkNumber = linksNum - 1;
 	shapes[linksNum - 1] = tempShape2;
 	linksNum++;
 	setParent(linksNum - 1, linksNum - 2);
