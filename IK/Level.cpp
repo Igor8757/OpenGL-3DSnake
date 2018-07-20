@@ -1,5 +1,6 @@
 #include <GL\glew.h>
 #include "Level.h"
+#include <iostream>
 
 using namespace std;
 using namespace glm;
@@ -72,6 +73,9 @@ bool Level::checkCollisionOfSnake(int shape)
 	for (int i = 0;i < linksNum & !colliding;i++)
 	{
 		colliding = shapes.at(i)->isColliding(*LevelShapes.at(shape));
+		if(colliding)
+			std::cout << "Link num " << i << " Colliding !!" << std::endl;
+
 	}
 	return colliding;
 }

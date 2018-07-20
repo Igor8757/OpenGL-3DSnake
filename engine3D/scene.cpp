@@ -206,6 +206,43 @@ using namespace glm;
 
 	}
 
+<<<<<<< HEAD
+=======
+		std::vector<Shape*>::iterator it;
+		it = shapes.begin();
+		//shapes.insert(it + linksNum, 200);
+		chainParents.push_back(-1);
+		Shape *tempShape = new Shape(1, 1, "./res/textures/plane.png");
+		tempShape->makeKDTree(tempShape->mesh->model);
+		shapes.insert(it + 1, tempShape);
+		shapes[1]->setTraslateMat(shapes[0]->getTraslateMat());
+		pickedShape = 1;
+		shapeTransformation(zScale, scaleFactor);
+		linksNum++;
+		for (int i = 1; i < linksNum ; i++)
+		{
+			setParent(i, i - 1);
+			shapes.at(i)->linkNumber = i;
+			shapes.at(i)->isSnake = true;
+
+		}
+		//addShape(1, 1, "./res/textures/plane.png", -1);
+		
+		shapesNormal.push_back(glm::mat4(1));
+	//	shapes[1]->setRotVectors(shapes[0]->getRotVectors());
+	//	shapes[0]->myTranslate(vec3(0, 0, -1), 1);
+		//tranlateBack.push_back(4);
+		
+		
+	}
+	void Scene::removeLink() {
+
+	}
+	void Scene::moveCamera() {
+		pickedShape = -1;
+		//shapeTransformation(zCameraTranslate, -0.050f);
+	}
+>>>>>>> ba6dadcc9c5f1aeb0476412e362fc8f78cc78aa7
 	void Scene::move() {
 		checkIftimeToAddRemove();
 		shapes[0]->myTranslate(vec3(0, 0, -0.007), 1);

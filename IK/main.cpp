@@ -230,7 +230,6 @@ int main(int argc, char** argv)
 		{
 			if (scn.checkCollisionOfSnake(5)) {
 			//if (scn.checkCollision(3, 4)) {
-				std::cout << "Colliding !!" << std::endl;
 			}
 			else {
 				
