@@ -228,7 +228,7 @@ int main(int argc, char** argv)
 
 		while (!glfwWindowShouldClose(display.m_window))
 		{
-			if (scn.checkCollisionOfSnake(5)) {
+			if (scn.checkCollisionOfSnake(3)) {
 			//if (scn.checkCollision(3, 4)) {
 				std::cout << "Colliding !!" << std::endl;
 			}

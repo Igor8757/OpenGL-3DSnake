@@ -36,6 +36,11 @@ public:
 		pos += glm::cross(up, forward) * amt;
 	}
 
+	void MoveUp(float amt)
+	{
+		pos += up * amt;
+	}
+
 	void Pitch(float angle)
 	{
 		glm::vec3 right = glm::normalize(glm::cross(up, forward));
