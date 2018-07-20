@@ -1,5 +1,6 @@
 #include <GL\glew.h>
 #include "Level.h"
+#include <iostream>
 
 using namespace std;
 using namespace glm;
@@ -42,7 +43,7 @@ void Level::UpdateLevel()
 			//LevelShapeTransformation(i, yGlobalRotate, 1);
 		}
 	}
-	for(int i=0;i<shapes.size()-1;i++)
+	for(int i=0;i<linksNum;i++)
 	{
 		shapes[i]->snakeLinkPosition = glm::mat4(1);
 		for (int j = 0; j <= i; j++)
@@ -64,6 +65,9 @@ bool Level::checkCollisionOfSnake(int shape)
 	for (int i = 0;i < linksNum & !colliding;i++)
 	{
 		colliding = shapes.at(i)->isColliding(*LevelShapes.at(shape));
+		if(colliding)
+			std::cout << "Link num " << i << " Colliding !!" << std::endl;
+
 	}
 	return colliding;
 }

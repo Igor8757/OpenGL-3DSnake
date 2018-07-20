@@ -39,7 +39,7 @@ public:
 	Node *node;
 
 	int linkNumber;
-	bool isItem;
+	bool isItem = false;
 	bool isSnake = false;
 	int collisionRecDepth = 0;
 	glm::mat4 snakeLinkPosition = glm::mat4(1);

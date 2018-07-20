@@ -244,6 +244,7 @@ using namespace glm;
 		//shapes.insert(it + linksNum, 200);
 		chainParents.push_back(-1);
 		Shape *tempShape = new Shape(1, 1, "./res/textures/plane.png");
+		tempShape->makeKDTree(tempShape->mesh->model);
 		shapes.insert(it + 1, tempShape);
 		shapes[1]->setTraslateMat(shapes[0]->getTraslateMat());
 		pickedShape = 1;
@@ -252,12 +253,15 @@ using namespace glm;
 		for (int i = 1; i < linksNum ; i++)
 		{
 			setParent(i, i - 1);
+			shapes.at(i)->linkNumber = i;
+			shapes.at(i)->isSnake = true;
+
 		}
 		//addShape(1, 1, "./res/textures/plane.png", -1);
 		
 		shapesNormal.push_back(glm::mat4(1));
-		shapes[1]->setRotVectors(shapes[0]->getRotVectors());
-		shapes[0]->myTranslate(vec3(0, 0, -1), 1);
+	//	shapes[1]->setRotVectors(shapes[0]->getRotVectors());
+	//	shapes[0]->myTranslate(vec3(0, 0, -1), 1);
 		//tranlateBack.push_back(4);
 		
 		
@@ -267,7 +271,7 @@ using namespace glm;
 	}
 	void Scene::moveCamera() {
 		pickedShape = -1;
-		shapeTransformation(zCameraTranslate, -0.050f);
+		//shapeTransformation(zCameraTranslate, -0.050f);
 	}
 	void Scene::move() {
 		/*stopMove = true;
