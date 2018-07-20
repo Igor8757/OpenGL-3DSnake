@@ -19,7 +19,7 @@ using namespace glm;
 		time = currTime;
 		add = addOrRemove;
 	}
-	addRemovLinks::~addRemovLinks(void){}
+
 	//Vertex axisVertices[] = 
 	//	{
 	//		Vertex(glm::vec3(1,0,0),glm::vec2(1, 0), glm::vec3(0, 0, -1),glm::vec3(1,0,0)),
@@ -118,77 +118,130 @@ using namespace glm;
 	{
 		return shapes[pickedShape]->makeTrans();
 	}
-	//bool Scene::checkIftimeToMove(int shapeIdx) {
-	//	int rotCurrShapesize = shapes[shapeIdx]->GerRotVecSize();
-	//	int rotShapesSize = TimeOfRotiains.size();
-	//	int timeToCheck = rotShapesSize - rotCurrShapesize;
-	//	//glm::vec3 position = getDestination(shapeIdx);
-	//	//if (position.x + 0.1  >= rotPositions[positionToCheck].x
-	//	//	&&position.x - 0.1  <= rotPositions[positionToCheck].x
-	//	//	&&position.y + 0.1  >= rotPositions[positionToCheck].y
-	//	//	&&position.y - 0.1  <= rotPositions[positionToCheck].y
-	//	//	&&position.z + 0.1  >= rotPositions[positionToCheck].z
-	//	//	&&position.z - 0.1  <= rotPositions[positionToCheck].z) {
-	//	//	if (shapeIdx == linksNum-1) {
-	//	//		rotPositions.reserve(rotPositions.size());
-	//	//		rotPositions.pop_back();
-	//	//		rotPositions.reserve(rotPositions.size());
-	//	//	}
-	//	//	//shapes[shapeIdx + 1]->myRevRotate();
-	//	//	return true;
-	//	//}
-	//	clock_t last_time = TimeOfRotiains[timeToCheck];
-	//	clock_t this_time = clock();
+	void Scene::checekr() {
+		chainParents.push_back(-1);
+		std::vector<Shape*>::iterator it;
+		it = shapes.begin();
+		shapesNormal.push_back(glm::mat4(1));
+		
+		pickedShape = linksNum ;
+		Shape *tempShape = new Shape(0, 3, "./res/textures/plane.png");
+		tempShape->setRotVectors(shapes[linksNum - 1]->getRotVectors());
+		shapes.insert(it + linksNum , tempShape);
+		shapes.at(pickedShape)->linkNumber = pickedShape;
+		shapeTransformation(zScale, scaleFactor);
+		shapeTransformation(zGlobalTranslate, 1.0);
+		//shapeTransformation(zGlobalTranslate, 1.0);
+		Shape *tempShape2 = new Shape(1, 1, "./res/textures/plane.png");
+		tempShape2->setRotVectors(shapes[linksNum - 1]->getRotVectors());
+		tempShape2->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
+		tempShape2->myScale(vec3(1, 1, scaleFactor));
+		shapes[linksNum - 1] = tempShape2;
+		linksNum++;
+		setParent(linksNum - 1, linksNum - 2);
+		
+		
+	}
+	void Scene::addLink() {
+		
 
-	//	double time_counter = (double)(this_time - last_time);
+		chainParents.push_back(-1);
+		std::vector<Shape*>::iterator it;
+		it = shapes.begin();
+		shapesNormal.push_back(glm::mat4(1));
 
-	//	//last_time = this_time;
+		pickedShape = linksNum;
+		Shape *tempShape = new Shape(0, 3, "./res/textures/plane.png");
+		tempShape->setRotVectors(shapes[linksNum - 3]->getRotVectors());
+		shapes.insert(it + linksNum, tempShape);
+		shapes.at(pickedShape)->linkNumber = pickedShape;
+		shapeTransformation(zScale, scaleFactor);
+		shapeTransformation(zGlobalTranslate, 1.0);
+		//shapeTransformation(zGlobalTranslate, 1.0);
+		Shape *tempShape2 = new Shape(1, 1, "./res/textures/plane.png");
+		tempShape2->setRotVectors(shapes[linksNum - 1]->getRotVectors());
+		tempShape2->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
+		tempShape2->myScale(vec3(1, 1, scaleFactor));
+		shapes[linksNum - 1] = tempShape2;
+		linksNum++;
+		setParent(linksNum - 1, linksNum - 2);
 
-	//	if (time_counter > (double)(shapeIdx * 4 * CLOCKS_PER_SEC))
-	//	{
-	//		return true;
-	//		if (shapeIdx = linksNum - 1)
-	//		{
-	//			TimeOfRotiains.erase(TimeOfRotiains.begin());
-	//			//TimeOfRotiains.pop_back();
-	//			//TimeOfRotiains.reserve(rotPositions.size());
-	//		}
-	//	}
-	//	return false;
+		
+	}
+	bool Scene::checkIftimeToMove(int shapeIdx) {
+		int rotCurrShapesize = shapes[shapeIdx]->GerRotVecSize();
+		int rotShapesSize = TimeOfRotiains.size();
+		int timeToCheck = rotShapesSize - rotCurrShapesize;
+		//glm::vec3 position = getDestination(shapeIdx);
+		//if (position.x + 0.1  >= rotPositions[positionToCheck].x
+		//	&&position.x - 0.1  <= rotPositions[positionToCheck].x
+		//	&&position.y + 0.1  >= rotPositions[positionToCheck].y
+		//	&&position.y - 0.1  <= rotPositions[positionToCheck].y
+		//	&&position.z + 0.1  >= rotPositions[positionToCheck].z
+		//	&&position.z - 0.1  <= rotPositions[positionToCheck].z) {
+		//	if (shapeIdx == linksNum-1) {
+		//		rotPositions.reserve(rotPositions.size());
+		//		rotPositions.pop_back();
+		//		rotPositions.reserve(rotPositions.size());
+		//	}
+		//	//shapes[shapeIdx + 1]->myRevRotate();
+		//	return true;
+		//}
+		clock_t last_time = TimeOfRotiains[timeToCheck];
+		clock_t this_time = clock();
 
-	//}
+		double time_counter = (double)(this_time - last_time);
 
-	//void Scene::move() {
-	//	shapes[0]->myTranslate(vec3(0, 0, -0.007), 1);
-	//	if (shapes[0]->GerRotVecSize() > 0) {
-	//		pickedShape = 0;
-	//		glm::vec2 tempRot = shapes[0]->getRotVector();
-	//		shapeTransformation((int)tempRot[0], tempRot[1]);
-	//		//glm::mat4* tempMat = shapes[0]->getTraslateMat();
-	//		//glm::mat4* tempMat2 = shapes[0]->getTraslateMat();
-	//		//shapes[0]->setTraslateMat(tempMat);
-	//		pickedShape = 1;
-	//		shapeTransformation((int)tempRot[0], -tempRot[1]);
-	//		//shapes[0]->setTraslateMat(tempMat2);
-	//	}
-	//	for (int i = 1; i < linksNum; i++) {
-	//		if (shapes[i]->GerRotVecSize() > 0) {
-	//			if (checkIftimeToMove(i)) {
-	//				pickedShape = i;
-	//				glm::vec2 tempRot = shapes[i]->getRotVector();
-	//				shapeTransformation((int)tempRot[0], tempRot[1]);
-	//				if (i < linksNum - 1) {
-	//					pickedShape = i + 1;
-	//					shapeTransformation((int)tempRot[0], -tempRot[1]);
-	//				}
-	//			}
-	//		}
-	//		//else {
-	//		//break;
-	//		//}
-	//	}
 
-	//}
+
+		if (time_counter > (double)(shapeIdx * 4 * CLOCKS_PER_SEC))
+		{
+			return true;
+			if (shapeIdx = linksNum - 1)
+			{
+				TimeOfRotiains.erase(TimeOfRotiains.begin());
+			}
+		}
+		return false;
+
+	}
+
+	void Scene::move() {
+		checkIftimeToAddRemove();
+		shapes[0]->myTranslate(vec3(0, 0, -0.007), 1);
+		if (shapes[0]->GerRotVecSize() > 0) {
+			pickedShape = 0;
+			glm::vec2 tempRot = shapes[0]->getRotVector();
+			shapeTransformation((int)tempRot[0], tempRot[1]);
+			//glm::mat4* tempMat = shapes[0]->getTraslateMat();
+			//glm::mat4* tempMat2 = shapes[0]->getTraslateMat();
+			//shapes[0]->setTraslateMat(tempMat);
+			pickedShape = 1;
+			shapeTransformation((int)tempRot[0], -tempRot[1]);
+			//shapes[0]->setTraslateMat(tempMat2);
+		}
+		for (int i = 1; i < linksNum; i++) {
+			if (shapes[i]->GerRotVecSize() > 0) {
+				if (checkIftimeToMove(i)) {
+					pickedShape = i;
+					glm::vec2 tempRot = shapes[i]->getRotVector();
+					shapeTransformation((int)tempRot[0], tempRot[1]);
+					if (i < linksNum - 1) {
+						pickedShape = i + 1;
+						shapeTransformation((int)tempRot[0], -tempRot[1]);
+					}
+				}
+			}
+			//else {
+			//break;
+			//}
+		}
+
+	}
+	void Scene::moveCamera() {
+		pickedShape = -1;
+		shapeTransformation(zCameraTranslate, -0.050f);
+	}
 	void Scene::addRemoveLinks(clock_t curr_time, bool add) { 
 		addRemovLinks adder(curr_time, add);
 		addRemoveLinksVec.push_back(adder);
@@ -199,7 +252,7 @@ using namespace glm;
 		clock_t last_time = addRemoveLinksVec[0].time;
 		clock_t this_time = clock();
 		double time_counter = (double)(this_time - last_time);
-		int temp = linksNum - 1;
+		int temp = linksNum  -1;
 		if (time_counter > (double)((1.91 + speed)*temp) * CLOCKS_PER_SEC) {
 			if (addRemoveLinksVec[0].add)
 				addLink();
@@ -209,108 +262,105 @@ using namespace glm;
 		}
 		
 	}
-	bool Scene::checkIftimeToMove(int shapeIdx) {
-		int rotCurrShapesize = shapes[shapeIdx]->GerRotVecSize();
-		int rotShapesSize = TimeOfRotiains.size();
-		int timeToCheck = rotShapesSize - rotCurrShapesize;
+	//bool Scene::checkIftimeToMove(int shapeIdx) {
+	//	int rotCurrShapesize = shapes[shapeIdx]->GerRotVecSize();
+	//	int rotShapesSize = TimeOfRotiains.size();
+	//	int timeToCheck = rotShapesSize - rotCurrShapesize;
 
-		clock_t last_time = TimeOfRotiains[timeToCheck];
-		clock_t this_time = clock();
+	//	clock_t last_time = TimeOfRotiains[timeToCheck];
+	//	clock_t this_time = clock();
 
-		double time_counter = (double)(this_time - last_time);
+	//	double time_counter = (double)(this_time - last_time);
 
-		//last_time = this_time;
-		int temp = linksNum - shapeIdx - 1;
-		if (time_counter > (double)((1.91 + speed)*temp) * CLOCKS_PER_SEC)
-		{
-			if (shapeIdx = 0)
-			{
-				
-				TimeOfRotiains.erase(TimeOfRotiains.begin());
-				//TimeOfRotiains.pop_back();
-				//TimeOfRotiains.reserve(rotPositions.size());
-			}
-			return true;
+	//	//last_time = this_time;
+	//	int temp = linksNum - shapeIdx - 1;
+	//	if (time_counter > (double)((1.91 + speed)*temp) * CLOCKS_PER_SEC)
+	//	{
+	//		if (shapeIdx = 0)
+	//		{
+	//			
+	//			TimeOfRotiains.erase(TimeOfRotiains.begin());
+	//			//TimeOfRotiains.pop_back();
+	//			//TimeOfRotiains.reserve(rotPositions.size());
+	//		}
+	//		return true;
 
-		}
-		return false;
+	//	}
+	//	return false;
 
-	}
-	void Scene::addLink() {
-		pickedShape = linksNum;
+	//}
+	//void Scene::addLink() {
+	//	pickedShape = linksNum;
 
-		std::vector<Shape*>::iterator it;
-		it = shapes.begin();
-		//shapes.insert(it + linksNum, 200);
-		chainParents.push_back(-1);
-		Shape *tempShape = new Shape(1, 1, "./res/textures/plane.png");
-		shapes.insert(it + 1, tempShape);
-		shapes[1]->setTraslateMat(shapes[0]->getTraslateMat());
-		pickedShape = 1;
-		shapeTransformation(zScale, scaleFactor);
-		linksNum++;
-		for (int i = 1; i < linksNum ; i++)
-		{
-			setParent(i, i - 1);
-		}
-		//addShape(1, 1, "./res/textures/plane.png", -1);
-		
-		shapesNormal.push_back(glm::mat4(1));
-		shapes[1]->setRotVectors(shapes[0]->getRotVectors());
-		shapes[0]->myTranslate(vec3(0, 0, -1), 1);
-		//tranlateBack.push_back(4);
-		
-		
-	}
+	//	std::vector<Shape*>::iterator it;
+	//	it = shapes.begin();
+	//	//shapes.insert(it + linksNum, 200);
+	//	chainParents.push_back(-1);
+	//	Shape *tempShape = new Shape(1, 1, "./res/textures/plane.png");
+	//	shapes.insert(it + 1, tempShape);
+	//	shapes[1]->setTraslateMat(shapes[0]->getTraslateMat());
+	//	pickedShape = 1;
+	//	shapeTransformation(zScale, scaleFactor);
+	//	linksNum++;
+	//	for (int i = 1; i < linksNum ; i++)
+	//	{
+	//		setParent(i, i - 1);
+	//	}
+	//	//addShape(1, 1, "./res/textures/plane.png", -1);
+	//	
+	//	shapesNormal.push_back(glm::mat4(1));
+	//	shapes[1]->setRotVectors(shapes[0]->getRotVectors());
+	//	shapes[0]->myTranslate(vec3(0, 0, -1), 1);
+	//	//tranlateBack.push_back(4);
+	//	
+	//	
+	//}
 	void Scene::removeLink() {
 
 	}
-	void Scene::moveCamera() {
-		pickedShape = -1;
-		shapeTransformation(zCameraTranslate, -0.050f);
-	}
-	void Scene::move() {
-		/*stopMove = true;
-		if (stopMove) {
-			return;
-		}*/
-		if (tranlateBack.size() > 0)
-		{
-			if (tranlateBack[0] <= 0)
-			{
-				tranlateBack.erase(tranlateBack.begin());
-			}
-			else {
-				pickedShape = 0;
-				shapes[0]->myTranslate(vec3(0, 0, -1), 1);
-				shapes[0]->myTranslate(vec3(0, 0, 1-(1-4/ (tranlateBack[0]-1))), 1);
-			}
-		}
-		checkIftimeToAddRemove();
-		for (int i = 0; i < linksNum; i++) {
-			pickedShape = i;
-			shapes[i]->myTranslate(vec3(0, 0, speed), 1);
-		}
-		pickedShape = linksNum - 1;
-		if (shapes[pickedShape]->GerRotVecSize() > 0) {
-			//pickedShape = 3;
-			glm::vec2 tempRot = shapes[pickedShape]->getRotVector();
-			shapeTransformation((int)tempRot[0], tempRot[1]);
+	
+	//void Scene::move() {
+	//	/*stopMove = true;
+	//	if (stopMove) {
+	//		return;
+	//	}*/
+	//	if (tranlateBack.size() > 0)
+	//	{
+	//		if (tranlateBack[0] <= 0)
+	//		{
+	//			tranlateBack.erase(tranlateBack.begin());
+	//		}
+	//		else {
+	//			pickedShape = 0;
+	//			shapes[0]->myTranslate(vec3(0, 0, -1), 1);
+	//			shapes[0]->myTranslate(vec3(0, 0, 1-(1-4/ (tranlateBack[0]-1))), 1);
+	//		}
+	//	}
+	//	checkIftimeToAddRemove();
+	//	for (int i = 0; i < linksNum; i++) {
+	//		pickedShape = i;
+	//		shapes[i]->myTranslate(vec3(0, 0, speed), 1);
+	//	}
+	//	pickedShape = linksNum - 1;
+	//	if (shapes[pickedShape]->GerRotVecSize() > 0) {
+	//		//pickedShape = 3;
+	//		glm::vec2 tempRot = shapes[pickedShape]->getRotVector();
+	//		shapeTransformation((int)tempRot[0], tempRot[1]);
 
-		}
-		for (int i = linksNum - 2; i >= 0; i--) {
-			if (shapes[i]->GerRotVecSize() > 0) {
-				if (checkIftimeToMove(i)) {
-					pickedShape = i;
-					glm::vec2 tempRot = shapes[i]->getRotVector();
-					shapeTransformation((int)tempRot[0], tempRot[1]);
-				}
-			}
-		}
+	//	}
+	//	for (int i = linksNum - 2; i >= 0; i--) {
+	//		if (shapes[i]->GerRotVecSize() > 0) {
+	//			if (checkIftimeToMove(i)) {
+	//				pickedShape = i;
+	//				glm::vec2 tempRot = shapes[i]->getRotVector();
+	//				shapeTransformation((int)tempRot[0], tempRot[1]);
+	//			}
+	//		}
+	//	}
 
 
 
-	}
+	//}
 	void Scene::addVectorToShapes(glm::vec2 addVector) {
 		for (int i = 0; i < linksNum; i++) {
 			shapes[i]->addRotVector(addVector);
@@ -329,8 +379,8 @@ using namespace glm;
 			mat4 Normal1 = mat4(1);
 			for (int j = i; chainParents[j] > -1; j = chainParents[j])
 			{
-				Normal1 =  shapes[chainParents[j]]->makeTrans2() * Normal1;
-				
+				Normal1 =  shapes[chainParents[j]]->makeTrans() * Normal1;//first move
+				//Normal1 = shapes[chainParents[j]]->makeTrans2() * Normal1;//seconed move
 			}
 			
 

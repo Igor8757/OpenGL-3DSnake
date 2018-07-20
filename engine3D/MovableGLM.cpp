@@ -49,6 +49,11 @@ mat4 MovableGLM::makeTransScale(mat4 & prevTransformations) const
 	return prevTransformations * makeTrans() * scale(mat4(1), scaleFactor);
 }
 
+mat4 MovableGLM::makeTransScale2(mat4 & prevTransformations) const
+{
+	return prevTransformations * makeTrans2() * scale(mat4(1), scaleFactor);
+}
+
 void MovableGLM::copyTranslations(MovableGLM *mGLM)
 {
 	for (size_t i = 0; i < 2; i++)

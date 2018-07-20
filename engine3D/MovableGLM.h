@@ -33,6 +33,7 @@ public:
 	glm::vec3 getXdirection(glm::mat4 &prevTransformations);
 	glm::vec3 getZdirection(glm::mat4 &prevTransformations);
 	glm::mat4 makeTransScale(glm::mat4 &prevTransformations) const;
+	glm::mat4 makeTransScale2(glm::mat4 & prevTransformations) const;
 	glm::mat4 makeTransScale() const;
 	glm::mat4 makeTrans(glm::mat4 &prevTransformations) const;
 	glm::mat4 makeTrans() const;

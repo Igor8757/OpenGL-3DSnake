@@ -42,13 +42,21 @@ void Level::UpdateLevel()
 			//LevelShapeTransformation(i, yGlobalRotate, 1);
 		}
 	}
-	for(int i=0;i<shapes.size()-1;i++)
+	for(int i=0;i<linksNum;i++)
 	{
 		shapes[i]->snakeLinkPosition = glm::mat4(1);
 		for (int j = 0; j <= i; j++)
 		{
 			shapes[i]->snakeLinkPosition = shapes[i]->snakeLinkPosition * shapes[j]->makeTrans();
 		}
+		/*mat4 Normal1 = mat4(1);
+		for (int j = i; chainParents[j] > -1; j = chainParents[j])
+		{
+			Normal1 = shapes[chainParents[j]]->makeTrans2() * Normal1;
+
+		}
+		shapes[i]->snakeLinkPosition = Normal1;*/
+	
 	}
 
 }

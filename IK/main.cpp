@@ -228,7 +228,7 @@ int main(int argc, char** argv)
 
 		while (!glfwWindowShouldClose(display.m_window))
 		{
-			if (scn.checkCollisionOfSnake(3)) {
+			if (scn.checkCollisionOfSnake(5)) {
 			//if (scn.checkCollision(3, 4)) {
 				std::cout << "Colliding !!" << std::endl;
 			}
@@ -257,7 +257,7 @@ int main(int argc, char** argv)
 			if(!scn.paused)
 			{
 				scn.move();
-				scn.moveCamera();
+				//scn.moveCamera();
 				scn.UpdateLevel();
 			}		
 			scn.draw(0, 0, false); //change false to true for axis in every joint

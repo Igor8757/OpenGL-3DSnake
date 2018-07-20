@@ -8,8 +8,8 @@ public:
 	bool add;
 	clock_t time;
 	addRemovLinks(clock_t time, bool add);
-	void setAddLink(clock_t currTime, bool addOrRemove);
-	virtual ~addRemovLinks(void);
+	//void setAddLink(clock_t currTime, bool addOrRemove);
+	//virtual ~addRemovLinks(void);
 };
 class Scene : public MovableGLM
 {
@@ -35,6 +35,7 @@ protected:
 	std::vector<addRemovLinks> addRemoveLinksVec;
 	std::vector<int>tranlateBack;
 public:
+	void checekr();
 	void addRemoveLinks(clock_t curr_time, bool add) ;
 	inline void increseSpeed() { speed = speed + 0.2; };
 	inline void decreseSpeed() { speed = speed - 0.2; };
