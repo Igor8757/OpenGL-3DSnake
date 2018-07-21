@@ -79,6 +79,7 @@ public:
 	};
 	
 	Scene();
+	void rotateCamera(glm::vec2);
 	Scene(glm::vec3 position, float angle, float hwRelation, float near, float far);
 	void addShape(int type, int parent);
 	void addShape(const std::string& fileName, int parent);

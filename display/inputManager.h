@@ -146,6 +146,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				//scn.addRotTime(scn.getDestination(0));
 				//scn.shapeTransformation(scn.zGlobalTranslate, -0.5f);
 				scn.addVectorToShapes(glm::vec2(scn.yLocalRotate, -5.f));
+				
 				//scn.shapeTransformation(scn.yLocalRotate, -5.f);
 			}
 			break;

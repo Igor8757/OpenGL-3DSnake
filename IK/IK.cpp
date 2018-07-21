@@ -90,10 +90,12 @@ using namespace glm;
 			euler.push_back(EulerAngles());
 			shapes.at(i)->isSnake = true;
 		}
-		mat4 Normal1 = mat4(1);
-		Normal1 = shapes[0]->makeTrans() * Normal1;
-		glm::vec3 camera =  getTipPosition(0);
-		cameras.push_back(new Camera(camera, 0, 12/8, 1, 100));
+	
+		//glm::vec3 camera =  getTipPosition(0);
+		//cameras.push_back(new Camera(camera, 0, 12/8, 1, 100));
+		
+		pickedShape = 0;
+		shapeTransformation(yLocalRotate, -180.f);
 		//updateData();
 	}
 

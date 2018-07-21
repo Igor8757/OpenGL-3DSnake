@@ -26,7 +26,7 @@ public:
 		return projection * glm::lookAt(pos, pos + forward, up);
 	}
 	inline void setCamPosition(glm::vec3 position) {
-		this->pos = position;
+		this->forward = position;
 	}
 	void MoveForward(float amt)
 	{

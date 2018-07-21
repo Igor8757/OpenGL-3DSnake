@@ -56,6 +56,8 @@ Scene::Scene(vec3 position, float angle, float hwRelation, float near, float far
 {
 	glLineWidth(3);
 	cameras.push_back(new Camera(position, angle, hwRelation, near, far));
+	cameras.push_back(new Camera(glm::vec3(0,0,0), angle, hwRelation, near, far));
+	cameras.at(1)->Pitch(-50.0f);
 	//	axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 	pickedShape = -1;
 }
@@ -246,12 +248,13 @@ void Scene::move() {
 	shapes[0]->myTranslate(vec3(0, 0, -speed), 1);
 	/*mat4 Normal1 = mat4(1);
 	Normal1 = shapes[0]->makeTrans() * Normal1;*/
-	glm::vec3 camera = getTipPosition(0);
-	cameras[1]->setCamPosition(camera);
+
+	
 	if (shapes[0]->GerRotVecSize() > 0) {
 		pickedShape = 0;
 		glm::vec2 tempRot = shapes[0]->getRotVector();
 		shapeTransformation((int)tempRot[0], tempRot[1]);
+		rotateCamera(tempRot);
 		//glm::mat4* tempMat = shapes[0]->getTraslateMat();
 		//glm::mat4* tempMat2 = shapes[0]->getTraslateMat();
 		//shapes[0]->setTraslateMat(tempMat);
@@ -281,7 +284,24 @@ void Scene::move() {
 }
 void Scene::moveCamera() {
 	pickedShape = -1;
-	shapeTransformation(zCameraTranslate, -0.050f);
+	cameras[0]->MoveUp(0.0055);
+	//cameras[1]->Pitch(50);
+	cameras[1]->MoveUp(speed);
+}
+void Scene::rotateCamera(glm::vec2 rotateVec) {
+	switch ((int)rotateVec[0])
+	{
+	case xLocalRotate: {
+		cameras[1]->MoveRight(rotateVec[1]);
+		break;
+	}
+	case yLocalRotate: {
+		cameras[1]->MoveUp(rotateVec[1]);
+		break;
+	}
+	default:
+		break;
+	}
 }
 void Scene::addRemoveLinks(clock_t curr_time, bool add) {
 	addRemovLinks adder(curr_time, add);
@@ -438,11 +458,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 {
 	glm::mat4 Normal = makeTrans();
 	glm::mat4 Normal2 = shapes[0]->makeTrans();
-	glm::mat4 MVP;
-	if(cameraType==0)
-		MVP = cameras[cameraType]->GetViewProjection()*Normal;
-	else
-		MVP = cameras[cameraType]->GetViewProjection()*Normal2;
+	glm::mat4 MVP = cameras[cameraType]->GetViewProjection()*Normal;
 	shaders[shaderIndx]->Bind();
 	for (int i = 0; i<shapes.size(); i++)
 	{

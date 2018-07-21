@@ -258,7 +258,7 @@ int main(int argc, char** argv)
 			if(!scn.paused)
 			{
 				scn.move();
-				//scn.moveCamera();
+				scn.moveCamera();
 				scn.UpdateLevel();
 			}		
 			scn.draw(0, 0, false, toop?0:1); //change false to true for axis in every joint
