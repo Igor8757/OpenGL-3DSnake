@@ -10,7 +10,6 @@ protected:
 
 	//vec3 findAxis2(vec3 vec, int indx);
 	bool deRevers = true;
-	glm::vec3 scaleFactor;
 	glm::vec3 findAxis(glm::vec3 vec) const;
 
 	//glm::vec3 getTipPos(glm::mat4 &prevTransformations);
@@ -18,6 +17,7 @@ protected:
 
 
 public:
+	glm::vec3 scaleFactor;
 	glm::mat4 translateMat[2];
 	glm::mat4 rotateMat;
 	glm::mat4 rotzf = glm::mat4(1);;

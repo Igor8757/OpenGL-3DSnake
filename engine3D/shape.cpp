@@ -312,9 +312,8 @@ void Shape::makeKDTree(const IndexedModel& model) {
 
 	for (int i = 0; i < model.positions.size(); i++) {
 		glm::vec3 vertex1 = model.positions.at(i); 
-		//glm::vec3 vertex = getPointInSystem(glm::mat4(1), vertex1);
-		glm::vec3 vertex = getVectorInSystem(glm::mat4(1), vertex1);
-
+		//glm::vec3 vertex = getVectorInSystem(glm::mat4(1), vertex1);
+		glm::vec3 vertex = vertex1 * scaleFactor;
 		BoundingBox b;
 		b.position = vertex;
 		posList.push_back(b);
@@ -329,7 +328,7 @@ bool Shape::_isCollidingA(Node& nodeA, Node& nodeB, Shape &other, Node &current)
 
 		return true;
 	}
-	if (collisionRecDepth >= 3)
+	if (collisionRecDepth >= 1)
 	{
 		return true;
 	}

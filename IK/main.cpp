@@ -230,7 +230,7 @@ int main(int argc, char** argv)
 		{
 			toop = scn.getCameraMode();
 			numOfLinks = scn.GetLinkNum();
-			if (scn.checkCollisionOfSnake(5)) {
+			if (scn.checkCollisionFullLevel()) {
 			//if (scn.checkCollision(3, 4)) {
 			}
 			else {

@@ -7,9 +7,6 @@ using namespace glm;
 
 Level::Level(glm::vec3 position, float angle, float hwRelation, float near, float far) : IK(position, angle, hwRelation, near, far)
 {
-	
-
-
 	addTerrain("./res/textures/underwater.png", 40, 0.5, 70);
 	int leftWall = addTerrain("./res/textures/gold.jpg", 2, 1, 70);
 	int rightWall = addTerrain("./res/textures/gold.jpg", 2, 1, 70);
@@ -29,10 +26,7 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	LevelShapeTransformation(bottomWall, zGlobalTranslate, -10);
 
 	int monkey1 = addItem("./res/objs/testBoxNoUV.obj", "./res/textures/gold.jpg");
-	
-
-
-
+	LevelShapeTransformation(monkey1, xScale, 2);
 }
 
 void Level::UpdateLevel()
@@ -50,13 +44,6 @@ void Level::UpdateLevel()
 		{
 			shapes[i]->snakeLinkPosition = shapes[i]->snakeLinkPosition * shapes[j]->makeTrans();
 		}
-		/*mat4 Normal1 = mat4(1);
-		for (int j = i; chainParents[j] > -1; j = chainParents[j])
-		{
-			Normal1 = shapes[chainParents[j]]->makeTrans2() * Normal1;
-
-		}
-		shapes[i]->snakeLinkPosition = Normal1;*/
 	
 	}
 
@@ -83,7 +70,7 @@ bool Level::checkCollisionOfSnake(int shape)
 bool Level::checkCollisionFullLevel()
 {
 	bool colliding = false;
-	for (int i = 0; i < LevelShapes.size() & !colliding; i++)
+	for (int i = 1; i < LevelShapes.size() & !colliding; i++)
 	{
 		colliding = checkCollisionOfSnake(i);
 	}
@@ -171,6 +158,15 @@ void Level::createKDTreesForLevelShapes()
 	{
 		LevelShapes.at(i)->makeKDTree(LevelShapes.at(i)->mesh->model);
 		//LevelShapes.at(i)->kdtree.getRoot()->data.
+		/*for (int j = 0; j < 24; j++) {
+			LevelShapes.at(i)->kdtree.getRoot()->data.vertices[j].pos =
+				glm::vec3(
+					LevelShapes.at(i)->kdtree.getRoot()->data.vertices[j].pos.x* LevelShapes.at(i)->scaleFactor.x,
+					LevelShapes.at(i)->kdtree.getRoot()->data.vertices[j].pos.y* LevelShapes.at(i)->scaleFactor.y,
+					LevelShapes.at(i)->kdtree.getRoot()->data.vertices[j].pos.z* LevelShapes.at(i)->scaleFactor.z
+				);
+
+		}*/
 	}
 }
 
@@ -191,8 +187,8 @@ void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis)
 		MVP1 = MVP1 * LevelShapes[i]->makeTransScale(mat4(1));
 		Normal1 = Normal1 * LevelShapes[i]->makeTrans();
 		shaders[shaderIndx]->Update(MVP1, Normal1, i);
-		//LevelShapes.at(i)->draw(GL_TRIANGLES);
-
+		LevelShapes.at(i)->draw(GL_TRIANGLES);
+		/*
 		//BB drawing
 		Node *box = LevelShapes.at(i)->kdtree.getRoot();
 		Shape *shape = new Shape(box->data.vertices, sizeof(box->data.vertices) / sizeof(box->data.vertices[0]),
@@ -209,7 +205,7 @@ void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis)
 		}
 		shaders[shaderIndx]->Update(MVP1, Normal1, linksNum);
 		shape->draw(GL_LINE_LOOP);
-		delete shape;
+		delete shape;*/
 
 	}
 }
