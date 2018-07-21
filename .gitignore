@@ -56,3 +56,4 @@ display/Debug/display.tlog/Lib.command.1.tlog
 *.tlog
 *.lib
 *.pdb
+/engine3D/scene.cpp~RF3953eb2.TMP

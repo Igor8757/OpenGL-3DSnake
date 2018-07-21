@@ -189,7 +189,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_V:
 			//scn.addRemoveLinks(this_time,false);
-			scn.checekr();
+			scn.addLink();
 			//printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
 			break;
 		default:
