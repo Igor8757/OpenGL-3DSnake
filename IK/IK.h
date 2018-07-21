@@ -25,6 +25,7 @@ protected:
 	std::vector< EulerAngles> euler;
 
 public:
+	enum objKind { snake, fruit, obj, shotingObj, killObj,bullet, shotObj};
 	glm::vec3 destPosition;
 	bool boxMode;
 	bool cameraMode;
@@ -37,11 +38,11 @@ public:
 
 	void addShape(int type, int parent);
 	void addShape(const std::string& fileName, int parent);
-	void addShape(const std::string& fileName,const std::string& textureFileName, int parent);
+	void addShape(const std::string& fileName,const std::string& textureFileName, int parent,int kind);
 	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, int parent);
-	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName, int parent);
+	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName, int parent,int kind);
 	void addShape(int CylParts,int linkPosition,int parent);
-	void addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent);
+	void addShape(int CylParts,int linkPosition,const std::string& textureFileName,int parent,int kind);
 
 	void inline changeMode(){cameraMode = !cameraMode;}
 	void makeChange();

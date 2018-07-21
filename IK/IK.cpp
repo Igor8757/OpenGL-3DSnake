@@ -57,7 +57,7 @@ using namespace glm;
 		}
 		myRotate(-90.0f,vec3(1,0,0),-1);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
-		addShape(0,2,"./res/textures/grass.bmp",-1);
+		addShape(0,2,"./res/textures/grass.bmp",-1,snake);
 		pickedShape = 0;
 		shapes.at(pickedShape)->linkNumber = pickedShape;
 		shapeTransformation(zScale,scaleFactor);
@@ -65,7 +65,7 @@ using namespace glm;
 		for (int i = 1; i < linksNum-1; i++)
 		{
 			pickedShape = i;
-			addShape(1,1,"./res/textures/plane.png",-1);
+			addShape(1,1,"./res/textures/plane.png",-1,snake);
 			shapes.at(pickedShape)->linkNumber = pickedShape;
 
 			shapeTransformation(zScale,scaleFactor);	
@@ -75,7 +75,7 @@ using namespace glm;
 		}
 		shapesNormal.push_back(glm::mat4(1));
 		pickedShape = linksNum-1;
-		addShape(0,3,"./res/textures/plane.png",-1);
+		addShape(0,3,"./res/textures/plane.png",-1,snake);
 		shapes.at(pickedShape)->linkNumber = pickedShape;
 		shapeTransformation(zScale,scaleFactor);	
 			
@@ -113,9 +113,9 @@ using namespace glm;
 		__super::addShape(CylParts,linkPosition,parent);
 	}
 
-	void IK::addShape(int CylParts,int linkPosition,const std::string& fileName,int parent)
+	void IK::addShape(int CylParts,int linkPosition,const std::string& fileName,int parent,int kind)
 	{	
-		__super::addShape(CylParts,linkPosition,fileName,parent);
+		__super::addShape(CylParts,linkPosition,fileName,parent, kind);
 	}
 
 	void IK::addShape(int type, int parent) 
@@ -130,10 +130,10 @@ using namespace glm;
 		__super::addShape(fileName,parent);
 	}
 
-	void IK::addShape(const std::string& fileName,const std::string& textureFileName, int parent)
+	void IK::addShape(const std::string& fileName,const std::string& textureFileName, int parent,int kind)
 	{
 		
-		__super::addShape(fileName,textureFileName,parent);
+		__super::addShape(fileName,textureFileName,parent,kind);
 	}
 
 	void IK::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, int parent)
@@ -142,10 +142,10 @@ using namespace glm;
 		__super::addShape(vertices,numVertices,indices,numIndices,parent);
 	}
 	
-	void IK::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string &textureFlieName, int parent)
+	void IK::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string &textureFlieName, int parent,int kind)
 	{
 		
-		__super::addShape(vertices,numVertices,indices,numIndices,textureFlieName,parent);
+		__super::addShape(vertices,numVertices,indices,numIndices,textureFlieName,parent,kind);
 	}
 	
 	void IK::calculateStep(bool EulerVersion)

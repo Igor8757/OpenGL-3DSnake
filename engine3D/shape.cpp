@@ -18,12 +18,13 @@ Shape::Shape(const std::string& fileName){
 
 }
 
-Shape::Shape(const std::string& fileName,const std::string& textureFileName){
+Shape::Shape(const std::string& fileName,const std::string& textureFileName,int kind){
+	
 	mesh = new Mesh(fileName);
 	tex = new Texture(textureFileName);
 	isCopy = false;
 	isItem = false;
-
+	this->kind = kind;
 }
 
 Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
@@ -46,8 +47,9 @@ Shape::Shape(LineVertex* vertices, unsigned int numVertices, unsigned int* indic
 }
 
 
-Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName)
+Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices,const std::string& textureFileName,int kind)
 {
+	this->kind = kind;
 	mesh = new Mesh(vertices,numVertices,indices,numIndices);
 	tex = new Texture(textureFileName);
 	isCopy = false;
@@ -64,8 +66,9 @@ Shape::Shape(int CylParts,int linkPosition)
 
 }
 
-Shape::Shape(int CylParts,int linkPosition,const std::string& textureFileName)
+Shape::Shape(int CylParts,int linkPosition,const std::string& textureFileName, int kind)
 {
+	this->kind = kind;
 	mesh = new Mesh(CylParts,linkPosition);
 	tex = new Texture(textureFileName); 
 	isCopy = false;

@@ -144,7 +144,7 @@ int Level::addTerrain(const std::string &textureFlieName, float x,float y, float
 		22, 21, 20,
 		23, 22, 20
 	};
-	LevelShapes.push_back(new Shape(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]), textureFlieName));
+	LevelShapes.push_back(new Shape(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]), textureFlieName,obj));
 	int terrain = LevelShapes.size() - 1;
 	LevelShapeTransformation(terrain, xScale, x);
 	LevelShapeTransformation(terrain, yScale, y);
@@ -154,7 +154,7 @@ int Level::addTerrain(const std::string &textureFlieName, float x,float y, float
 
 int Level::addItem(const std::string& fileName, const std::string& textureFileName)
 {
-	LevelShapes.push_back(new Shape(fileName, textureFileName));
+	LevelShapes.push_back(new Shape(fileName, textureFileName,obj));
 	int item1 = LevelShapes.size() - 1;
 	LevelShapes.at(item1)->setItem(true);
 	/*LevelShapeTransformation(item1, zScale, 3);

@@ -13,7 +13,10 @@ class Shape : public MovableGLM
 	Texture *tex;
 	bool isCopy;
 	std::vector<glm::vec2> rotVectors;
+	int kind = obj;
 public:
+	inline unsigned int getKind() { return kind; }
+	enum objKind {snake,fruit,obj,shotingObj,killObj,bullet, shotObj};
 	Mesh * mesh;
 	glm::vec2 getRotVector();
 	inline void setRotVectors(std::vector<glm::vec2> other) { rotVectors = other; }
@@ -47,12 +50,12 @@ public:
 	enum{triangles,lines};
 	Shape(const Shape& shape);
 	Shape(const std::string& fileName);
-	Shape(const std::string& fileName,const std::string& textureFileName);
+	Shape(const std::string& fileName,const std::string& textureFileName,int kind);
 	Shape(int CylParts, int linkPosition);
-	Shape(int CylParts, int linkPosition,const std::string& textureFileName);
+	Shape(int CylParts, int linkPosition,const std::string& textureFileName, int kind);
 	Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
 	Shape(LineVertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
-	Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string& textureFileName);
+	Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string& textureFileName, int kind);
 	void addMesh(Vertex* vertices, unsigned int numVertices,unsigned int* indices, unsigned int numIndices, const std::string& textureFileName);
 	void addMesh(Vertex* vertices, unsigned int numVertices,unsigned int* indices, unsigned int numIndices);
 	void addLineMesh(LineVertex* vertices, unsigned int numVertices,unsigned int* indices, unsigned int numIndices);

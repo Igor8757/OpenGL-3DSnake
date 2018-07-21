@@ -3,6 +3,7 @@
 #include "shape.h"
 #include "camera.h"
 #include <vector>
+
 class addRemovLinks {
 public:
 	bool add;
@@ -13,6 +14,7 @@ public:
 };
 class bullet {
 public:
+	enum objKind { snake, fruit, obj, shotingObj, killObj, shotObj };
 	Shape *shot;
 	clock_t time;
 	bullet(clock_t time);
@@ -48,7 +50,7 @@ protected:
 	std::vector<bullet*> objectsShots;
 	void moveSnakeShot();
 public:
-
+	enum objKind { snake, fruit, obj, shotingObj, killObj, shotObj };
 	void shot(clock_t this_time);
 	void checekr();
 	void addRemoveLinks(clock_t curr_time, bool add) ;
@@ -67,15 +69,16 @@ public:
 		xLocalTranslate, yLocalTranslate, zLocalTranslate, xGlobalTranslate, yGlobalTranslate, zGlobalTranslate,
 		xLocalRotate, yLocalRotate, zLocalRotate, xGlobalRotate, yGlobalRotate, zGlobalRotate, xScale, yScale, zScale, xCameraTranslate, yCameraTranslate, zCameraTranslate
 	};
+	
 	Scene();
 	Scene(glm::vec3 position, float angle, float hwRelation, float near, float far);
 	void addShape(int type, int parent);
 	void addShape(const std::string& fileName, int parent);
-	void addShape(const std::string& fileName, const std::string& textureFileName, int parent);
+	void addShape(const std::string& fileName, const std::string& textureFileName, int parent,int tind);
 	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, int parent);
-	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string& textureFileName, int parent);
+	void addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string& textureFileName, int parent,int kind);
 	void addShape(int Cyparts, int linkPosition, int parent);
-	void addShape(int CylParts, int linkPosition, const std::string& textureFileName, int parent);
+	void addShape(int CylParts, int linkPosition, const std::string& textureFileName, int parent,int kind);
 	void addTerrain(const std::string & fileName, const std::string & textureFileName);
 
 	void addShader(const std::string& fileName);

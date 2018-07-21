@@ -21,7 +21,7 @@ addRemovLinks::addRemovLinks(clock_t currTime, bool addOrRemove) {
 }
 bullet::bullet(clock_t currTime) {
 	time = currTime;
-	shot = new Shape(0, 2, "./res/textures/plane.png");
+	shot = new Shape(0, 2, "./res/textures/plane.png", shotObj);
 }
 bullet::~bullet(void) {
 	delete shot;
@@ -65,10 +65,10 @@ void Scene::addShape(int Cylparts, int linkPosition, int parent)
 	chainParents.push_back(parent);
 	shapes.push_back(new Shape(Cylparts, linkPosition));
 }
-void Scene::addShape(int CylParts, int linkPosition, const std::string& textureFileName, int parent)
+void Scene::addShape(int CylParts, int linkPosition, const std::string& textureFileName, int parent, int kind)
 {
 	chainParents.push_back(parent);
-	shapes.push_back(new Shape(CylParts, linkPosition, textureFileName));
+	shapes.push_back(new Shape(CylParts, linkPosition, textureFileName,kind));
 }
 void Scene::addShape(int type, int parent)
 {
@@ -82,10 +82,10 @@ void Scene::addShape(const std::string& fileName, int parent)
 	shapes.push_back(new Shape(fileName));
 }
 
-void Scene::addShape(const std::string& fileName, const std::string& textureFileName, int parent)
+void Scene::addShape(const std::string& fileName, const std::string& textureFileName, int parent, int kind)
 {
 	chainParents.push_back(parent);
-	shapes.push_back(new Shape(fileName, textureFileName));
+	shapes.push_back(new Shape(fileName, textureFileName,kind));
 }
 
 
@@ -96,10 +96,10 @@ void Scene::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* i
 	shapes.push_back(new Shape(vertices, numVertices, indices, numIndices));
 }
 
-void Scene::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string &textureFlieName, int parent)
+void Scene::addShape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices, const std::string &textureFlieName, int parent, int kind)
 {
 	chainParents.push_back(parent);
-	shapes.push_back(new Shape(vertices, numVertices, indices, numIndices, textureFlieName));
+	shapes.push_back(new Shape(vertices, numVertices, indices, numIndices, textureFlieName,kind));
 }
 
 
@@ -156,14 +156,14 @@ void Scene::checekr() {
 	shapesNormal.push_back(glm::mat4(1));
 
 	pickedShape = linksNum;
-	Shape *tempShape = new Shape(0, 3, "./res/textures/plane.png");
+	Shape *tempShape = new Shape(0, 3, "./res/textures/plane.png",snake);
 	tempShape->setRotVectors(shapes[linksNum - 1]->getRotVectors());
 	shapes.insert(it + linksNum, tempShape);
 	shapes.at(pickedShape)->linkNumber = pickedShape;
 	shapeTransformation(zScale, scaleFactor);
 	shapeTransformation(zGlobalTranslate, 1.0);
 	//shapeTransformation(zGlobalTranslate, 1.0);
-	Shape *tempShape2 = new Shape(1, 1, "./res/textures/plane.png");
+	Shape *tempShape2 = new Shape(1, 1, "./res/textures/plane.png",snake);
 	tempShape2->setRotVectors(shapes[linksNum - 1]->getRotVectors());
 	tempShape2->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
 	tempShape2->myScale(vec3(1, 1, scaleFactor));
@@ -182,7 +182,7 @@ void Scene::addLink() {
 	shapesNormal.push_back(glm::mat4(1));
 
 	pickedShape = linksNum;
-	Shape *tempShape = new Shape(0, 3, "./res/textures/plane.png");
+	Shape *tempShape = new Shape(0, 3, "./res/textures/plane.png",snake);
 	tempShape->makeKDTree(tempShape->mesh->model);
 	tempShape->isSnake = true;
 	tempShape->linkNumber = linksNum ;
@@ -192,7 +192,7 @@ void Scene::addLink() {
 	shapeTransformation(zScale, scaleFactor);
 	shapeTransformation(zGlobalTranslate, 1.0);
 	//shapeTransformation(zGlobalTranslate, 1.0);
-	Shape *tempShape2 = new Shape(1, 1, "./res/textures/plane.png");
+	Shape *tempShape2 = new Shape(1, 1, "./res/textures/plane.png",snake);
 	tempShape2->setRotVectors(shapes[linksNum - 1]->getRotVectors());
 	tempShape2->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
 	tempShape2->myScale(vec3(1, 1, scaleFactor));
