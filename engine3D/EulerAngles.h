@@ -16,6 +16,9 @@ public:
 	void alignedRot(int XorZ,float angle,int mode);
 	glm::mat4 makeRot() const;
 	glm::mat4 phi, theta, psi;
+	inline void operator=(const EulerAngles &other) {
+		int x = 0;
+	}
 private:
 	
 	

@@ -55,7 +55,12 @@ private:
 	};
 
 	static const unsigned int NUM_BUFFERS = 6;
-	void operator=(const Mesh& mesh) {}
+	inline void operator=(const Mesh& mesh) {
+		for (int i = 0; i < NUM_BUFFERS; i++) {
+			m_vertexArrayBuffers[i] = mesh.m_vertexArrayBuffers[i];
+		}
+		model = mesh.model;
+	}
 	Mesh(const Mesh& mesh) {}
 
     void InitMesh(const IndexedModel& model);
