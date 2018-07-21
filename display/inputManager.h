@@ -14,7 +14,7 @@ float relation = (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT;
 
 Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "OpenGL");
 
-Level scn(glm::vec3(0.0f, 5.0f, -25.0f), CAM_ANGLE, relation, NEAR, FAR);
+Level scn(glm::vec3(0.0f, 5.0f, -40.0f), CAM_ANGLE, relation, NEAR, FAR);
 
 float factor = 1.0;
 

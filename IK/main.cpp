@@ -220,7 +220,7 @@ int main(int argc, char** argv)
 	}
 	if (!gui) {
 		scn.setLinkNum(numOfLinks);
-		scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]));
+		scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]),toop);
 		glfwSetWindowShouldClose(display.m_window, GLFW_FALSE);
 		init();
 		//glfwSetInputMode(display.m_window,GLFW_STICKY_MOUSE_BUTTONS,1);
@@ -228,6 +228,7 @@ int main(int argc, char** argv)
 
 		while (!glfwWindowShouldClose(display.m_window))
 		{
+			toop = scn.getCameraMode();
 			numOfLinks = scn.GetLinkNum();
 			if (scn.checkCollisionOfSnake(5)) {
 			//if (scn.checkCollision(3, 4)) {
@@ -260,7 +261,7 @@ int main(int argc, char** argv)
 				//scn.moveCamera();
 				scn.UpdateLevel();
 			}		
-			scn.draw(0, 0, false); //change false to true for axis in every joint
+			scn.draw(0, 0, false, toop?0:1); //change false to true for axis in every joint
 			scn.levelDraw(0, 0, false);
 			display.SwapBuffers();
 			glfwPollEvents();

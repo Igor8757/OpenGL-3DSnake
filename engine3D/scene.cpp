@@ -246,6 +246,11 @@ void Scene::move() {
 	moveSnakeShot();
 	checkIftimeToAddRemove();
 	shapes[0]->myTranslate(vec3(0, 0, -0.007), 1);
+	/*mat4 Normal1 = mat4(1);
+	Normal1 = shapes[0]->makeTrans() * Normal1;*/
+	glm::vec3 camera = getTipPosition(0);
+	cameras[1]->setCamPosition(camera);
+
 	if (shapes[0]->GerRotVecSize() > 0) {
 		pickedShape = 0;
 		glm::vec2 tempRot = shapes[0]->getRotVector();
@@ -432,11 +437,15 @@ void Scene::addVectorToShapes(glm::vec2 addVector) {
 		shapes[i]->addRotVector(addVector);
 	}
 }
-void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis)
+void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 {
 	glm::mat4 Normal = makeTrans();
-	glm::mat4 MVP = cameras[0]->GetViewProjection() * Normal;
-
+	glm::mat4 Normal2 = shapes[0]->makeTrans();
+	glm::mat4 MVP;
+	if(cameraType==0)
+		MVP = cameras[cameraType]->GetViewProjection()*Normal;
+	else
+		MVP = cameras[cameraType]->GetViewProjection()*Normal2;
 	shaders[shaderIndx]->Bind();
 	for (int i = 0; i<shapes.size(); i++)
 	{
@@ -492,7 +501,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis)
 	if (shaderIndx == 0)
 	{
 		shaders[shaderIndx]->Bind();
-		shaders[shaderIndx]->Update(cameras[0]->GetViewProjection()*scale(vec3(10, 10, 10)), Normal*scale(vec3(10, 10, 10)), 0, shapesNormal);
+		shaders[shaderIndx]->Update(cameras[cameraType]->GetViewProjection()*scale(vec3(10, 10, 10)), Normal*scale(vec3(10, 10, 10)), 0, shapesNormal);
 		axisMesh->draw(GL_LINES);
 	}
 	for (int i = 0; i < snakeShots.size(); i++)
@@ -509,7 +518,20 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis)
 		shaders[shaderIndx]->Update(MVP1, Normal1, linksNum+i);
 		snakeShots[i]->shot->draw(GL_TRIANGLES);
 	}
+	for (int i = 0; i < objectsShots.size(); i++)
+	{
+		//int j = i;
+		//			int counter = 0;
+		mat4 Normal1 = mat4(1);
 
+		mat4 MVP1 = MVP * Normal1;
+		Normal1 = Normal * Normal1;
+		MVP1 = MVP1 * objectsShots[i]->shot->makeTransScale(mat4(1));
+		Normal1 = Normal1 * objectsShots[i]->shot->makeTrans();
+		//shaders[shaderIndx]->Bind();
+		shaders[shaderIndx]->Update(MVP1, Normal1, linksNum + i);
+		objectsShots[i]->shot->draw(GL_TRIANGLES);
+	}
 }
 
 void Scene::shapeRotation(vec3 v, float ang, int indx)
@@ -594,17 +616,26 @@ void Scene::shapeTransformation(int type, float amt)
 		else
 			shapes[pickedShape]->myRotate(amt, vec3(1, 0, 0), xAxis1);
 		break;
+	case xLocalRotate2:
+		shapes[pickedShape]->myRotate2(amt, vec3(1, 0, 0));
+		break;
 	case yLocalRotate:
 		if (pickedShape == -1)
 			myRotate(amt, vec3(0, 1, 0), -1);
 		else
 			shapes[pickedShape]->myRotate(amt, vec3(0, 1, 0), -1);
 		break;
+	case yLocalRotate2:
+			shapes[pickedShape]->myRotate2(amt, vec3(0, 1, 0));
+		break;
 	case zLocalRotate:
 		if (pickedShape == -1)
 			myRotate(amt, vec3(0, 0, 1), zAxis12);
 		else
 			shapes[pickedShape]->myRotate(amt, vec3(0, 0, 1), zAxis12);
+		break;
+	case zLocalRotate2:
+			shapes[pickedShape]->myRotate2(amt, vec3(0, 0, 1));
 		break;
 	case xGlobalRotate:
 		if (pickedShape == -1)
@@ -696,8 +727,7 @@ float Scene::picking(double x, double y)
 	float depth;
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	draw(1, 0, false);
-
+	draw(1, 0, false,0);
 	GLint viewport[4];
 	unsigned char data[4];
 	glGetIntegerv(GL_VIEWPORT, viewport); //reading viewport parameters

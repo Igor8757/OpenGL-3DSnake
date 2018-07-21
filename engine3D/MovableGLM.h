@@ -20,7 +20,7 @@ protected:
 public:
 	glm::mat4 translateMat[2];
 	glm::mat4 rotateMat;
-	glm::mat4 ReversRotateMat;
+	glm::mat4 rotzf = glm::mat4(1);;
 	//bool deRevers = true;
 	//vec3 findAxis(vec4 &vec, int indx);
 	//vec3 findAxis2(vec4 &vec, int indx);
@@ -39,6 +39,7 @@ public:
 	glm::mat4 makeTrans() const;
 	glm::mat4 makeTrans2() const;
 	void myRotate(float ang, glm::vec3 &vec, int indx);
+	void myRotate2(float ang, glm::vec3 & vec);
 	void myRevRotate();
 	void myTranslate(glm::vec3 &vec, int indx);
 	void myTranslate2(glm::vec3 & vec, int indx);

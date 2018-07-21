@@ -49,7 +49,15 @@ protected:
 	std::vector<bullet*> snakeShots;
 	std::vector<bullet*> objectsShots;
 	void moveSnakeShot();
+	bool toopView = true;;
 public:
+	inline bool getCameraMode() { return toopView;}
+	const int DISPLAY_WIDTH = 1200;
+	const int DISPLAY_HEIGHT = 800;
+	const float FAR = 100.0f;
+	const float NEAR = 1.0f;
+	const float CAM_ANGLE = 0.0f;
+	float relation = (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT;
 	enum objKind { snake, fruit, obj, shotingObj, killObj, shotObj };
 	void shot(clock_t this_time);
 	void checekr();
@@ -67,7 +75,7 @@ public:
 	enum axis { xAxis, yAxis, zAxis };
 	enum transformations {
 		xLocalTranslate, yLocalTranslate, zLocalTranslate, xGlobalTranslate, yGlobalTranslate, zGlobalTranslate,
-		xLocalRotate, yLocalRotate, zLocalRotate, xGlobalRotate, yGlobalRotate, zGlobalRotate, xScale, yScale, zScale, xCameraTranslate, yCameraTranslate, zCameraTranslate
+		xLocalRotate, yLocalRotate, zLocalRotate, xGlobalRotate, yGlobalRotate, zGlobalRotate, xScale, yScale, zScale, xCameraTranslate, yCameraTranslate, zCameraTranslate, zLocalRotate2, xLocalRotate2, yLocalRotate2
 	};
 	
 	Scene();
@@ -87,7 +95,7 @@ public:
 	void removeLink();
 	glm::mat4 GetViewProjection(int indx) const;
 	glm::mat4 GetShapeTransformation() const;
-	void draw(int shaderIndx, int cameraIndx, bool drawAxis);
+	void draw(int shaderIndx, int cameraIndx, bool drawAxis,int camerType);
 	void shapeTransformation(int type, float amt);
 	void shapeRotation(glm::vec3 v, float ang, int indx);
 	//void inline setPicked(int pickID){pickedShape = pickID;}

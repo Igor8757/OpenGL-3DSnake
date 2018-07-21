@@ -50,8 +50,9 @@ using namespace glm;
 	{
 	}
 
-	void IK::init(Vertex *vertices,unsigned int *indices,int verticesSize,int indicesSize)
+	void IK::init(Vertex *vertices, unsigned int *indices, int verticesSize, int indicesSize, bool cmaeraMode)
 	{
+		toopView = cmaeraMode;
 		for (int i = 0; i < linksNum + 1; i++) {
 			newPositions.push_back(glm::vec3(0, 0, 0));			
 		}
@@ -82,18 +83,6 @@ using namespace glm;
 		shapeTransformation(zGlobalTranslate,1.0);
 		setParent(linksNum-1,linksNum-2);
 
-		//pickedShape = 0;
-		//// distination point
-		//pickedShape = linksNum;
-		
-		//addShape(0,"./res/textures/box0.bmp",-1);
-		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/box0.bmp",-1);
-		/*shapeTransformation(xScale,0.5);
-		shapeTransformation(yScale,0.5);
-		shapeTransformation(zScale,0.5);
-		shapeTransformation(xGlobalTranslate,-8.0);
-		shapeTransformation(yGlobalTranslate,4.0);
-		shapeTransformation(zGlobalTranslate,4.0);*/
 		chainParents.push_back(-1);
 		pickedShape = 0;
 
@@ -101,7 +90,10 @@ using namespace glm;
 			euler.push_back(EulerAngles());
 			shapes.at(i)->isSnake = true;
 		}
-
+		mat4 Normal1 = mat4(1);
+		Normal1 = shapes[0]->makeTrans() * Normal1;
+		glm::vec3 camera =  getTipPosition(0);
+		cameras.push_back(new Camera(camera, 0, 12/8, 1, 100));
 		//updateData();
 	}
 
@@ -318,7 +310,7 @@ using namespace glm;
 	}
 
 	void IK::selectCamera() {
-		if (!cameraMode) {
+		/*if (!cameraMode) {
 			printf("::C:: Camera Mode On\n");
 			cameraMode = true;
 			boxMode = false;
@@ -327,7 +319,8 @@ using namespace glm;
 			printf("::C:: Camera Mode On\n");
 			boxMode = false;
 			cameraMode = false;
-		}
+		}*/
+		toopView = !toopView;
 	}
 
 	void IK::getDistances() {

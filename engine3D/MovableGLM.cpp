@@ -96,22 +96,29 @@ void MovableGLM::myRotate(float ang, glm::vec3 &vec, int indx)
 
 	//}
 }
+void MovableGLM::myRotate2(float ang, glm::vec3 &vec)
+{
+	//ang = ang / 180.0*pi;
+	glm::mat4 forword = glm::translate(glm::mat4(1), glm::vec3(0, 0, 1));
+	glm::mat4 backworld = glm::translate(glm::mat4(1), glm::vec3(0, 0, -1));
+	mat4 rotzf = glm::rotate(mat4(1), ang, vec);
+	mat4  T = forword * rotzf * backworld;
+	rotateMat = T * rotzf;//rotate(rotateMat, ang, vec);
+
+}
 void MovableGLM::myRevRotate() {
-	rotateMat = ReversRotateMat;
-	ReversRotateMat = glm::mat4(1);
+	//rotateMat = ReversRotateMat;
+	//ReversRotateMat = glm::mat4(1);
 	deRevers = false;
 }
 void MovableGLM::myTranslate(vec3 &vec, int indx)
 {
-
-	translateMat[indx] = translateMat[indx] * translate(rotateMat, scaleFactor * vec);
-	/*if (deRevers)
-	ReversRotateMat = ReversRotateMat * glm::inverse(rotateMat);
-	else
-	deRevers = true;*/
+	glm::mat4 forword = glm::translate(glm::mat4(1), glm::vec3(0, 0, 1));
+	glm::mat4 backworld = glm::translate(glm::mat4(1), glm::vec3(0, 0, -1));
+	translateMat[indx] = translateMat[indx] * translate(forword*rotateMat*backworld, scaleFactor * vec);
+	
 	rotateMat = glm::mat4(1);
-	//translateMat[0] = translate(translateMat[0], -scaleFactor * vec);
-	//printMat(translateMat[indx]);
+	
 }
 void MovableGLM::myTranslate2(vec3 &vec, int indx) {
 	translateMat[indx] = translateMat[indx] * translate(rotateMat, scaleFactor * vec);

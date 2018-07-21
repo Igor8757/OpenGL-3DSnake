@@ -32,7 +32,7 @@ public:
 	virtual ~IK(void);
 	IK(glm::vec3 position,float angle,float hwRelation,float near, float far);
 	
-	void init(Vertex *vertices,unsigned int *indices,int verticesSize,int indicesSize);
+	void init(Vertex *vertices);
 
 	void addShape(int type, int parent);
 	void addShape(const std::string& fileName, int parent);
