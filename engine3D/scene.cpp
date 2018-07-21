@@ -180,7 +180,6 @@ void Scene::addLink() {
 	std::vector<Shape*>::iterator it;
 	it = shapes.begin();
 	shapesNormal.push_back(glm::mat4(1));
-
 	pickedShape = linksNum;
 	Shape *tempShape = new Shape(0, 3, "./res/textures/plane.png",snake);
 	tempShape->makeKDTree(tempShape->mesh->model);
@@ -199,7 +198,7 @@ void Scene::addLink() {
 	tempShape2->makeKDTree(tempShape2->mesh->model);
 	tempShape2->isSnake = true;
 	tempShape2->linkNumber = linksNum - 1;
-	shapes[linksNum - 1] = tempShape2;
+	shapes.at(linksNum - 1) = tempShape2;
 	linksNum++;
 	setParent(linksNum - 1, linksNum - 2);
 
