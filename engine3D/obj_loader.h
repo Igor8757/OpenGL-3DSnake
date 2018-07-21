@@ -48,6 +48,13 @@ private:
     glm::vec2 ParseOBJVec2(const std::string& line);
     glm::vec3 ParseOBJVec3(const std::string& line);
     OBJIndex ParseOBJIndex(const std::string& token, bool* hasUVs, bool* hasNormals);
+	inline void operator=(const OBJModel&other) {
+		OBJIndices = other.OBJIndices;
+		vertices = other.vertices;
+		uvs = other.uvs;
+		normals = other.normals;
+		colors = other.colors;
+	}
 };
 
 

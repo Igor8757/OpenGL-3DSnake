@@ -60,7 +60,7 @@ public:
 	void getPoints(std::list<glm::vec3> &pList);
 	bool isColliding(Shape& other);
 	virtual ~Shape(void);
-	void operator=(Shape *other);
+	Shape& operator=(const Shape &other);
 	void setItem(bool b) {isItem = b;	}
 };
 

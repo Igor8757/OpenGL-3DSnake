@@ -54,7 +54,9 @@ public:
 	glm::vec3 getPointInSystem(glm::mat4 &prevTransformations, glm::vec3 point);
 	glm::vec3 getVectorInSystem(glm::mat4 &prevTransformations, glm::vec3 vec);
 	glm::vec3 getCenterOfRotation(glm::mat4 &prevTransformations);
-
+	inline void operator=(const MovableGLM &other) {
+		int x = 0;
+	}
 	//float getTraslateZ() { return makeTrans()[3][2]; }
 	//inline void rotateVec4(vec4 &vec) { vec = rotateMat[0] *vec; }
 };

@@ -11,6 +11,15 @@ public:
 	//void setAddLink(clock_t currTime, bool addOrRemove);
 	//virtual ~addRemovLinks(void);
 };
+class bullet {
+public:
+	Shape *shot;
+	clock_t time;
+	bullet(clock_t time);
+	virtual ~bullet(void);
+	//void setAddLink(clock_t currTime, bool addOrRemove);
+	//virtual ~addRemovLinks(void);
+};
 class Scene : public MovableGLM
 {
 
@@ -34,7 +43,13 @@ protected:
 	bool stopMove = false;
 	std::vector<addRemovLinks> addRemoveLinksVec;
 	std::vector<int>tranlateBack;
+	
+	std::vector<bullet*> snakeShots;
+	std::vector<bullet*> objectsShots;
+	void moveSnakeShot();
 public:
+
+	void shot(clock_t this_time);
 	void checekr();
 	void addRemoveLinks(clock_t curr_time, bool add) ;
 	inline void increseSpeed() { speed = speed + 0.2; };

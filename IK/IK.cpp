@@ -82,18 +82,19 @@ using namespace glm;
 		shapeTransformation(zGlobalTranslate,1.0);
 		setParent(linksNum-1,linksNum-2);
 
-		pickedShape = 0;
-		// distination point
-		pickedShape = linksNum;
+		//pickedShape = 0;
+		//// distination point
+		//pickedShape = linksNum;
 		
 		//addShape(0,"./res/textures/box0.bmp",-1);
-		addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/box0.bmp",-1);
-		shapeTransformation(xScale,0.5);
+		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/box0.bmp",-1);
+		/*shapeTransformation(xScale,0.5);
 		shapeTransformation(yScale,0.5);
 		shapeTransformation(zScale,0.5);
 		shapeTransformation(xGlobalTranslate,-8.0);
 		shapeTransformation(yGlobalTranslate,4.0);
-		shapeTransformation(zGlobalTranslate,4.0);
+		shapeTransformation(zGlobalTranslate,4.0);*/
+		chainParents.push_back(-1);
 		pickedShape = 0;
 
 		for (int i = 0; i < linksNum; i++) {
@@ -101,7 +102,7 @@ using namespace glm;
 			shapes.at(i)->isSnake = true;
 		}
 
-		updateData();
+		//updateData();
 	}
 
 
