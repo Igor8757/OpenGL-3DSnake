@@ -229,7 +229,7 @@ int main(int argc, char** argv)
 		while (!glfwWindowShouldClose(display.m_window))
 		{
 			numOfLinks = scn.GetLinkNum();
-			if (scn.checkCollisionOfSnake(5)) {
+			if (scn.checkCollisionFullLevel()) {
 			//if (scn.checkCollision(3, 4)) {
 			}
 			else {

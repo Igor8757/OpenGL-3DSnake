@@ -245,7 +245,7 @@ bool Scene::checkIftimeToMove(int shapeIdx) {
 void Scene::move() {
 	moveSnakeShot();
 	checkIftimeToAddRemove();
-	shapes[0]->myTranslate(vec3(0, 0, -0.007), 1);
+	shapes[0]->myTranslate(vec3(0, 0, -0.02), 1);
 	if (shapes[0]->GerRotVecSize() > 0) {
 		pickedShape = 0;
 		glm::vec2 tempRot = shapes[0]->getRotVector();
@@ -470,7 +470,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis)
 		else
 			shapes[i]->draw(GL_TRIANGLES);
 
-
+		/*
 		// BB drawing
 		Node *box = shapes[0]->kdtree.getRoot();
 		Shape *shape = new Shape(box->data.vertices, sizeof(box->data.vertices) / sizeof(box->data.vertices[0]),
@@ -487,7 +487,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis)
 		}
 		shaders[shaderIndx]->Update(MVP1, Normal1, linksNum);
 		shape->draw(GL_LINE_LOOP);
-		delete shape;
+		delete shape;*/
 	}
 	if (shaderIndx == 0)
 	{
