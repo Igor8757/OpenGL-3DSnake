@@ -38,7 +38,7 @@ protected:
 	int Links;
 	int linksNum = 4;
 	int counter = 0;
-	float speed = 0.007;
+	float speed = 0.025;
 	std::vector<Camera*> cameras; //light will have the properties of camera
 	std::vector<glm::vec3> rotPositions;
 	std::vector<clock_t> TimeOfRotiains;
@@ -51,6 +51,7 @@ protected:
 	void moveSnakeShot();
 	bool toopView = true;;
 public:
+	bool gameOver = false;
 	inline bool getCameraMode() { return toopView;}
 	const int DISPLAY_WIDTH = 1200;
 	const int DISPLAY_HEIGHT = 800;

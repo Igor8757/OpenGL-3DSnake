@@ -14,7 +14,7 @@ float relation = (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT;
 
 Display display(DISPLAY_WIDTH, DISPLAY_HEIGHT, "OpenGL");
 
-Level scn(glm::vec3(0.0f, 5.0f, -40.0f), CAM_ANGLE, relation, NEAR, FAR);
+Level scn(glm::vec3(0.0f, 5.0f, -48.0f), CAM_ANGLE, relation, NEAR, FAR);
 
 float factor = 1.0;
 
@@ -92,7 +92,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			break;
 		case GLFW_KEY_SPACE:
-			if (scn.isActive()) {
+			/*if (scn.isActive()) {
 				std::cout << "::Space:: IK deactivated " << std::endl;
 				scn.deactivateIK();
 			}
@@ -101,24 +101,20 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				scn.activateIK();
 				scn.makeChange();
 				//scn.printData();
-			}
+			}*/
 
 			break;
 		case GLFW_KEY_N:
-			scn.nextLink();
-			printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
-			break;
+
 		case GLFW_KEY_P:
 			scn.Pause();
 			break;
 		case GLFW_KEY_B:
-			scn.selectBox();
 			break;
 		case GLFW_KEY_C:
-			scn.selectCamera();
 			break;
 		case GLFW_KEY_W:
-			if(!scn.paused)
+			if(!scn.paused && !scn.gameOver)
 			{
 				//clock_t this_time = clock();
 				scn.addRotTime(this_time);
@@ -129,7 +125,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			break;
 		case GLFW_KEY_S:
-			if (!scn.paused)
+			if (!scn.paused && !scn.gameOver)
 			{
 				//clock_t this_time = clock();
 				scn.addRotTime(this_time);
@@ -139,7 +135,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			break;
 		case GLFW_KEY_D:
-			if (!scn.paused)
+			if (!scn.paused && !scn.gameOver)
 			{
 				//clock_t this_time = clock();
 				scn.addRotTime(this_time);
@@ -151,7 +147,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			break;
 		case GLFW_KEY_A:
-			if (!scn.paused)
+			if (!scn.paused && !scn.gameOver)
 			{
 				//clock_t this_time = clock();
 				scn.addRotTime(this_time);

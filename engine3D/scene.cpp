@@ -456,6 +456,8 @@ void Scene::addVectorToShapes(glm::vec2 addVector) {
 }
 void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 {
+	if (gameOver)
+		return;
 	glm::mat4 Normal = makeTrans();
 	glm::mat4 Normal2 = shapes[0]->makeTrans();
 	glm::mat4 MVP = cameras[cameraType]->GetViewProjection()*Normal;

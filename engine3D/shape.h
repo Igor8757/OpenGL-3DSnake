@@ -13,10 +13,11 @@ class Shape : public MovableGLM
 	Texture *tex;
 	bool isCopy;
 	std::vector<glm::vec2> rotVectors;
-	int kind = obj;
+	int kind = Default;
 public:
 	inline unsigned int getKind() { return kind; }
-	enum objKind {snake,fruit,obj,shotingObj,killObj,bullet, shotObj};
+	inline unsigned int setKind(enum objKind k) { kind = k; }
+	enum objKind {Default,Snake,Item,Enemy,Terrain,shotingObj,killObj,bullet, shotObj};
 	Mesh * mesh;
 	glm::vec2 getRotVector();
 	inline void setRotVectors(std::vector<glm::vec2> other) { rotVectors = other; }
@@ -42,7 +43,6 @@ public:
 	Node *node;
 
 	int linkNumber;
-	bool isItem = false;
 	bool isSnake = false;
 	int collisionRecDepth = 0;
 	glm::mat4 snakeLinkPosition = glm::mat4(1);
@@ -64,6 +64,5 @@ public:
 	bool isColliding(Shape& other);
 	virtual ~Shape(void);
 	Shape& operator=(const Shape &other);
-	void setItem(bool b) {isItem = b;	}
 };
 

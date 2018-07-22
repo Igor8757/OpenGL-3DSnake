@@ -6,7 +6,8 @@ class Level : public IK
 public:
 
 	std::vector<Shape*> LevelShapes;
-	
+
+
 	Level(glm::vec3 position, float angle, float hwRelation, float near, float far);
 	virtual ~Level();
 	void levelDraw(int shaderIndx, int cameraIndx, bool drawAxis);
@@ -22,6 +23,8 @@ public:
 	bool checkCollisionFullLevel();
 	void createKDTreesForLevelShapes();
 
+
+	void KillSnake();
 };
 
 

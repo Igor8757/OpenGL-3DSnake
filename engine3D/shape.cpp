@@ -8,13 +8,11 @@ Shape::Shape(const Shape& shape)
 		lineMesh = shape.lineMesh;
 	tex = shape.tex;
 	isCopy = true;
-	isItem = false;
 }
 Shape::Shape(const std::string& fileName){
 	mesh = new Mesh(fileName);
 	tex = 0;
 	isCopy = false;
-	isItem = false;
 
 }
 
@@ -23,7 +21,6 @@ Shape::Shape(const std::string& fileName,const std::string& textureFileName,int 
 	mesh = new Mesh(fileName);
 	tex = new Texture(textureFileName);
 	isCopy = false;
-	isItem = false;
 	this->kind = kind;
 }
 
@@ -32,7 +29,6 @@ Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, 
 	mesh = new Mesh(vertices,numVertices,indices,numIndices);
 	tex = 0; 
 	isCopy = false;
-	isItem = false;
 
 }
 
@@ -42,7 +38,6 @@ Shape::Shape(LineVertex* vertices, unsigned int numVertices, unsigned int* indic
 	lineMesh = new LineMesh(vertices,numVertices,indices,numIndices);
 	tex = 0; 
 	isCopy = false;
-	isItem = false;
 
 }
 
@@ -53,7 +48,6 @@ Shape::Shape(Vertex* vertices, unsigned int numVertices, unsigned int* indices, 
 	mesh = new Mesh(vertices,numVertices,indices,numIndices);
 	tex = new Texture(textureFileName);
 	isCopy = false;
-	isItem = false;
 
 }
 
@@ -62,7 +56,6 @@ Shape::Shape(int CylParts,int linkPosition)
 	mesh = new Mesh(CylParts,linkPosition);
 	tex = 0; 
 	isCopy = false;
-	isItem = false;
 
 }
 
@@ -72,7 +65,6 @@ Shape::Shape(int CylParts,int linkPosition,const std::string& textureFileName, i
 	mesh = new Mesh(CylParts,linkPosition);
 	tex = new Texture(textureFileName); 
 	isCopy = false;
-	isItem = false;
 
 }
 glm::vec2 Shape::getRotVector() {
@@ -313,7 +305,7 @@ void Shape::makeKDTree(const IndexedModel& model) {
 	for (int i = 0; i < model.positions.size(); i++) {
 		glm::vec3 vertex1 = model.positions.at(i); 
 		//glm::vec3 vertex = getVectorInSystem(glm::mat4(1), vertex1);
-		glm::vec3 vertex = vertex1 * scaleFactor;
+		glm::vec3 vertex = vertex1 * (scaleFactor * 0.87f);
 		BoundingBox b;
 		b.position = vertex;
 		posList.push_back(b);

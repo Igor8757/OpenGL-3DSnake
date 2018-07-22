@@ -7,34 +7,45 @@ using namespace glm;
 
 Level::Level(glm::vec3 position, float angle, float hwRelation, float near, float far) : IK(position, angle, hwRelation, near, far)
 {
-	addTerrain("./res/textures/underwater.png", 40, 0.5, 70);
-	int leftWall = addTerrain("./res/textures/gold.jpg", 2, 1, 70);
-	int rightWall = addTerrain("./res/textures/gold.jpg", 2, 1, 70);
-	int topWall = addTerrain("./res/textures/gold.jpg", 25, 2, 2);
-	int bottomWall = addTerrain("./res/textures/gold.jpg", 25, 2, 2);
+	int ground = addTerrain("./res/textures/seafloor.jpg", 40, 0.2, 120);
+	LevelShapeTransformation(ground, zGlobalTranslate, 0.85);
+
+	for (int i = 0; i < 4; i++)
+	{
+		int leftWall = addTerrain("./res/textures/waterrock.jpg", 2, 1, 30);
+		LevelShapeTransformation(leftWall, zGlobalTranslate, 0.45+2*i);
+		LevelShapeTransformation(leftWall, xGlobalTranslate, 20);
+		int rightWall = addTerrain("./res/textures/waterrock.jpg", 2, 1, 30);
+		LevelShapeTransformation(rightWall, zGlobalTranslate, 0.45 + 2 * i);
+		LevelShapeTransformation(rightWall, xGlobalTranslate, -20);
+	}
+	int bottomWall = addTerrain("./res/textures/waterrock.jpg", 42, 1, 2);
+	LevelShapeTransformation(bottomWall, zGlobalTranslate, -8);
 
 
-	LevelShapeTransformation(leftWall, xGlobalTranslate, 20);
-
-	LevelShapeTransformation(rightWall, xGlobalTranslate, -20);
-
-
+	int topWall = addTerrain("./res/textures/waterrock.jpg", 20, 1, 2);
 	LevelShapeTransformation(topWall, xGlobalTranslate, 0.65);
 	LevelShapeTransformation(topWall, zGlobalTranslate, 13);
 
-	LevelShapeTransformation(bottomWall, xGlobalTranslate, -0.65);
-	LevelShapeTransformation(bottomWall, zGlobalTranslate, -10);
 
-	int monkey1 = addItem("./res/objs/testBoxNoUV.obj", "./res/textures/gold.jpg");
-	LevelShapeTransformation(monkey1, xScale, 2);
+
+
+	int item1 = addItem("./res/objs/testBoxNoUV.obj", "./res/textures/gold.jpg");
+	LevelShapeTransformation(item1, xGlobalTranslate, -25);
+	LevelShapeTransformation(item1, zGlobalTranslate, 17);
 }
 
 void Level::UpdateLevel()
 {
-	for(int i = 0;i<LevelShapes.size();i++)
+	for(int i =0;i<LevelShapes.size();i++)
 	{
-		if(LevelShapes.at(i)->isItem){
-			//LevelShapeTransformation(i, yGlobalRotate, 1);
+		switch (LevelShapes.at(i)->getKind())
+		{		
+		case Shape::Item:					
+			LevelShapeTransformation(i, xLocalRotate, 1.5);
+			break;
+		case Shape::Default:
+			break;
 		}
 	}
 	for(int i=0;i<linksNum;i++)
@@ -61,7 +72,25 @@ bool Level::checkCollisionOfSnake(int shape)
 	{
 		colliding = shapes.at(i)->isColliding(*LevelShapes.at(shape));
 		if(colliding)
+		{
 			std::cout << "Link num " << i << " Colliding !!" << std::endl;
+			switch(LevelShapes.at(shape)->getKind())
+			{
+			case Shape::Terrain:
+				std::cout << "You Died" << std::endl;
+				KillSnake();
+				break;
+			case Shape::Item:
+				LevelShapes.erase(LevelShapes.begin() + shape);
+				//addLink();
+				std::cout << "Item Eaten" << std::endl;
+
+				break;
+			case Shape::Default:
+				break;
+			}
+		}
+		
 
 	}
 	return colliding;
@@ -78,40 +107,47 @@ bool Level::checkCollisionFullLevel()
 
 }
 
+void Level::KillSnake()
+{
+	shapes.clear();
+	gameOver = true;
+	pickedShape = -1;
+}
+
 
 int Level::addTerrain(const std::string &textureFlieName, float x,float y, float z)
 {
 	Vertex vertices[] =
 	{
-		Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 0), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 0), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 1), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
-		Vertex(glm::vec3(1, -1, -1), glm::vec2(1, 1), glm::vec3(0, 0, -1),glm::vec3(0, 0, 1)),
+		Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 0), glm::vec3(0, 0, -1),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 0), glm::vec3(0, 0, -1),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 1), glm::vec3(0, 0, -1),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(1, -1, -1), glm::vec2(1, 1), glm::vec3(0, 0, -1),glm::vec3(1, 1, 1)),
 
-		Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 0), glm::vec3(0, 0, 1),glm::vec3(0, 1, 1)),
-		Vertex(glm::vec3(-1, 1, 1), glm::vec2(0, 0), glm::vec3(0, 0, 1),glm::vec3(0, 1, 1)),
-		Vertex(glm::vec3(1, 1, 1), glm::vec2(0, 1), glm::vec3(0, 0, 1),glm::vec3(0, 1, 1)),
-		Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 1), glm::vec3(0, 0, 1),glm::vec3(0, 1, 1)),
+		Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 0), glm::vec3(0, 0, 1),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(-1, 1, 1), glm::vec2(0, 0), glm::vec3(0, 0, 1),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(1, 1, 1), glm::vec2(0, 1), glm::vec3(0, 0, 1),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 1), glm::vec3(0, 0, 1),glm::vec3(1, 1, 1)),
 
-		Vertex(glm::vec3(-1, -1, -1), glm::vec2(0, 1), glm::vec3(0, -1, 0),glm::vec3(0, 1, 0)),
-		Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 1), glm::vec3(0, -1, 0),glm::vec3(0, 1, 0)),
-		Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 0), glm::vec3(0, -1, 0),glm::vec3(0, 1, 0)),
-		Vertex(glm::vec3(1, -1, -1), glm::vec2(0, 0), glm::vec3(0, -1, 0),glm::vec3(0, 1, 0)),
+		Vertex(glm::vec3(-1, -1, -1), glm::vec2(0, 1), glm::vec3(0, -1, 0),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 1), glm::vec3(0, -1, 0),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 0), glm::vec3(0, -1, 0),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(1, -1, -1), glm::vec2(0, 0), glm::vec3(0, -1, 0),glm::vec3(1, 1, 1)),
 
-		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 1), glm::vec3(0, 1, 0),glm::vec3(1, 1, 0)),
-		Vertex(glm::vec3(-1, 1, 1), glm::vec2(1, 1), glm::vec3(0, 1, 0),glm::vec3(1, 1, 0)),
-		Vertex(glm::vec3(1, 1, 1), glm::vec2(1, 0), glm::vec3(0, 1, 0),glm::vec3(1, 1, 0)),
-		Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 0), glm::vec3(0, 1, 0),glm::vec3(1, 1, 0)),
+		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 1), glm::vec3(0, 1, 0),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(-1, 1, 1), glm::vec2(1, 1), glm::vec3(0, 1, 0),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(1, 1, 1), glm::vec2(1, 0), glm::vec3(0, 1, 0),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 0), glm::vec3(0, 1, 0),glm::vec3(1, 1, 1)),
 
-		Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 1), glm::vec3(-1, 0, 0),glm::vec3(1, 0, 0)),
-		Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 0), glm::vec3(-1, 0, 0),glm::vec3(1, 0, 0)),
-		Vertex(glm::vec3(-1, 1, 1), glm::vec2(0, 0), glm::vec3(-1, 0, 0),glm::vec3(1, 0, 0)),
-		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 1), glm::vec3(-1, 0, 0),glm::vec3(1, 0, 0)),
+		Vertex(glm::vec3(-1, -1, -1), glm::vec2(1, 1), glm::vec3(-1, 0, 0),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(-1, -1, 1), glm::vec2(1, 0), glm::vec3(-1, 0, 0),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(-1, 1, 1), glm::vec2(0, 0), glm::vec3(-1, 0, 0),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(-1, 1, -1), glm::vec2(0, 1), glm::vec3(-1, 0, 0),glm::vec3(1, 1, 1)),
 
-		Vertex(glm::vec3(1, -1, -1), glm::vec2(1, 1), glm::vec3(1, 0, 0),glm::vec3(1, 0, 1)),
-		Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 0), glm::vec3(1, 0, 0),glm::vec3(1, 0, 1)),
-		Vertex(glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec3(1, 0, 0),glm::vec3(1, 0, 1)),
-		Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 1), glm::vec3(1, 0, 0),glm::vec3(1, 0, 1))
+		Vertex(glm::vec3(1, -1, -1), glm::vec2(1, 1), glm::vec3(1, 0, 0),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(1, -1, 1), glm::vec2(1, 0), glm::vec3(1, 0, 0),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(1, 1, 1), glm::vec2(0, 0), glm::vec3(1, 0, 0),glm::vec3(1, 1, 1)),
+		Vertex(glm::vec3(1, 1, -1), glm::vec2(0, 1), glm::vec3(1, 0, 0),glm::vec3(1, 1, 1))
 	};
 	unsigned int indices[] = { 0, 1, 2,
 		0, 2, 3,
@@ -131,7 +167,7 @@ int Level::addTerrain(const std::string &textureFlieName, float x,float y, float
 		22, 21, 20,
 		23, 22, 20
 	};
-	LevelShapes.push_back(new Shape(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]), textureFlieName,obj));
+	LevelShapes.push_back(new Shape(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]), textureFlieName, Shape::Terrain));
 	int terrain = LevelShapes.size() - 1;
 	LevelShapeTransformation(terrain, xScale, x);
 	LevelShapeTransformation(terrain, yScale, y);
@@ -141,14 +177,12 @@ int Level::addTerrain(const std::string &textureFlieName, float x,float y, float
 
 int Level::addItem(const std::string& fileName, const std::string& textureFileName)
 {
-	LevelShapes.push_back(new Shape(fileName, textureFileName,obj));
+	LevelShapes.push_back(new Shape(fileName, textureFileName,Shape::Item));
 	int item1 = LevelShapes.size() - 1;
-	LevelShapes.at(item1)->setItem(true);
-	/*LevelShapeTransformation(item1, zScale, 3);
-	LevelShapeTransformation(item1, yScale, 3);
-	LevelShapeTransformation(item1, zScale, 3);*/
-	LevelShapeTransformation(item1, xGlobalTranslate, 4);
-	LevelShapeTransformation(item1, yGlobalTranslate, 2);
+	LevelShapeTransformation(item1, zScale, 1.1);
+	LevelShapeTransformation(item1, yScale, 1.1);
+	LevelShapeTransformation(item1, zScale, 1.1);
+	LevelShapeTransformation(item1, yGlobalTranslate, 1.1);
 	return item1;
 }
 
@@ -156,17 +190,7 @@ void Level::createKDTreesForLevelShapes()
 {
 	for (int i = 0; i< LevelShapes.size(); i++)
 	{
-		LevelShapes.at(i)->makeKDTree(LevelShapes.at(i)->mesh->model);
-		//LevelShapes.at(i)->kdtree.getRoot()->data.
-		/*for (int j = 0; j < 24; j++) {
-			LevelShapes.at(i)->kdtree.getRoot()->data.vertices[j].pos =
-				glm::vec3(
-					LevelShapes.at(i)->kdtree.getRoot()->data.vertices[j].pos.x* LevelShapes.at(i)->scaleFactor.x,
-					LevelShapes.at(i)->kdtree.getRoot()->data.vertices[j].pos.y* LevelShapes.at(i)->scaleFactor.y,
-					LevelShapes.at(i)->kdtree.getRoot()->data.vertices[j].pos.z* LevelShapes.at(i)->scaleFactor.z
-				);
-
-		}*/
+		LevelShapes.at(i)->makeKDTree(LevelShapes.at(i)->mesh->model);		
 	}
 }
 
@@ -188,8 +212,9 @@ void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis)
 		Normal1 = Normal1 * LevelShapes[i]->makeTrans();
 		shaders[shaderIndx]->Update(MVP1, Normal1, i);
 		LevelShapes.at(i)->draw(GL_TRIANGLES);
-		/*
+		
 		//BB drawing
+		/*
 		Node *box = LevelShapes.at(i)->kdtree.getRoot();
 		Shape *shape = new Shape(box->data.vertices, sizeof(box->data.vertices) / sizeof(box->data.vertices[0]),
 			box->data.indices, sizeof(box->data.indices) / sizeof(box->data.indices[0]));
@@ -205,8 +230,8 @@ void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis)
 		}
 		shaders[shaderIndx]->Update(MVP1, Normal1, linksNum);
 		shape->draw(GL_LINE_LOOP);
-		delete shape;*/
-
+		delete shape;
+		*/
 	}
 }
 
