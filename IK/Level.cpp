@@ -7,23 +7,26 @@ using namespace glm;
 
 Level::Level(glm::vec3 position, float angle, float hwRelation, float near, float far) : IK(position, angle, hwRelation, near, far)
 {
+	int wallHeight = 6;
 	int ground = addTerrain("./res/textures/seafloor.jpg", 40, 0.2, 120);
 	LevelShapeTransformation(ground, zGlobalTranslate, 0.85);
+	LevelShapeTransformation(ground, yGlobalTranslate, -0.5);
+
 
 	for (int i = 0; i < 4; i++)
 	{
-		int leftWall = addTerrain("./res/textures/waterrock.jpg", 2, 1, 30);
+		int leftWall = addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 30);
 		LevelShapeTransformation(leftWall, zGlobalTranslate, 0.45+2*i);
 		LevelShapeTransformation(leftWall, xGlobalTranslate, 20);
-		int rightWall = addTerrain("./res/textures/waterrock.jpg", 2, 1, 30);
+		int rightWall = addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 30);
 		LevelShapeTransformation(rightWall, zGlobalTranslate, 0.45 + 2 * i);
 		LevelShapeTransformation(rightWall, xGlobalTranslate, -20);
 	}
-	int bottomWall = addTerrain("./res/textures/waterrock.jpg", 42, 1, 2);
+	int bottomWall = addTerrain("./res/textures/waterrock.jpg", 42, wallHeight, 2);
 	LevelShapeTransformation(bottomWall, zGlobalTranslate, -8);
 
 
-	int topWall = addTerrain("./res/textures/waterrock.jpg", 20, 1, 2);
+	int topWall = addTerrain("./res/textures/waterrock.jpg", 25, wallHeight, 2);
 	LevelShapeTransformation(topWall, xGlobalTranslate, 0.65);
 	LevelShapeTransformation(topWall, zGlobalTranslate, 13);
 
@@ -33,12 +36,31 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	int item1 = addItem("./res/objs/testBoxNoUV.obj", "./res/textures/gold.jpg");
 	LevelShapeTransformation(item1, xGlobalTranslate, -25);
 	LevelShapeTransformation(item1, zGlobalTranslate, 17);
+
+	int enemy1 = addFish(0, 0.7, 15);
+	AddMovement(enemy1, 8, 0.05, zGlobalTranslate);
+
+}
+
+int Level::addFish(float x, float y, float z)
+{
+	int enemy = addEnemy("./res/objs/monkey3.obj", "./res/textures/gold.jpg");
+	LevelShapeTransformation(enemy, xScale, 2);
+	LevelShapeTransformation(enemy, yScale, 2);
+	LevelShapeTransformation(enemy, zScale, 2);
+	LevelShapeTransformation(enemy, xGlobalTranslate, x);
+	LevelShapeTransformation(enemy, yGlobalTranslate, y);
+	LevelShapeTransformation(enemy, zGlobalTranslate, z);
+	LevelShapeTransformation(enemy, zGlobalRotate, 180);
+	LevelShapeTransformation(enemy, yGlobalRotate, 90);
+	return enemy;
 }
 
 void Level::UpdateLevel()
 {
 	for(int i =0;i<LevelShapes.size();i++)
 	{
+		MoveShape(i);
 		switch (LevelShapes.at(i)->getKind())
 		{		
 		case Shape::Item:					
@@ -73,11 +95,15 @@ bool Level::checkCollisionOfSnake(int shape)
 		colliding = shapes.at(i)->isColliding(*LevelShapes.at(shape));
 		if(colliding)
 		{
-			std::cout << "Link num " << i << " Colliding !!" << std::endl;
+			std::cout << "Link num " << i << " Colliding with shape num " << shape <<" !!" << std::endl;
 			switch(LevelShapes.at(shape)->getKind())
 			{
 			case Shape::Terrain:
-				std::cout << "You Died" << std::endl;
+				std::cout << "You hit wall and died" << std::endl;
+				KillSnake();
+				break;
+			case Shape::Enemy:
+				std::cout << "You were killed" << std::endl;
 				KillSnake();
 				break;
 			case Shape::Item:
@@ -112,6 +138,38 @@ void Level::KillSnake()
 	shapes.clear();
 	gameOver = true;
 	pickedShape = -1;
+}
+
+void Level::AddMovement(int shape, float pathLength, float pace, int type)
+{
+	LevelShapes.at(shape)->movementEnabled = true;
+	LevelShapes.at(shape)->movementPath = pathLength;
+	LevelShapes.at(shape)->movementPace = pace;
+	LevelShapes.at(shape)->movementType = type;
+}
+
+void Level::MoveShape(int shape)
+{
+	if (!LevelShapes.at(shape)->movementEnabled)
+		return;
+
+	if (LevelShapes.at(shape)->negDirect && LevelShapes.at(shape)->currentPos <= -LevelShapes.at(shape)->movementPath)
+	{
+		LevelShapes.at(shape)->negDirect = false;
+	}	
+	else if(LevelShapes.at(shape)->negDirect)
+	{
+		LevelShapeTransformation(shape, LevelShapes.at(shape)->movementType, -LevelShapes.at(shape)->movementPace);
+		LevelShapes.at(shape)->currentPos -= LevelShapes.at(shape)->movementPace;
+	}
+	else if(LevelShapes.at(shape)->currentPos < LevelShapes.at(shape)->movementPath){
+		LevelShapeTransformation(shape, LevelShapes.at(shape)->movementType, LevelShapes.at(shape)->movementPace);
+		LevelShapes.at(shape)->currentPos += LevelShapes.at(shape)->movementPace;
+	}
+	else if (LevelShapes.at(shape)->currentPos >= LevelShapes.at(shape)->movementPath) {
+		LevelShapes.at(shape)->negDirect = true;
+	}
+	
 }
 
 
@@ -179,11 +237,18 @@ int Level::addItem(const std::string& fileName, const std::string& textureFileNa
 {
 	LevelShapes.push_back(new Shape(fileName, textureFileName,Shape::Item));
 	int item1 = LevelShapes.size() - 1;
-	LevelShapeTransformation(item1, zScale, 1.1);
+	LevelShapeTransformation(item1, xScale, 1.1);
 	LevelShapeTransformation(item1, yScale, 1.1);
 	LevelShapeTransformation(item1, zScale, 1.1);
-	LevelShapeTransformation(item1, yGlobalTranslate, 1.1);
+	LevelShapeTransformation(item1, yGlobalTranslate, 1.3);
 	return item1;
+}
+
+int Level::addEnemy(const std::string& fileName, const std::string& textureFileName)
+{
+	LevelShapes.push_back(new Shape(fileName, textureFileName, Shape::Enemy));
+	int enemy = LevelShapes.size() - 1;
+	return enemy;
 }
 
 void Level::createKDTreesForLevelShapes()
@@ -299,6 +364,8 @@ void Level::LevelShapeTransformation(int shape,int type, float amt)
 		break;
 	}
 }
+
+
 
 Level::~Level()
 {

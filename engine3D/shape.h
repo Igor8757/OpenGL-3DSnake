@@ -46,7 +46,7 @@ public:
 	bool isSnake = false;
 	int collisionRecDepth = 0;
 	glm::mat4 snakeLinkPosition = glm::mat4(1);
-
+	
 	enum{triangles,lines};
 	Shape(const Shape& shape);
 	Shape(const std::string& fileName);
@@ -64,5 +64,13 @@ public:
 	bool isColliding(Shape& other);
 	virtual ~Shape(void);
 	Shape& operator=(const Shape &other);
+
+	bool movementEnabled = false;
+	float movementPath = 0;
+	float movementPace = 0;
+	float currentPos = 0;
+	int movementType = 0;
+	bool negDirect = false;
+
 };
 
