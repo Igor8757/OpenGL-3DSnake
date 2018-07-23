@@ -7,7 +7,7 @@ class Level : public IK
 public:
 
 	std::vector<Shape*> LevelShapes;
-
+	int Points = 0;
 
 	Level(glm::vec3 position, float angle, float hwRelation, float near, float far);
 
@@ -19,7 +19,7 @@ public:
 	int addEnemy(const std::string& fileName, const std::string& textureFileName);
 	void LevelShapeTransformation(int shape, int type, float amt);
 
-	int addFish(float x, float y, float z);
+	int addEnemy1(float x, float y, float z);
 
 	//Level Function
 	void UpdateLevel();
@@ -32,6 +32,7 @@ public:
 	bool checkCollisionInLevel(int shape1, int shape2);
 	bool checkCollisionOfSnake(int shape);
 	bool checkCollisionFullLevel();
+	void checkSnakeBulletCollision();
 
 	// Other Functions
 	void levelDraw(int shaderIndx, int cameraIndx, bool drawAxis);

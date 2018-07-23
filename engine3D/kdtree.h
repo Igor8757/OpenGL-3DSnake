@@ -183,7 +183,7 @@ public:
 
 	glm::vec3 findCenterOfMass(std::list<BoundingBox>& plist);
 
-	bool bonus = true;
+	bool bonus = false;
 
 private:
 	glm::vec3 findCenter(std::list<BoundingBox>& plist);

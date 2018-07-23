@@ -22,6 +22,7 @@ addRemovLinks::addRemovLinks(clock_t currTime, bool addOrRemove) {
 bullet::bullet(clock_t currTime) {
 	time = currTime;
 	shot = new Shape(0, 2, "./res/textures/plane.png", shotObj);
+	shot->makeKDTree(shot->mesh->model);
 }
 bullet::~bullet(void) {
 	delete shot;

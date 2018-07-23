@@ -8,43 +8,56 @@ using namespace glm;
 Level::Level(glm::vec3 position, float angle, float hwRelation, float near, float far) : IK(position, angle, hwRelation, near, far)
 {
 	int wallHeight = 6;
+	int enemyHeight = 0.7;
 	int ground = addTerrain("./res/textures/seafloor.jpg", 40, 0.2, 120);
 	LevelShapeTransformation(ground, zGlobalTranslate, 0.85);
 	LevelShapeTransformation(ground, yGlobalTranslate, -5);
 
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
-		int leftWall = addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 30);
-		LevelShapeTransformation(leftWall, zGlobalTranslate, 0.45+2*i);
+		int leftWall = addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 23);
+		LevelShapeTransformation(leftWall, zGlobalTranslate, 0.55 + 2 * i);
 		LevelShapeTransformation(leftWall, xGlobalTranslate, 20);
-		int rightWall = addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 30);
-		LevelShapeTransformation(rightWall, zGlobalTranslate, 0.45 + 2 * i);
+		int rightWall = addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 23);
+		LevelShapeTransformation(rightWall, zGlobalTranslate, 0.55 + 2 * i);
 		LevelShapeTransformation(rightWall, xGlobalTranslate, -20);
 	}
-	int bottomWall = addTerrain("./res/textures/waterrock.jpg", 42, wallHeight, 2);
-	LevelShapeTransformation(bottomWall, zGlobalTranslate, -8);
+	int bottomWall = addTerrain("./res/textures/waterrock.jpg", 42, wallHeight, 3);
+	LevelShapeTransformation(bottomWall, zGlobalTranslate, -4);
 
 
-	int topWall = addTerrain("./res/textures/waterrock.jpg", 25, wallHeight, 2);
-	LevelShapeTransformation(topWall, xGlobalTranslate, 0.65);
-	LevelShapeTransformation(topWall, zGlobalTranslate, 13);
+	int topWall1 = addTerrain("./res/textures/waterrock.jpg", 25, wallHeight, 2);
+	LevelShapeTransformation(topWall1, xGlobalTranslate, 0.65);
+	LevelShapeTransformation(topWall1, zGlobalTranslate, 13);
 
+	int topWall2 = addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 10);
+	LevelShapeTransformation(topWall2, xGlobalTranslate, 2);
+	LevelShapeTransformation(topWall2, zGlobalTranslate, 5);
 
-
+	int topWall3 = addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2);
+	LevelShapeTransformation(topWall3, xGlobalTranslate, -0.75);
+	LevelShapeTransformation(topWall3, zGlobalTranslate, 20);
 
 	int item1 = addItem("./res/objs/testBoxNoUV.obj", "./res/textures/gold.jpg");
 	LevelShapeTransformation(item1, xGlobalTranslate, -25);
 	LevelShapeTransformation(item1, zGlobalTranslate, 17);
 
-	int enemy1 = addFish(0, 0.7, 15);
-	AddMovement(enemy1, 8, 0.05, zGlobalTranslate);
+	int item2 = addItem("./res/objs/testBoxNoUV.obj", "./res/textures/gold.jpg");
+	LevelShapeTransformation(item2, xGlobalTranslate, 27);
+	LevelShapeTransformation(item2, zGlobalTranslate, 10);
+
+	int enemy1 = addEnemy1(0, enemyHeight, 17);
+	AddMovement(enemy1, 8, 0.03, zGlobalTranslate);
+
+	int enemy2 = addEnemy1(12, enemyHeight, 4);
+	AddMovement(enemy2, 5, 0.03, xGlobalTranslate);
 
 }
 
-int Level::addFish(float x, float y, float z)
+int Level::addEnemy1(float x, float y, float z)
 {
-	int enemy = addEnemy("./res/objs/monkey3.obj", "./res/textures/gold.jpg");
+	int enemy = addEnemy("./res/objs/monkey4.obj", "./res/textures/gold.jpg");
 	LevelShapeTransformation(enemy, xScale, 2);
 	LevelShapeTransformation(enemy, yScale, 2);
 	LevelShapeTransformation(enemy, zScale, 2);
@@ -110,7 +123,7 @@ bool Level::checkCollisionOfSnake(int shape)
 				LevelShapes.erase(LevelShapes.begin() + shape);
 				//addLink();
 				std::cout << "Item Eaten" << std::endl;
-
+				Points += 100;
 				break;
 			case Shape::Default:
 				break;
@@ -124,6 +137,7 @@ bool Level::checkCollisionOfSnake(int shape)
 
 bool Level::checkCollisionFullLevel()
 {
+	checkSnakeBulletCollision();
 	bool colliding = false;
 	for (int i = 1; i < LevelShapes.size() & !colliding; i++)
 	{
@@ -131,6 +145,38 @@ bool Level::checkCollisionFullLevel()
 	}
 	return colliding;
 
+}
+
+void Level::checkSnakeBulletCollision()
+{
+	if (snakeShots.size() <= 0) {
+		return;
+	}
+	for(int i = 0;i<snakeShots.size();i++)
+	{
+		for(int j = 1;j < LevelShapes.size();j++)
+		{
+			if (snakeShots.at(i)->shot->isColliding(*LevelShapes.at(j)))
+			{
+				switch (LevelShapes.at(j)->getKind())
+				{
+				case Shape::Terrain:
+					std::cout << "Bullet hit wall." << std::endl;
+					break;
+				case Shape::Enemy:
+					std::cout << "Bullet hit enemy." << std::endl;
+					LevelShapes.erase(LevelShapes.begin() + j);
+					break;
+				case Shape::Item:
+					break;
+				case Shape::Default:
+					break;
+				}
+				snakeShots.erase(snakeShots.begin() + i);
+				return;
+			}
+		}
+	}
 }
 
 void Level::KillSnake()
