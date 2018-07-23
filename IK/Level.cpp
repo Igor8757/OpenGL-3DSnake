@@ -10,7 +10,7 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	int wallHeight = 6;
 	int ground = addTerrain("./res/textures/seafloor.jpg", 40, 0.2, 120);
 	LevelShapeTransformation(ground, zGlobalTranslate, 0.85);
-	LevelShapeTransformation(ground, yGlobalTranslate, -0.5);
+	LevelShapeTransformation(ground, yGlobalTranslate, -5);
 
 
 	for (int i = 0; i < 4; i++)

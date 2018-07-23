@@ -476,13 +476,13 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 
 		mat4 MVP1 = MVP * Normal1;
 		Normal1 = Normal * Normal1;
-
+		/*
 		if (shaderIndx == 0 && drawAxis && chainParents[i] >= 0)
 		{
 			shaders[shaderIndx]->Update(axisMesh->makeTransScale(MVP1), axisMesh->makeTransScale(Normal1), 0, shapesNormal);
 			axisMesh->draw(GL_LINES);
 		}
-
+		*/
 		MVP1 = MVP1 * shapes[i]->makeTransScale(mat4(1));
 		Normal1 = Normal1 * shapes[i]->makeTrans();
 		if (i<linksNum)
@@ -513,6 +513,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 		shape->draw(GL_LINE_LOOP);
 		delete shape;*/
 	}
+	
 	if (shaderIndx == 0)
 	{
 		shaders[shaderIndx]->Bind();
