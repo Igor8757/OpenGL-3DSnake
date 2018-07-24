@@ -38,8 +38,10 @@ protected:
 	int linksNum = 4;
 	int counter = 0;
 
+
 	float speed = 0.007;
 	bool stopMove = false;
+
 
 	std::vector<Camera*> cameras; //light will have the properties of camera
 	std::vector<glm::vec3> rotPositions;
@@ -58,7 +60,7 @@ public:
 	inline void incresFreeShots() { freeShots++; }
 	inline void DecreseFreeShots() { freeShots--; }
 	inline int GetFreeShots() { return freeShots; }
-	void StartOver();
+	
 	bool gameOver = false;
 	inline bool getCameraMode() { return toopView;}
 	inline void setCameraMode() { toopView = !toopView; }

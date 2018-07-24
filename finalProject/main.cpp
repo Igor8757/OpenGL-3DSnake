@@ -228,6 +228,7 @@ int main(int argc, char** argv)
 	}
 	
 	if (!gui) {
+		int startLinkNum = numOfLinks;
 		scn.setLinkNum(numOfLinks);
 		scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]),toop);
 		glfwSetWindowShouldClose(display.m_window, GLFW_FALSE);
@@ -260,7 +261,8 @@ int main(int argc, char** argv)
 					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
 					if (ImGui::Button("												Start over												"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
 					{
-						scn.StartOver();
+						scn.setLinkNum(startLinkNum);
+						scn.levelStartOver();
 						scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]), toop);
 						initCollisionDetection();
 						scn.gameOver = false;
@@ -290,6 +292,7 @@ int main(int argc, char** argv)
 					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
 					if (ImGui::Button("												Start over												"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
 					{
+						scn.setLinkNum(startLinkNum);
 						scn.StartOver();
 						scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]), toop);
 						scn.gameOver = false;
