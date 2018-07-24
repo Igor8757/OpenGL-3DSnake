@@ -138,12 +138,14 @@ void Level::levelStartOver() {
 }
 bool Level::checkCollisionOfSnake(int shape)
 {
+	
 	bool colliding = false;
 	for (int i = 0;i < linksNum & !colliding;i++)
 	{
 		colliding = shapes.at(i)->isColliding(*LevelShapes.at(shape));
 		if(colliding)
 		{
+			clock_t this_time = clock();
 			std::cout << "Link num " << i << " Colliding with shape num " << shape <<" !!" << std::endl;
 			switch(LevelShapes.at(shape)->getKind())
 			{
@@ -157,7 +159,7 @@ bool Level::checkCollisionOfSnake(int shape)
 				break;
 			case Shape::ItemFruit:
 				LevelShapes.erase(LevelShapes.begin() + shape);
-				addLink();
+				addRemoveLinks(this_time, true);
 				std::cout << "Fruit Eaten" << std::endl;
 				Points += 100;
 				std::cout << "Points : " << Points << std::endl;

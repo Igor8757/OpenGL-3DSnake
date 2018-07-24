@@ -166,15 +166,16 @@ void Scene::checekr() {
 	shapeTransformation(zScale, scaleFactor);
 	shapeTransformation(zGlobalTranslate, 1.0);
 	//shapeTransformation(zGlobalTranslate, 1.0);
-	Shape *tempShape2 = new Shape(1, 1, "./res/textures/plane.png",snake);
-	tempShape2->setRotVectors(shapes[linksNum - 1]->getRotVectors());
-	tempShape2->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
-	tempShape2->myScale(vec3(1, 1, scaleFactor));
-	shapes[linksNum - 1] = tempShape2;
+	
+		Shape *tempShape2 = new Shape(1, 1, "./res/textures/plane.png", snake);
+		tempShape2->setRotVectors(shapes[linksNum - 1]->getRotVectors());
+		tempShape2->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
+		tempShape2->myScale(vec3(1, 1, scaleFactor));
+		shapes[linksNum - 1] = tempShape2;
+		
+	
 	linksNum++;
 	setParent(linksNum - 1, linksNum - 2);
-
-
 }
 void Scene::addLink() {
 
@@ -189,8 +190,8 @@ void Scene::addLink() {
 	tempShape->isSnake = true;
 	tempShape->linkNumber = linksNum ;
 	tempShape->setRotVectors(shapes[linksNum - 1]->getRotVectors());
-	shapes.push_back(tempShape);
-	//shapes.at(pickedShape)->linkNumber = pickedShape;
+	shapes.insert(it + linksNum, tempShape);
+	shapes.at(pickedShape)->linkNumber = pickedShape;
 	shapeTransformation(zScale, scaleFactor);
 	shapeTransformation(zGlobalTranslate, 1.0);
 	//shapeTransformation(zGlobalTranslate, 1.0);
@@ -202,13 +203,11 @@ void Scene::addLink() {
 		tempShape2->makeKDTree(tempShape2->mesh->model);
 		tempShape2->isSnake = true;
 		tempShape2->linkNumber = linksNum - 1;
-		setParent(linksNum - 1, linksNum - 2);
-		shapes.erase(it + linksNum - 2);
-		shapes.insert(it + linksNum-2, tempShape);
-		linksNum++;
+		shapes.at(linksNum - 1) = tempShape2;
+		
 	}
-
-
+	linksNum++;
+	setParent(linksNum - 1, linksNum - 2);
 }
 bool Scene::checkIftimeToMove(int shapeIdx) {
 	int rotCurrShapesize = shapes[shapeIdx]->GerRotVecSize();
