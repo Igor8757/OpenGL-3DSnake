@@ -114,7 +114,7 @@ void Scene::addShader(const std::string& fileName)
 	{
 		axisMesh = new Shape(axisVertices, sizeof(axisVertices) / sizeof(axisVertices[0]), axisIndices, sizeof(axisIndices) / sizeof(axisIndices[0]));
 		axisMesh->myScale(vec3(2.0*scaleFactor, 2.0*scaleFactor, 2.0*scaleFactor));
-		axisMesh->myTranslate(vec3(0, 0, 0.5), 1);
+		axisMesh->myTranslate2(vec3(0, 0, 0.5), 1);
 	}
 }
 
