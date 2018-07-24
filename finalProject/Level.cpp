@@ -4,11 +4,38 @@
 
 using namespace std;
 using namespace glm;
+void Level::addItems() {
+	
 
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -25, 5);
+
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -25, 12);
+
+	addItem("./res/objs/diamond.obj", "./res/textures/diamond.jpg", Shape::ItemDiamond, 25, 65);
+
+	addItem("./res/objs/ball.obj", "./res/textures/food.jpg", Shape::ItemFruit, 27, 10);
+
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -22, 50);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -7, 50);
+
+
+	int enemy1 = addEnemy1(0, enemyHeight, 17);
+	AddMovement(enemy1, 8, 0.03, zGlobalTranslate);
+
+	int enemy2 = addEnemy1(12, enemyHeight, 4);
+	AddMovement(enemy2, 5, 0.03, xGlobalTranslate);
+
+	int enemy3 = addEnemy1(12, enemyHeight, 30);
+	AddMovement(enemy3, 4, 0.025, zGlobalTranslate);
+
+	int enemy4 = addEnemy1(-12, enemyHeight, 40);
+	AddMovement(enemy4, 4, 0.025, xGlobalTranslate);
+
+}
 Level::Level(glm::vec3 position, float angle, float hwRelation, float near, float far) : IK(position, angle, hwRelation, near, far)
 {
-	int wallHeight = 6;
-	int enemyHeight = 0.3;
+	wallHeight = 6;
+	enemyHeight = 0.3;
 	int ground = addTerrain("./res/textures/seafloor.jpg", 40, 0.2, 120,0 , 0.85);
 	LevelShapeTransformation(ground, yGlobalTranslate, -5);
 
@@ -40,33 +67,8 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, 4.8, 12.25);
 
 	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, -4.8, 12.25);
-
-
-
-	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin,- 25, 5);
-
-	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -25, 12);
-
-	addItem("./res/objs/diamond.obj", "./res/textures/diamond.jpg", Shape::ItemDiamond,25, 65);
-
-	addItem("./res/objs/ball.obj", "./res/textures/food.jpg", Shape::ItemFruit, 27, 10);
-
-	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -22, 50);
-	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -7, 50);
-
-
-	int enemy1 = addEnemy1(0, enemyHeight, 17);
-	AddMovement(enemy1, 8, 0.03, zGlobalTranslate);
-
-	int enemy2 = addEnemy1(12, enemyHeight, 4);
-	AddMovement(enemy2, 5, 0.03, xGlobalTranslate);
-
-	int enemy3 = addEnemy1(12, enemyHeight, 30);
-	AddMovement(enemy3, 4, 0.025, zGlobalTranslate);
-
-	int enemy4 = addEnemy1(-12, enemyHeight, 40);
-	AddMovement(enemy4, 4, 0.025, xGlobalTranslate);
-
+	addItems();
+	
 }
 
 int Level::addEnemy1(float x, float y, float z)
@@ -113,13 +115,27 @@ void Level::UpdateLevel()
 	
 	}
 
+
 }
 
 bool Level::checkCollisionInLevel(int shape1, int shape2)
 {
 	return shapes.at(shape1)->isColliding(*LevelShapes.at(shape2));
 }
-
+void Level::levelStartOver() {
+	std::vector<Shape*>::iterator it;
+	it = LevelShapes.begin();
+	for (int i = 0; i< LevelShapes.size(); i++) {
+		if (LevelShapes.at(i)->getKind() == Shape::Terrain) {
+			it++;
+			continue;
+		}
+		LevelShapes.erase(it);
+		it++;
+	}
+	StartOver();
+	addItems();
+}
 bool Level::checkCollisionOfSnake(int shape)
 {
 	bool colliding = false;

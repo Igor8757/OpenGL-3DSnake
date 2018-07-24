@@ -189,21 +189,24 @@ void Scene::addLink() {
 	tempShape->isSnake = true;
 	tempShape->linkNumber = linksNum ;
 	tempShape->setRotVectors(shapes[linksNum - 1]->getRotVectors());
-	shapes.insert(it + linksNum, tempShape);
-	shapes.at(pickedShape)->linkNumber = pickedShape;
+	shapes.push_back(tempShape);
+	//shapes.at(pickedShape)->linkNumber = pickedShape;
 	shapeTransformation(zScale, scaleFactor);
 	shapeTransformation(zGlobalTranslate, 1.0);
 	//shapeTransformation(zGlobalTranslate, 1.0);
-	Shape *tempShape2 = new Shape(1, 1, "./res/textures/plane.png",snake);
-	tempShape2->setRotVectors(shapes[linksNum - 1]->getRotVectors());
-	tempShape2->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
-	tempShape2->myScale(vec3(1, 1, scaleFactor));
-	tempShape2->makeKDTree(tempShape2->mesh->model);
-	tempShape2->isSnake = true;
-	tempShape2->linkNumber = linksNum - 1;
-	shapes.at(linksNum - 1) = tempShape2;
-	linksNum++;
-	setParent(linksNum - 1, linksNum - 2);
+	if (linksNum > 1) {
+		Shape *tempShape2 = new Shape(1, 1, "./res/textures/plane.png", snake);
+		tempShape2->setRotVectors(shapes[linksNum - 1]->getRotVectors());
+		tempShape2->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
+		tempShape2->myScale(vec3(1, 1, scaleFactor));
+		tempShape2->makeKDTree(tempShape2->mesh->model);
+		tempShape2->isSnake = true;
+		tempShape2->linkNumber = linksNum - 1;
+		setParent(linksNum - 1, linksNum - 2);
+		shapes.erase(it + linksNum - 2);
+		shapes.insert(it + linksNum-2, tempShape);
+		linksNum++;
+	}
 
 
 }
@@ -243,8 +246,7 @@ bool Scene::checkIftimeToMove(int shapeIdx) {
 }
 
 void Scene::move() {
-	moveSnakeShot();
-	checkIftimeToAddRemove();
+	
 
 	shapes[0]->myTranslate(vec3(0, 0, -speed), 1);
 	/*mat4 Normal1 = mat4(1);
@@ -281,7 +283,8 @@ void Scene::move() {
 		//break;
 		//}
 	}
-
+	moveSnakeShot();
+	checkIftimeToAddRemove();
 }
 void Scene::moveCamera() {
 	pickedShape = -1;
@@ -379,29 +382,37 @@ void Scene::checkIftimeToAddRemove() {
 //	
 //}
 void Scene::removeLink() {
+	std::vector<Shape*>::iterator it;
+	std::vector<glm::mat4>::iterator it2;
+	it2 = shapesNormal.begin();
+	it = shapes.begin();
+	//it2 = shapesNormal.begin();
 	if (linksNum == 1) {
 		Pause();
 		return;
 	}
+	if (linksNum == 2) {
+		shapes.erase(it + linksNum - 1);
+		chainParents.erase(chainParents.end() - 2);
+		shapesNormal.erase(it2 + linksNum - 1);
+		linksNum--;
+		return;
+	}
 	chainParents.erase(chainParents.end()-2);
-	std::vector<Shape*>::iterator it;
-	it = shapes.begin();
-	std::vector<glm::mat4>::iterator it2;
-	it2 = shapesNormal.begin();
-	shapesNormal.erase(it2 + linksNum - 2);
-	/*Shape *tempShape = new Shape(1, 1, "./res/textures/plane.png");
-	tempShape->setRotVectors(shapes[linksNum - 1]->getRotVectors());
-	tempShape->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
+	
+	
+	shapesNormal.erase(it2 + linksNum - 1);
+	Shape *tempShape = new Shape(0, 3, "./res/textures/plane.png",snake);
+	tempShape->setRotVectors(shapes[linksNum - 2]->getRotVectors());
+	tempShape->setTraslateMat(shapes[linksNum - 2]->getTraslateMat());
 	tempShape->myScale(vec3(1, 1, scaleFactor));
 	tempShape->makeKDTree(tempShape->mesh->model);
 	tempShape->isSnake = true;
-	tempShape->linkNumber = linksNum - 1;
-	shapes[linksNum - 1] = tempShape2;*/
-	Shape *tempshape = shapes[linksNum - 1];
-	Shape *tempshape2 = shapes[linksNum - 2];
-	tempshape = tempshape2;
-	shapes[linksNum - 1] = shapes[linksNum - 2];
+	tempShape->linkNumber = linksNum - 2;
+	
+	shapes.erase(it + linksNum - 1);
 	shapes.erase(it + linksNum - 2);
+	shapes.push_back(tempShape);
 	linksNum--;
 	
 	//setParent(linksNum - 1, linksNum - 2);

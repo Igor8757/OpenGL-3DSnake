@@ -4,6 +4,9 @@
 
 class Level : public IK
 {
+private:
+	int wallHeight = 0;
+	int enemyHeight =0;
 public:
 
 	std::vector<Shape*> LevelShapes;
@@ -18,9 +21,9 @@ public:
 	int addItem(const std::string& fileName, const std::string& textureFileName, Shape::objKind kind, float x, float z);
 	int addEnemy(const std::string& fileName, const std::string& textureFileName);
 	void LevelShapeTransformation(int shape, int type, float amt);
-
+	void levelStartOver();
 	int addEnemy1(float x, float y, float z);
-
+	void addItems();
 	//Level Function
 	void UpdateLevel();
 	void KillSnake();

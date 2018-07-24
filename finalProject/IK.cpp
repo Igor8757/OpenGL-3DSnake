@@ -48,6 +48,7 @@ using namespace glm;
 
 	IK::~IK(void)
 	{
+		
 	}
 	void IK::StartOver() {
 		cameras.clear(); 
