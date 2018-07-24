@@ -49,7 +49,33 @@ using namespace glm;
 	IK::~IK(void)
 	{
 	}
-
+	void IK::StartOver() {
+		cameras.clear(); 
+		rotPositions.clear();
+		TimeOfRotiains.clear();
+		shaders.clear();
+		shapes.clear();
+		addRemoveLinksVec.clear();
+		tranlateBack.clear();
+		chainParents.clear();
+		snakeShots.clear();
+		objectsShots.clear();
+		newPositions.clear();
+		jointPositions.clear();
+		jointDistances.clear();
+		newPositions.clear();
+		euler.clear();
+		//glLineWidth(3);
+		const float FAR = 100.0f;
+		const float NEAR = 1.0f;
+		const float CAM_ANGLE = 60.0f;
+		float relation = (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT;
+		cameras.push_back(new Camera(glm::vec3(0.0f, 5.0f, -48.0f), CAM_ANGLE, relation, NEAR, FAR));
+		cameras.push_back(new Camera(glm::vec3(0.0f, 0.0f,  3.0f), CAM_ANGLE, relation, NEAR, FAR));
+		cameras.at(1)->Pitch(-50.0f);
+		//	axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
+		pickedShape = -1;
+	}
 	void IK::init(Vertex *vertices, unsigned int *indices, int verticesSize, int indicesSize, bool cmaeraMode)
 	{
 		toopView = cmaeraMode;

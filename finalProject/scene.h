@@ -29,30 +29,37 @@ class Scene : public MovableGLM
 protected:
 	void checkIftimeToAddRemove();
 	//bool checkIftimeToAddRemove();
-	std::vector<int> chainParents;
+	
 	int pickedShape;
 	static const int scaleFactor = 3;
-	std::vector<Shader*> shaders;
-	std::vector<Shape*> shapes;
+
 	Shape *axisMesh;
 	int Links;
 	int linksNum = 4;
 	int counter = 0;
 	float speed = 0.007;
+	bool stopMove = false;
 	std::vector<Camera*> cameras; //light will have the properties of camera
 	std::vector<glm::vec3> rotPositions;
 	std::vector<clock_t> TimeOfRotiains;
-	bool stopMove = false;
+	std::vector<Shader*> shaders;
+	std::vector<Shape*> shapes;
 	std::vector<addRemovLinks> addRemoveLinksVec;
 	std::vector<int>tranlateBack;
-	
+	std::vector<int> chainParents;
 	std::vector<bullet*> snakeShots;
 	std::vector<bullet*> objectsShots;
 	void moveSnakeShot();
 	bool toopView = true;;
+	int freeShots = 2;
 public:
+	inline void incresFreeShots() { freeShots++; }
+	inline void DecreseFreeShots() { freeShots--; }
+	inline int GetFreeShots() { return freeShots; }
+	void StartOver();
 	bool gameOver = false;
 	inline bool getCameraMode() { return toopView;}
+	inline void setCameraMode() { toopView = !toopView; }
 	const int DISPLAY_WIDTH = 1200;
 	const int DISPLAY_HEIGHT = 800;
 	const float FAR = 100.0f;

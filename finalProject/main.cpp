@@ -113,6 +113,8 @@ int main(int argc, char** argv)
 	// Main loop
 	static int numOfLinks = 4;
 	bool open = true;
+	bool inGame = true;
+	bool endGame = true;
 	bool eazy = true; bool normal = false; bool hard = false;
 	bool toop = true;
 
@@ -120,7 +122,9 @@ int main(int argc, char** argv)
 	//GLFWwindow* window = glfwCreateWindow(1280, 720, "ImGui GLFW+OpenGL3 example", NULL, NULL);
 	while (!glfwWindowShouldClose(display.m_window))
 	{
-		if (gui == false) { glfwSetWindowShouldClose(display.m_window, GLFW_TRUE); }
+		if (gui == false) { 
+			glfwSetWindowShouldClose(display.m_window, GLFW_TRUE); 
+		}
 		// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
 		// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
 		// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
@@ -166,8 +170,8 @@ int main(int argc, char** argv)
 			{
 				if (ImGui::BeginMenu("view"))
 				{
-					if (ImGui::MenuItem("Top view", "View the snake from above ")) { toop = false; }
-					if (ImGui::MenuItem("Snake view ", "View from the snake point of view ")) { toop = true; }
+					if (ImGui::MenuItem("Top view", "View the snake from above ")) { toop = true; }
+					if (ImGui::MenuItem("Snake view ", "View from the snake point of view ")) { toop = false; }
 					ImGui::EndMenu();
 				}
 				ImGui::EndMenuBar();
@@ -201,7 +205,9 @@ int main(int argc, char** argv)
 			ImGui::Text("lets start!");
 			ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
 			if (ImGui::Button("																				start																					"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
+			{
 				gui = false;
+			}
 			//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 		}
@@ -215,9 +221,12 @@ int main(int argc, char** argv)
 		glClear(GL_COLOR_BUFFER_BIT);
 		ImGui::Render();
 		ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
+		
 		glfwSwapBuffers(display.m_window);
+		
 
 	}
+	
 	if (!gui) {
 		scn.setLinkNum(numOfLinks);
 		scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]),toop);
@@ -225,9 +234,70 @@ int main(int argc, char** argv)
 		init();
 		//glfwSetInputMode(display.m_window,GLFW_STICKY_MOUSE_BUTTONS,1);
 		initCollisionDetection();
-
+		int x = 0;
 		while (!glfwWindowShouldClose(display.m_window))
 		{
+			//glfwPollEvents();
+			if (scn.gameOver) {
+				ImGui_ImplGlfwGL3_NewFrame();
+				{
+					ImGui::SetNextWindowPos(ImVec2(0, 0));
+					ImGui::Begin("Snake!", &endGame, ImVec2(DISPLAY_WIDTH, DISPLAY_HEIGHT), 0.9f, ImGuiWindowFlags_NoResize |
+						ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus |
+						ImGuiWindowFlags_MenuBar);
+					static float f = 0.0f;
+
+					ImGui::SetWindowFontScale(3.5);
+					ImGui::Text("					Game Over!");
+					ImGui::SetWindowFontScale(1.7);
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					ImGui::Text("Your dificulty-level:");
+					ImGui::Text(hard ? "	hard" : normal ? "	normal" : "	eazy");
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					ImGui::Text("finised with :%d", scn.GetLinkNum(), "Number of Links");
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					ImGui::Text("Number of points:%d", scn.Points);
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					if (ImGui::Button("												Start over												"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
+					{
+						scn.StartOver();
+						scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]), toop);
+						initCollisionDetection();
+						scn.gameOver = false;
+					}
+
+				}
+				ImGui::End();
+			}
+			else {
+				
+				ImGui_ImplGlfwGL3_NewFrame();
+				{
+					ImGui::SetNextWindowPos(ImVec2(0, 0));
+					ImGui::Begin("Snake!", &inGame, ImVec2(DISPLAY_WIDTH, DISPLAY_HEIGHT), 0.1f, ImGuiWindowFlags_NoResize |
+						ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus |
+						ImGuiWindowFlags_MenuBar);
+					static float f = 0.0f;
+					ImGui::Text("dificulty-level:");
+					ImGui::Text(hard ? "	hard" : normal ? "	normal" : "	eazy");
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					ImGui::Text("Number of Links:%d", scn.GetLinkNum());
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					ImGui::Text("Number of points:%d", scn.Points);
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					ImGui::Text("freeShotes:%d", scn.GetFreeShots());
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					if (ImGui::Button("												Start over												"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
+					{
+						scn.StartOver();
+						scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]), toop);
+						scn.gameOver = false;
+					}
+				}
+				ImGui::End();
+				int y = x;
+			}
 			if(!scn.gameOver)
 			{
 				toop = scn.getCameraMode();
@@ -259,6 +329,9 @@ int main(int argc, char** argv)
 				
 			}
 			
+				//glfwPollEvents();
+			
+			
 			display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
 			if (display.IsFullscreen())
 			{
@@ -268,6 +341,9 @@ int main(int argc, char** argv)
 			}
 			scn.draw(0, 0, false, toop?0:1); //change false to true for axis in every joint
 			scn.levelDraw(0, 0, false);
+			
+			ImGui::Render();
+			ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
 			display.SwapBuffers();
 			glfwPollEvents();
 

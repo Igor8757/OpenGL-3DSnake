@@ -57,7 +57,7 @@ Scene::Scene(vec3 position, float angle, float hwRelation, float near, float far
 {
 	glLineWidth(3);
 	cameras.push_back(new Camera(position, angle, hwRelation, near, far));
-	cameras.push_back(new Camera(glm::vec3(0,0,0), angle, hwRelation, near, far));
+	cameras.push_back(new Camera(glm::vec3(0,0,3), angle, hwRelation, near, far));
 	cameras.at(1)->Pitch(-50.0f);
 	//	axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 	pickedShape = -1;
@@ -286,18 +286,18 @@ void Scene::move() {
 void Scene::moveCamera() {
 	pickedShape = -1;
 	cameras[0]->MoveUp(0.0055);
-	//cameras[1]->Pitch(50);
+	cameras[1]->Pitch(50);
 	cameras[1]->MoveUp(speed);
 }
 void Scene::rotateCamera(glm::vec2 rotateVec) {
 	switch ((int)rotateVec[0])
 	{
 	case xLocalRotate: {
-		cameras[1]->MoveRight(rotateVec[1]);
+		cameras[1]->RotateX(rotateVec[1]);
 		break;
 	}
 	case yLocalRotate: {
-		cameras[1]->MoveUp(rotateVec[1]);
+		cameras[1]->RotateY(rotateVec[1]);
 		break;
 	}
 	default:
@@ -460,7 +460,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 	if (gameOver)
 		return;
 	glm::mat4 Normal = makeTrans();
-	glm::mat4 Normal2 = shapes[0]->makeTrans();
+	//glm::mat4 Normal2 = shapes[0]->makeTrans();
 	glm::mat4 MVP = cameras[cameraType]->GetViewProjection()*Normal;
 	shaders[shaderIndx]->Bind();
 	for (int i = 0; i<shapes.size(); i++)
@@ -549,6 +549,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 		shaders[shaderIndx]->Update(MVP1, Normal1, linksNum + i);
 		objectsShots[i]->shot->draw(GL_TRIANGLES);
 	}
+	cameras[1]->Pitch(-50);
 }
 
 void Scene::shapeRotation(vec3 v, float ang, int indx)

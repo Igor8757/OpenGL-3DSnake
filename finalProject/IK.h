@@ -15,16 +15,18 @@ protected:
 	glm::vec3 tipPosition;
 	std::vector<glm::vec3> jointPositions;
 	std::vector<int> jointDistances;
+	std::vector<glm::vec3> newPositions;
+	std::vector< EulerAngles> euler;
 	float distanceBetweenJoints;
 	float distanceRootToTagret;
 	bool isIKactive;
 	bool reachable;
 	
     float maxDistance; 
-	std::vector<glm::vec3> newPositions;
-	std::vector< EulerAngles> euler;
+
 
 public:
+	void StartOver();
 	enum objKind { snake, fruit, obj, shotingObj, killObj,bullet, shotObj};
 	glm::vec3 destPosition;
 	bool boxMode;

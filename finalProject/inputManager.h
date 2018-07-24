@@ -112,7 +112,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_B:
 			break;
 		case GLFW_KEY_C:
-			break;
+			scn.setCameraMode();
 		case GLFW_KEY_W:
 			if(!scn.paused && !scn.gameOver)
 			{
