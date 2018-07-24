@@ -139,7 +139,7 @@ void Scene::moveSnakeShot() {
 		snakeShots.erase(snakeShots.begin());
 	}
 	for (int i = 0; i < snakeShots.size(); i++) {
-		snakeShots[i]->shot->myTranslate(vec3(0, 0, -0.05), 1);
+		snakeShots[i]->shot->myTranslate(vec3(0, 0, -0.2), 1);
 	}
 	//clock_t last_time = TimeOfRotiains[timeToCheck];
 }
