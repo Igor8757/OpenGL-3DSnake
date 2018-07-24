@@ -24,6 +24,7 @@ public:
 	void levelStartOver();
 	int addEnemy1(float x, float y, float z);
 	void addItems();
+
 	//Level Function
 	void UpdateLevel();
 	void KillSnake();

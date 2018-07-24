@@ -293,7 +293,7 @@ int main(int argc, char** argv)
 					if (ImGui::Button("												Start over												"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
 					{
 						scn.setLinkNum(startLinkNum);
-						scn.StartOver();
+						scn.levelStartOver();
 						scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]), toop);
 						scn.gameOver = false;
 					}

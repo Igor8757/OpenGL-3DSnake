@@ -67,6 +67,9 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, 4.8, 12.25);
 
 	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, -4.8, 12.25);
+
+
+
 	addItems();
 	
 }
@@ -124,14 +127,15 @@ bool Level::checkCollisionInLevel(int shape1, int shape2)
 }
 void Level::levelStartOver() {
 	std::vector<Shape*>::iterator it;
-	it = LevelShapes.begin();
 	for (int i = 0; i< LevelShapes.size(); i++) {
-		if (LevelShapes.at(i)->getKind() == Shape::Terrain) {
-			it++;
-			continue;
+		if (LevelShapes.at(i)->getKind() == Shape::Enemy | 
+			LevelShapes.at(i)->getKind() == Shape::ItemCoin |
+			LevelShapes.at(i)->getKind() == Shape::ItemFruit |
+			LevelShapes.at(i)->getKind() == Shape::ItemDiamond 
+			) {
+				LevelShapes.erase(LevelShapes.begin() + i);
+				i--;
 		}
-		LevelShapes.erase(it);
-		it++;
 	}
 	StartOver();
 	addItems();
