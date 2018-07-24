@@ -1,0 +1,7 @@
+﻿cl : Command line warning D9025: overriding '/TC' with '/TP'
+  etc1_utils.c
+  image_DXT.c
+  image_helper.c
+  SOIL2.c
+  Generating Code...
+  soil2-static-lib.vcxproj -> C:\VeloxSource\Velox\Velox3DPreview\res\soil\make\windows\..\..\lib\windows\soil2.lib
