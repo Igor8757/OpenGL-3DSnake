@@ -37,12 +37,10 @@ protected:
 	int Links;
 	int linksNum = 4;
 	int counter = 0;
-<<<<<<< HEAD
+
 	float speed = 0.007;
 	bool stopMove = false;
-=======
-	float speed = 0.02;
->>>>>>> 189574403d5bc096f1171ee4c2b6ae130fcd578c
+
 	std::vector<Camera*> cameras; //light will have the properties of camera
 	std::vector<glm::vec3> rotPositions;
 	std::vector<clock_t> TimeOfRotiains;
