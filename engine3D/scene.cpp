@@ -22,6 +22,7 @@ addRemovLinks::addRemovLinks(clock_t currTime, bool addOrRemove) {
 bullet::bullet(clock_t currTime) {
 	time = currTime;
 	shot = new Shape(0, 2, "./res/textures/plane.png", shotObj);
+	shot->makeKDTree(shot->mesh->model);
 }
 bullet::~bullet(void) {
 	delete shot;
@@ -456,6 +457,8 @@ void Scene::addVectorToShapes(glm::vec2 addVector) {
 }
 void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 {
+	if (gameOver)
+		return;
 	glm::mat4 Normal = makeTrans();
 	glm::mat4 Normal2 = shapes[0]->makeTrans();
 	glm::mat4 MVP = cameras[cameraType]->GetViewProjection()*Normal;
@@ -474,13 +477,13 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 
 		mat4 MVP1 = MVP * Normal1;
 		Normal1 = Normal * Normal1;
-
+		/*
 		if (shaderIndx == 0 && drawAxis && chainParents[i] >= 0)
 		{
 			shaders[shaderIndx]->Update(axisMesh->makeTransScale(MVP1), axisMesh->makeTransScale(Normal1), 0, shapesNormal);
 			axisMesh->draw(GL_LINES);
 		}
-
+		*/
 		MVP1 = MVP1 * shapes[i]->makeTransScale(mat4(1));
 		Normal1 = Normal1 * shapes[i]->makeTrans();
 		if (i<linksNum)
@@ -511,6 +514,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 		shape->draw(GL_LINE_LOOP);
 		delete shape;*/
 	}
+	
 	if (shaderIndx == 0)
 	{
 		shaders[shaderIndx]->Bind();

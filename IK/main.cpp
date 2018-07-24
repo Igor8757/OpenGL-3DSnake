@@ -228,26 +228,37 @@ int main(int argc, char** argv)
 
 		while (!glfwWindowShouldClose(display.m_window))
 		{
-			toop = scn.getCameraMode();
-			numOfLinks = scn.GetLinkNum();
-			if (scn.checkCollisionFullLevel()) {
-			//if (scn.checkCollision(3, 4)) {
-			}
-			else {
-				
-			}
-			if (scn.isActive())
+			if(!scn.gameOver)
 			{
-				int j = 3;
-				Sleep(30);
-				float dif = glm::distance(scn.getTipPosition(numOfLinks - 1), scn.destPosition);
-				//std::cout << dif << std::endl;
-				if (dif > scn.delta || j == 0) {
-					scn.makeChange();
+				toop = scn.getCameraMode();
+				numOfLinks = scn.GetLinkNum();
+				if (!scn.paused)
+				{
+					scn.move();
+					scn.moveCamera();
+					scn.UpdateLevel();
+				}
+				if (scn.checkCollisionFullLevel()) {
+					//if (scn.checkCollision(3, 4)) {
+				}
+				else {
+
+				}
+				if (scn.isActive())
+				{
+					int j = 3;
+					Sleep(30);
+					float dif = glm::distance(scn.getTipPosition(numOfLinks - 1), scn.destPosition);
+					//std::cout << dif << std::endl;
+					if (dif > scn.delta || j == 0) {
+						scn.makeChange();
+					}
+
+					j--;
 				}
 				
-				j--;
 			}
+			
 			display.Clear(1.0f, 1.0f, 1.0f, 1.0f);
 			if (display.IsFullscreen())
 			{
@@ -255,12 +266,6 @@ int main(int argc, char** argv)
 				glfwGetFramebufferSize(display.m_window, &viewport[2], &viewport[3]);
 				window_size_callback(display.m_window, viewport[2], viewport[3]);
 			}
-			if(!scn.paused)
-			{
-				scn.move();
-				scn.moveCamera();
-				scn.UpdateLevel();
-			}		
 			scn.draw(0, 0, false, toop?0:1); //change false to true for axis in every joint
 			scn.levelDraw(0, 0, false);
 			display.SwapBuffers();
