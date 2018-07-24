@@ -33,6 +33,7 @@ public:
 	bool checkCollisionOfSnake(int shape);
 	bool checkCollisionFullLevel();
 	void checkSnakeBulletCollision();
+	bool checkCollisionOfSnakeHead();
 
 	// Other Functions
 	void levelDraw(int shaderIndx, int cameraIndx, bool drawAxis);

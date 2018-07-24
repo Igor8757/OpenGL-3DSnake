@@ -8,7 +8,7 @@ using namespace glm;
 Level::Level(glm::vec3 position, float angle, float hwRelation, float near, float far) : IK(position, angle, hwRelation, near, far)
 {
 	int wallHeight = 6;
-	int enemyHeight = 0.7;
+	int enemyHeight = 0.3;
 	int ground = addTerrain("./res/textures/seafloor.jpg", 40, 0.2, 120);
 	LevelShapeTransformation(ground, zGlobalTranslate, 0.85);
 	LevelShapeTransformation(ground, yGlobalTranslate, -5);
@@ -57,7 +57,7 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 
 int Level::addEnemy1(float x, float y, float z)
 {
-	int enemy = addEnemy("./res/objs/monkey4.obj", "./res/textures/gold.jpg");
+	int enemy = addEnemy("./res/objs/monkey3.obj", "./res/textures/gold.jpg");
 	LevelShapeTransformation(enemy, xScale, 2);
 	LevelShapeTransformation(enemy, yScale, 2);
 	LevelShapeTransformation(enemy, zScale, 2);
@@ -121,7 +121,7 @@ bool Level::checkCollisionOfSnake(int shape)
 				break;
 			case Shape::Item:
 				LevelShapes.erase(LevelShapes.begin() + shape);
-				//addLink();
+				addLink();
 				std::cout << "Item Eaten" << std::endl;
 				Points += 100;
 				break;
@@ -138,6 +138,8 @@ bool Level::checkCollisionOfSnake(int shape)
 bool Level::checkCollisionFullLevel()
 {
 	checkSnakeBulletCollision();
+	if (checkCollisionOfSnakeHead())
+		return false;
 	bool colliding = false;
 	for (int i = 1; i < LevelShapes.size() & !colliding; i++)
 	{
@@ -177,6 +179,21 @@ void Level::checkSnakeBulletCollision()
 			}
 		}
 	}
+}
+
+bool Level::checkCollisionOfSnakeHead()
+{
+	for (int i = 2; i < linksNum; i++)
+	{		
+		if (shapes.at(0)->isColliding(*shapes.at(i)))
+		{
+			std::cout << "You ate yourself and died, good job" << std::endl;
+
+			KillSnake();
+			return true;
+		}
+	}
+	return false;
 }
 
 void Level::KillSnake()

@@ -160,6 +160,12 @@ bool Shape::_isColliding(BoundingBox& A, BoundingBox& B, Shape& other) {
 	else
 		A.P = glm::vec3(A.mat[3][0], A.mat[3][1], A.mat[3][2]);
 
+	if (other.isSnake)
+	{
+		B.P = glm::vec3(other.snakeLinkPosition[3][0], other.snakeLinkPosition[3][1], other.snakeLinkPosition[3][2]);
+	}
+	else
+		B.P = glm::vec3(B.mat[3][0], B.mat[3][1], B.mat[3][2]);
 
 	glm::vec3 T = B.P - A.P;
 	glm::vec3 L;
@@ -320,7 +326,7 @@ bool Shape::_isCollidingA(Node& nodeA, Node& nodeB, Shape &other, Node &current)
 
 		return true;
 	}
-	if (collisionRecDepth >= 3)
+	if (collisionRecDepth >= 5)
 	{
 		return true;
 	}
