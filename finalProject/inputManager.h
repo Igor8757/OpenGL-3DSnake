@@ -92,17 +92,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			break;
 		case GLFW_KEY_SPACE:
-			/*if (scn.isActive()) {
-				std::cout << "::Space:: IK deactivated " << std::endl;
-				scn.deactivateIK();
+			if (scn.gameOver)
+				break;
+			//scn.addRemoveLinks(this_time, false);
+			if (scn.GetLinkNum() <= 1) {
+				break;
 			}
-			else {
-				std::cout << "::Space:: IK activated " << std::endl;
-				scn.activateIK();
-				scn.makeChange();
-				//scn.printData();
-			}*/
-
+			scn.removeLink();
+			scn.shot(this_time);
+			//printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
 			break;
 		case GLFW_KEY_N:
 

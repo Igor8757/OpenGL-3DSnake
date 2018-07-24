@@ -14,8 +14,8 @@ public:
 
 
 	//Shape Functions
-	int addTerrain(const std::string &textureFlieName, float xScale, float yScale, float zScale);
-	int addItem(const std::string& fileName, const std::string& textureFileName);
+	int addTerrain(const std::string &textureFlieName, float x, float y, float z, float posx, float posz);
+	int addItem(const std::string& fileName, const std::string& textureFileName, Shape::objKind kind, float x, float z);
 	int addEnemy(const std::string& fileName, const std::string& textureFileName);
 	void LevelShapeTransformation(int shape, int type, float amt);
 

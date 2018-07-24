@@ -17,7 +17,7 @@ class Shape : public MovableGLM
 public:
 	inline unsigned int getKind() { return kind; }
 	inline unsigned int setKind(enum objKind k) { kind = k; }
-	enum objKind {Default,Snake,Item,Enemy,Terrain,shotingObj,killObj,bullet, shotObj};
+	enum objKind {Default,Snake,ItemFruit,ItemCoin, ItemDiamond,Enemy,Terrain,shotingObj,killObj,bullet, shotObj};
 	Mesh * mesh;
 	glm::vec2 getRotVector();
 	inline void setRotVectors(std::vector<glm::vec2> other) { rotVectors = other; }

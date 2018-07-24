@@ -84,7 +84,7 @@ using namespace glm;
 		}
 		myRotate(-90.0f,vec3(1,0,0),-1);
 		//addShape(vertices, verticesSize, indices, indicesSize,"./res/textures/plane.png",-1);
-		addShape(0,2,"./res/textures/grass.bmp",-1,snake);
+		addShape(0,2,"./res/textures/plane.png",-1,snake);
 		pickedShape = 0;
 		shapes.at(pickedShape)->linkNumber = pickedShape;
 		shapeTransformation(zScale,scaleFactor);

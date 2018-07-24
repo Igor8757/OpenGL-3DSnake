@@ -9,49 +9,63 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 {
 	int wallHeight = 6;
 	int enemyHeight = 0.3;
-	int ground = addTerrain("./res/textures/seafloor.jpg", 40, 0.2, 120);
-	LevelShapeTransformation(ground, zGlobalTranslate, 0.85);
+	int ground = addTerrain("./res/textures/seafloor.jpg", 40, 0.2, 120,0 , 0.85);
 	LevelShapeTransformation(ground, yGlobalTranslate, -5);
 
 
 	for (int i = 0; i < 5; i++)
 	{
-		int leftWall = addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 23);
-		LevelShapeTransformation(leftWall, zGlobalTranslate, 0.55 + 2 * i);
-		LevelShapeTransformation(leftWall, xGlobalTranslate, 20);
-		int rightWall = addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 23);
-		LevelShapeTransformation(rightWall, zGlobalTranslate, 0.55 + 2 * i);
-		LevelShapeTransformation(rightWall, xGlobalTranslate, -20);
+		 addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 23, 20 , 0.55 + 2 * i);
+		 addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 23, -20, 0.55 + 2 * i);
+
 	}
-	int bottomWall = addTerrain("./res/textures/waterrock.jpg", 42, wallHeight, 3);
-	LevelShapeTransformation(bottomWall, zGlobalTranslate, -4);
+	addTerrain("./res/textures/waterrock.jpg", 42, wallHeight, 3, 0, -4);
+
+	addTerrain("./res/textures/waterrock.jpg", 25, wallHeight, 2, 0.65, 13);
+
+	 addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 10, 2, 5);
+
+	addTerrain("./res/textures/waterrock.jpg", 30, wallHeight, 2, 0.4, 40);
+
+	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, -0.75, 20);
+
+	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, -0.75 , 50);
+
+	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, 0, 60);
+
+	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, -1.5, 67);
+
+	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, 1.5, 67);
+
+	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, 4.8, 12.25);
+
+	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, -4.8, 12.25);
 
 
-	int topWall1 = addTerrain("./res/textures/waterrock.jpg", 25, wallHeight, 2);
-	LevelShapeTransformation(topWall1, xGlobalTranslate, 0.65);
-	LevelShapeTransformation(topWall1, zGlobalTranslate, 13);
 
-	int topWall2 = addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 10);
-	LevelShapeTransformation(topWall2, xGlobalTranslate, 2);
-	LevelShapeTransformation(topWall2, zGlobalTranslate, 5);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin,- 25, 5);
 
-	int topWall3 = addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2);
-	LevelShapeTransformation(topWall3, xGlobalTranslate, -0.75);
-	LevelShapeTransformation(topWall3, zGlobalTranslate, 20);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -25, 12);
 
-	int item1 = addItem("./res/objs/testBoxNoUV.obj", "./res/textures/gold.jpg");
-	LevelShapeTransformation(item1, xGlobalTranslate, -25);
-	LevelShapeTransformation(item1, zGlobalTranslate, 17);
+	addItem("./res/objs/diamond.obj", "./res/textures/diamond.jpg", Shape::ItemDiamond,25, 65);
 
-	int item2 = addItem("./res/objs/testBoxNoUV.obj", "./res/textures/gold.jpg");
-	LevelShapeTransformation(item2, xGlobalTranslate, 27);
-	LevelShapeTransformation(item2, zGlobalTranslate, 10);
+	addItem("./res/objs/ball.obj", "./res/textures/food.jpg", Shape::ItemFruit, 27, 10);
+
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -22, 50);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -7, 50);
+
 
 	int enemy1 = addEnemy1(0, enemyHeight, 17);
 	AddMovement(enemy1, 8, 0.03, zGlobalTranslate);
 
 	int enemy2 = addEnemy1(12, enemyHeight, 4);
 	AddMovement(enemy2, 5, 0.03, xGlobalTranslate);
+
+	int enemy3 = addEnemy1(12, enemyHeight, 30);
+	AddMovement(enemy3, 4, 0.025, zGlobalTranslate);
+
+	int enemy4 = addEnemy1(-12, enemyHeight, 40);
+	AddMovement(enemy4, 4, 0.025, xGlobalTranslate);
 
 }
 
@@ -76,8 +90,14 @@ void Level::UpdateLevel()
 		MoveShape(i);
 		switch (LevelShapes.at(i)->getKind())
 		{		
-		case Shape::Item:					
-			LevelShapeTransformation(i, xLocalRotate, 1.5);
+		case Shape::ItemFruit:					
+			LevelShapeTransformation(i, yLocalRotate, 1.5);
+			break;
+		case Shape::ItemCoin:
+			LevelShapeTransformation(i, yLocalRotate, 1.5);
+			break;
+		case Shape::ItemDiamond:
+			LevelShapeTransformation(i, yLocalRotate, 1.5);
 			break;
 		case Shape::Default:
 			break;
@@ -119,11 +139,27 @@ bool Level::checkCollisionOfSnake(int shape)
 				std::cout << "You were killed" << std::endl;
 				KillSnake();
 				break;
-			case Shape::Item:
+			case Shape::ItemFruit:
 				LevelShapes.erase(LevelShapes.begin() + shape);
 				addLink();
-				std::cout << "Item Eaten" << std::endl;
+				std::cout << "Fruit Eaten" << std::endl;
 				Points += 100;
+				std::cout << "Points : " << Points << std::endl;
+
+				break;
+			case Shape::ItemCoin:
+				LevelShapes.erase(LevelShapes.begin() + shape);
+				std::cout << "Box Eaten" << std::endl;
+				Points += 200;
+				std::cout << "Points : " << Points << std::endl;
+
+				break;
+			case Shape::ItemDiamond:
+				LevelShapes.erase(LevelShapes.begin() + shape);
+				std::cout << "Diamond Eaten" << std::endl;
+				Points += 500;
+				std::cout << "Points : " << Points << std::endl;
+
 				break;
 			case Shape::Default:
 				break;
@@ -169,7 +205,7 @@ void Level::checkSnakeBulletCollision()
 					std::cout << "Bullet hit enemy." << std::endl;
 					LevelShapes.erase(LevelShapes.begin() + j);
 					break;
-				case Shape::Item:
+				case Shape::ItemFruit:
 					break;
 				case Shape::Default:
 					break;
@@ -183,7 +219,7 @@ void Level::checkSnakeBulletCollision()
 
 bool Level::checkCollisionOfSnakeHead()
 {
-	for (int i = 2; i < linksNum; i++)
+	for (int i = 3; i < linksNum; i++)
 	{		
 		if (shapes.at(0)->isColliding(*shapes.at(i)))
 		{
@@ -236,7 +272,7 @@ void Level::MoveShape(int shape)
 }
 
 
-int Level::addTerrain(const std::string &textureFlieName, float x,float y, float z)
+int Level::addTerrain(const std::string &textureFlieName, float x,float y, float z, float posx, float posz)
 {
 	Vertex vertices[] =
 	{
@@ -293,17 +329,21 @@ int Level::addTerrain(const std::string &textureFlieName, float x,float y, float
 	LevelShapeTransformation(terrain, xScale, x);
 	LevelShapeTransformation(terrain, yScale, y);
 	LevelShapeTransformation(terrain, zScale, z);
+	LevelShapeTransformation(terrain, zGlobalTranslate, posz);
+	LevelShapeTransformation(terrain, xGlobalTranslate, posx);
 	return terrain;
 }
 
-int Level::addItem(const std::string& fileName, const std::string& textureFileName)
+int Level::addItem(const std::string& fileName, const std::string& textureFileName, Shape::objKind kind, float x, float z)
 {
-	LevelShapes.push_back(new Shape(fileName, textureFileName,Shape::Item));
+	LevelShapes.push_back(new Shape(fileName, textureFileName,kind));
 	int item1 = LevelShapes.size() - 1;
 	LevelShapeTransformation(item1, xScale, 1.1);
 	LevelShapeTransformation(item1, yScale, 1.1);
 	LevelShapeTransformation(item1, zScale, 1.1);
 	LevelShapeTransformation(item1, yGlobalTranslate, 1.3);
+	LevelShapeTransformation(item1, xGlobalTranslate, x);
+	LevelShapeTransformation(item1, zGlobalTranslate, z);
 	return item1;
 }
 
