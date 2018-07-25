@@ -320,7 +320,7 @@ void Scene::checkIftimeToAddRemove() {
 	clock_t this_time = clock();
 	double time_counter = (double)(this_time - last_time);
 	int temp = linksNum - 1;
-	if (time_counter > (double)((1.4 + speed)*temp) * CLOCKS_PER_SEC) {
+	if (time_counter > (double)((1.4014 - speed)*temp) * CLOCKS_PER_SEC) {
 		if (addRemoveLinksVec[0].add)
 			addLink();
 		else

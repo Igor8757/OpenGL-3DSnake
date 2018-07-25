@@ -161,7 +161,7 @@ bool Level::checkCollisionOfSnake(int shape)
 				break;
 			case Shape::Enemy:
 				std::cout << "You were killed" << std::endl;
-				message = "You hit wall and died";
+				message = "You were killed";
 				KillSnake();
 				break;
 			case Shape::ItemFruit:
