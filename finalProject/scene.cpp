@@ -168,7 +168,7 @@ void Scene::checekr() {
 	//shapeTransformation(zGlobalTranslate, 1.0);
 	
 		Shape *tempShape2 = new Shape(1, 1, "./res/textures/plane.png", snake);
-		tempShape2->setRotVectors(shapes[linksNum - 1]->getRotVectors());
+		tempShape2->setRotVectors(shapes[linksNum - 2]->getRotVectors());
 		tempShape2->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
 		tempShape2->myScale(vec3(1, 1, scaleFactor));
 		shapes[linksNum - 1] = tempShape2;
@@ -189,7 +189,7 @@ void Scene::addLink() {
 	tempShape->makeKDTree(tempShape->mesh->model);
 	tempShape->isSnake = true;
 	tempShape->linkNumber = linksNum ;
-	tempShape->setRotVectors(shapes[linksNum - 1]->getRotVectors());
+	tempShape->setRotVectors(linksNum==1 ? shapes[linksNum - 1]->getRotVectors(): shapes[linksNum - 2]->getRotVectors());
 	shapes.insert(it + linksNum, tempShape);
 	shapes.at(pickedShape)->linkNumber = pickedShape;
 	shapeTransformation(zScale, scaleFactor);
@@ -197,7 +197,7 @@ void Scene::addLink() {
 	//shapeTransformation(zGlobalTranslate, 1.0);
 	if (linksNum > 1) {
 		Shape *tempShape2 = new Shape(1, 1, "./res/textures/plane.png", snake);
-		tempShape2->setRotVectors(shapes[linksNum - 1]->getRotVectors());
+		tempShape2->setRotVectors(shapes[linksNum - 2]->getRotVectors());
 		tempShape2->setTraslateMat(shapes[linksNum - 1]->getTraslateMat());
 		tempShape2->myScale(vec3(1, 1, scaleFactor));
 		tempShape2->makeKDTree(tempShape2->mesh->model);
@@ -234,11 +234,12 @@ bool Scene::checkIftimeToMove(int shapeIdx) {
 	double time_counter = (double)(this_time - last_time);
 	if (time_counter > (double)(shapeIdx * (1+speed) * CLOCKS_PER_SEC))
 	{
-		return true;
-		if (shapeIdx = linksNum - 1)
+		
+		if (shapeIdx == linksNum - 1)
 		{
 			TimeOfRotiains.erase(TimeOfRotiains.begin());
 		}
+		return true;
 	}
 	return false;
 
@@ -246,11 +247,12 @@ bool Scene::checkIftimeToMove(int shapeIdx) {
 
 void Scene::move() {
 	
-
+	moveSnakeShot();
+	checkIftimeToAddRemove();
 	shapes[0]->myTranslate(vec3(0, 0, -speed), 1);
 	/*mat4 Normal1 = mat4(1);
 	Normal1 = shapes[0]->makeTrans() * Normal1;*/
-
+	
 	
 	if (shapes[0]->GerRotVecSize() > 0) {
 		pickedShape = 0;
@@ -267,10 +269,12 @@ void Scene::move() {
 		//shapes[0]->setTraslateMat(tempMat2);
 	}
 	for (int i = 1; i < linksNum; i++) {
+		float rr ;
 		if (shapes[i]->GerRotVecSize() > 0) {
 			if (checkIftimeToMove(i)) {
 				pickedShape = i;
 				glm::vec2 tempRot = shapes[i]->getRotVector();
+				rr = tempRot[1];
 				shapeTransformation((int)tempRot[0], tempRot[1]);
 				if (i < linksNum - 1) {
 					pickedShape = i + 1;
@@ -282,8 +286,7 @@ void Scene::move() {
 		//break;
 		//}
 	}
-	moveSnakeShot();
-	checkIftimeToAddRemove();
+	
 }
 void Scene::moveCamera() {
 	pickedShape = -1;
