@@ -94,14 +94,20 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_SPACE:
 			if (scn.gameOver)
 				break;
-			//scn.addRemoveLinks(this_time, false);
 			if (scn.GetLinkNum() <= 1) {
 				break;
 			}
-			scn.removeLink();
-			scn.shot(this_time);
+			if (scn.GetFreeShots() <= 0) {
+				scn.removeLink();
+				scn.shot(this_time);
+			}
+			else {
+				scn.DecreseFreeShots();
+				scn.shot(this_time);
+			}
 			//printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
 			break;
+			
 		case GLFW_KEY_N:
 
 		case GLFW_KEY_P:

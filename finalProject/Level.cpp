@@ -8,15 +8,45 @@ void Level::addItems() {
 	
 
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -25, 5);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -25, 15);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -25, 25);
 
-	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -25, 12);
-
-	addItem("./res/objs/diamond.obj", "./res/textures/diamond.jpg", Shape::ItemDiamond, 25, 65);
-
-	addItem("./res/objs/ball.obj", "./res/textures/food.jpg", Shape::ItemFruit, 27, 10);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 20, 50);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 20, 40);
 
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -22, 50);
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -7, 50);
+
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 80);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 80)
+	;
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 0, 99);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 99);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 99
+	);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 0, 113);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 113);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 113);
+
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 0, 130);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 0, 140);
+
+
+	addItem("./res/objs/diamond.obj", "./res/textures/diamond.jpg", Shape::ItemDiamond, 25, 65);
+	addItem("./res/objs/diamond.obj", "./res/textures/diamond.jpg", Shape::ItemDiamond, 25, 145);
+	addItem("./res/objs/diamond.obj", "./res/textures/diamond.jpg", Shape::ItemDiamond, -25, 145);
+	addItem("./res/objs/diamond.obj", "./res/textures/diamond.jpg", Shape::ItemDiamond, 25, 130);
+	addItem("./res/objs/diamond.obj", "./res/textures/diamond.jpg", Shape::ItemDiamond, -25, 130);
+
+
+
+	addItem("./res/objs/ball.obj", "./res/textures/food.jpg", Shape::ItemFruit, 27, 10);
+	addItem("./res/objs/ball.obj", "./res/textures/food.jpg", Shape::ItemFruit, -27, 105);
+	addItem("./res/objs/ball.obj", "./res/textures/food.jpg", Shape::ItemFruit, 27, 137);
+
+	addItem("./res/objs/TestBoxNoUV.obj", "./res/textures/gold.jpg", Shape::ItemBox, 2, 83);
+	addItem("./res/objs/TestBoxNoUV.obj", "./res/textures/gold.jpg", Shape::ItemBox, -25, 135);
+
 
 
 	int enemy1 = addEnemy1(0, enemyHeight, 17);
@@ -41,12 +71,26 @@ void Level::addItems() {
 	AddMovement(enemy7, 3, 0.025, zGlobalTranslate);
 
 	int enemy8 = addEnemy1(0, enemyHeight, 80);
-	//AddMovement(enemy7, 4, 0.025, xGlobalTranslate);
+	AddMovement(enemy8, 4, 0.025, xGlobalTranslate);
+
+	int enemy9 = addEnemy1(-4, enemyHeight, 90);
+	AddMovement(enemy9, 6, 0.025, zGlobalTranslate);
+
+	int ememy10 = addEnemy1(0, enemyHeight, 95);
+	AddMovement(ememy10, 12, 0.03, zGlobalTranslate);
+
+	int ememy11 = addEnemy1(-2, enemyHeight, 87);
+	AddMovement(ememy11, 9, 0.025, zGlobalTranslate);
+
+	int ememy12 = addEnemy1(8, enemyHeight, 92);
+	AddMovement(ememy12, 9, 0.025, zGlobalTranslate);
+
+
 
 }
 Level::Level(glm::vec3 position, float angle, float hwRelation, float near, float far) : IK(position, angle, hwRelation, near, far)
 {
-	wallHeight = 6;
+	wallHeight = 15;
 	enemyHeight = 0.3;
 	int ground = addTerrain("./res/textures/seafloor.jpg", 40, 0.2, 120,0 , 0.85);
 	LevelShapeTransformation(ground, yGlobalTranslate, -5);
@@ -62,7 +106,7 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 
 	addTerrain("./res/textures/waterrock.jpg", 25, wallHeight, 2, 0.65, 13);
 
-	 addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 10, 2, 5);
+	 addTerrain("./res/textures/waterrock.jpg", 2, wallHeight -5, 10, 2, 5);
 
 	addTerrain("./res/textures/waterrock.jpg", 30, wallHeight, 2, 0.4, 40);
 
@@ -70,7 +114,7 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 
 	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, -0.75 , 50);
 
-	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, 0, 58);
+	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight -5, 2, 0, 58);
 
 	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, -1.5, 67);
 
@@ -85,10 +129,11 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 
 	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, -1.2, 100);
 	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, 1.2, 100);
-	int top = addTerrain("./res/textures/waterrock.jpg", 20, 2, 2, 0, 100);
-	LevelShapeTransformation(top, yLocalTranslate, 4);
+	int top = addTerrain("./res/textures/waterrock.jpg", 20, 4, 2, 0, 100);
+	LevelShapeTransformation(top, yLocalTranslate, 3.4);
 
-
+	int bottom = addTerrain("./res/textures/waterrock.jpg", 20, 4, 2, 0, 100);
+	LevelShapeTransformation(bottom, yLocalTranslate, -0.6);
 
 
 	addItems();
@@ -123,6 +168,9 @@ void Level::UpdateLevel()
 			LevelShapeTransformation(i, yLocalRotate, 1.5);
 			break;
 		case Shape::ItemDiamond:
+			LevelShapeTransformation(i, yLocalRotate, 1.5);
+			break;
+		case Shape::ItemBox:
 			LevelShapeTransformation(i, yLocalRotate, 1.5);
 			break;
 		case Shape::Default:
@@ -178,32 +226,42 @@ bool Level::checkCollisionOfSnake(int shape)
 				std::cout << "You hit wall and died" << std::endl;
 				KillSnake();
 				break;
+
 			case Shape::Enemy:
 				std::cout << "You were killed" << std::endl;
 				KillSnake();
 				break;
+
 			case Shape::ItemFruit:
 				LevelShapes.erase(LevelShapes.begin() + shape);
 				addRemoveLinks(this_time, true);
 				std::cout << "Fruit Eaten" << std::endl;
 				Points += 100;
 				std::cout << "Points : " << Points << std::endl;
-
 				break;
+
 			case Shape::ItemCoin:
 				LevelShapes.erase(LevelShapes.begin() + shape);
 				std::cout << "Box Eaten" << std::endl;
 				Points += 200;
 				std::cout << "Points : " << Points << std::endl;
-
 				break;
+
 			case Shape::ItemDiamond:
 				LevelShapes.erase(LevelShapes.begin() + shape);
 				std::cout << "Diamond Eaten" << std::endl;
 				Points += 500;
 				std::cout << "Points : " << Points << std::endl;
-
 				break;
+
+			case Shape::ItemBox:
+				LevelShapes.erase(LevelShapes.begin() + shape);
+				std::cout << "Box Eaten" << std::endl;
+				incresFreeShots(2);
+				Points += 100;
+				std::cout << "Points : " << Points << std::endl;
+				break;
+
 			case Shape::Default:
 				break;
 			}

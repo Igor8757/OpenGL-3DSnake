@@ -57,10 +57,11 @@ protected:
 	bool toopView = true;;
 	int freeShots = 2;
 public:
+	inline void incresFreeShots(int shots) { freeShots += shots; }
 	inline void incresFreeShots() { freeShots++; }
 	inline void DecreseFreeShots() { freeShots--; }
 	inline int GetFreeShots() { return freeShots; }
-	
+
 	bool gameOver = false;
 	inline bool getCameraMode() { return toopView;}
 	inline void setCameraMode() { toopView = !toopView; }
