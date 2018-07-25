@@ -8,7 +8,14 @@ private:
 	int wallHeight = 0;
 	int enemyHeight =0;
 	std::string message = "";
+	bool winning = false;
 public:
+	inline bool getWinning() {
+		return winning;
+	}
+	inline void setWinning() {
+		 winning =false;
+	}
 	inline std::string getMessage() {
 		return message;
 	}
