@@ -31,6 +31,18 @@ void Level::addItems() {
 	int enemy4 = addEnemy1(-12, enemyHeight, 40);
 	AddMovement(enemy4, 4, 0.025, xGlobalTranslate);
 
+	int enemy5 = addEnemy1(0, enemyHeight, 53);
+	AddMovement(enemy5, 8.5, 0.03, zGlobalTranslate);
+
+	int enemy6 = addEnemy1(0, enemyHeight, 62);
+	AddMovement(enemy6, 8.5, 0.03, zGlobalTranslate);
+
+	int enemy7 = addEnemy1(0, enemyHeight, 65);
+	AddMovement(enemy7, 3, 0.025, zGlobalTranslate);
+
+	int enemy8 = addEnemy1(0, enemyHeight, 80);
+	//AddMovement(enemy7, 4, 0.025, xGlobalTranslate);
+
 }
 Level::Level(glm::vec3 position, float angle, float hwRelation, float near, float far) : IK(position, angle, hwRelation, near, far)
 {
@@ -58,7 +70,7 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 
 	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, -0.75 , 50);
 
-	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, 0, 60);
+	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, 0, 58);
 
 	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, -1.5, 67);
 
@@ -67,6 +79,15 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, 4.8, 12.25);
 
 	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, -4.8, 12.25);
+
+	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, -4.8, 13);
+
+
+	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, -1.2, 100);
+	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, 1.2, 100);
+	int top = addTerrain("./res/textures/waterrock.jpg", 20, 2, 2, 0, 100);
+	LevelShapeTransformation(top, yLocalTranslate, 4);
+
 
 
 
