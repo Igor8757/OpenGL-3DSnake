@@ -29,13 +29,16 @@ public:
 	void LevelShapeTransformation(int shape, int type, float amt);
 	void levelStartOver();
 	int addEnemy1(float x, float y, float z);
-	void addItems();
+
+	void addItemsEasy();
+	void addItemsHard();
 
 	//Level Function
 	void UpdateLevel();
 	void KillSnake();
 	void AddMovement(int shape, float pathLength, float pace, int type);
 	void MoveShape(int shape);
+	void InitLevel();
 
 	//Collision Functions
 	void createKDTreesForLevelShapes();

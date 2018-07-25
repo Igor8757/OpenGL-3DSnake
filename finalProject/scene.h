@@ -138,6 +138,7 @@ public:
 	float yMovement = 0;
 	float zMovement = 0;
 
+	bool hardDif = false;
 };
 
 

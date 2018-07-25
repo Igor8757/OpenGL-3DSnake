@@ -4,8 +4,76 @@
 
 using namespace std;
 using namespace glm;
-void Level::addItems() {
+void Level::addItemsEasy() {
 	
+
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -25, 5);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -25, 25);
+
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 20, 50);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 20, 40);
+
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -22, 50);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -7, 50);
+
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 80);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 80)
+	;
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 99);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 99
+	);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 113);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 113);
+
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 0, 130);
+
+
+	addItem("./res/objs/diamond.obj", "./res/textures/diamond.jpg", Shape::ItemDiamond, 25, 145);
+	addItem("./res/objs/diamond.obj", "./res/textures/diamond.jpg", Shape::ItemDiamond, -25, 145);
+
+
+
+	addItem("./res/objs/ball.obj", "./res/textures/food.jpg", Shape::ItemFruit, 27, 10);
+	addItem("./res/objs/ball.obj", "./res/textures/food.jpg", Shape::ItemFruit, -27, 105);
+	addItem("./res/objs/ball.obj", "./res/textures/food.jpg", Shape::ItemFruit, 27, 137);
+
+	addItem("./res/objs/TestBoxNoUV.obj", "./res/textures/gold.jpg", Shape::ItemBox, 2, 83);
+	addItem("./res/objs/TestBoxNoUV.obj", "./res/textures/gold.jpg", Shape::ItemBox, -25, 135);
+
+
+
+	int enemy1 = addEnemy1(0, enemyHeight, 17);
+	AddMovement(enemy1, 8, 0.03, zGlobalTranslate);
+
+
+	int enemy3 = addEnemy1(12, enemyHeight, 30);
+	AddMovement(enemy3, 4, 0.025, zGlobalTranslate);
+
+	int enemy4 = addEnemy1(-12, enemyHeight, 40);
+	AddMovement(enemy4, 4, 0.025, xGlobalTranslate);
+
+	int enemy5 = addEnemy1(0, enemyHeight, 53);
+	AddMovement(enemy5, 8.5, 0.03, zGlobalTranslate);
+
+
+
+	int enemy7 = addEnemy1(0, enemyHeight, 65);
+	AddMovement(enemy7, 3, 0.025, zGlobalTranslate);
+
+
+	int enemy9 = addEnemy1(-4, enemyHeight, 90);
+	AddMovement(enemy9, 6, 0.025, zGlobalTranslate);
+
+
+	int ememy12 = addEnemy1(8, enemyHeight, 92);
+	AddMovement(ememy12, 9, 0.025, zGlobalTranslate);
+
+
+
+}
+
+void Level::addItemsHard() {
+
 
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -25, 5);
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -25, 15);
@@ -19,7 +87,7 @@ void Level::addItems() {
 
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 80);
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 80)
-	;
+		;
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 0, 99);
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 99);
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 99
@@ -135,8 +203,6 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	int bottom = addTerrain("./res/textures/waterrock.jpg", 20, 4, 2, 0, 100);
 	LevelShapeTransformation(bottom, yLocalTranslate, -0.6);
 
-	addItems();
-	
 }
 
 int Level::addEnemy1(float x, float y, float z)
@@ -206,7 +272,7 @@ void Level::levelStartOver() {
 		}
 	}
 	StartOver();
-	addItems();
+	InitLevel();
 }
 bool Level::checkCollisionOfSnake(int shape)
 {
@@ -374,6 +440,15 @@ void Level::MoveShape(int shape)
 		LevelShapes.at(shape)->negDirect = true;
 	}
 	
+}
+
+void Level::InitLevel()
+{
+	if (hardDif)
+		addItemsHard();
+	else
+		addItemsEasy();
+
 }
 
 

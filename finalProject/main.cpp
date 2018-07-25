@@ -142,8 +142,8 @@ int main(int argc, char** argv)
 			{
 				if (ImGui::BeginMenu("dificulty"))
 				{
-					if (ImGui::MenuItem("Few objects", "eazy")) { eazy = true; hard = false; normal = false; }
-					if (ImGui::MenuItem("Lots off objects", "hard")) { hard = true; }
+					if (ImGui::MenuItem("Few objects", "eazy")) { scn.hardDif = false; }
+					if (ImGui::MenuItem("Lots off objects", "hard")) { scn.hardDif = true; }
 					ImGui::EndMenu();
 				}
 				ImGui::EndMenuBar();
@@ -193,6 +193,7 @@ int main(int argc, char** argv)
 			if (ImGui::Button("																				start																					"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
 			{
 				gui = false;
+				scn.InitLevel();
 			}
 
 		}
