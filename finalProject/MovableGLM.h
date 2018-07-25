@@ -28,6 +28,7 @@ public:
 		translateMat[0] = otherTranslateMat[0];
 		translateMat[1] = otherTranslateMat[1];
 	}
+	void zeroRotate();
 	inline glm::mat4* getTraslateMat() { return translateMat; }
 	MovableGLM();
 	glm::vec3 getXdirection(glm::mat4 prevTransformations);

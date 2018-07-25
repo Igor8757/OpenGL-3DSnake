@@ -121,7 +121,7 @@ void MovableGLM::myTranslate(vec3 vec, int indx)
 
 }
 void MovableGLM::myTranslate2(vec3 vec, int indx) {
-	translateMat[indx] = translateMat[indx] * translate(rotateMat, scaleFactor * vec);
+	translateMat[indx] = translateMat[indx] * translate(glm::mat4(1), scaleFactor * vec);
 	rotateMat = glm::mat4(1);
 }
 void MovableGLM::myScale(vec3  vec)
@@ -168,7 +168,10 @@ void MovableGLM::zeroTrans()
 	translateMat[0] = mat4(1);
 	translateMat[1] = mat4(1);
 }
-
+void MovableGLM::zeroRotate() {
+	rotateMat = mat4(1);
+	rotzf = glm::mat4(1);;
+}
 void MovableGLM::getTraslate(vec4  vec)
 {
 	mat4 mat = makeTrans();

@@ -295,7 +295,8 @@ int main(int argc, char** argv)
 						scn.setLinkNum(startLinkNum);
 						scn.levelStartOver();
 						scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]), toop);
-						scn.gameOver = false;
+						initCollisionDetection();
+						//scn.gameOver = false;
 					}
 				}
 				ImGui::End();
