@@ -130,7 +130,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				//clock_t this_time = clock();
 				scn.addRotTime(this_time);
 				//scn.addRotTime(scn.getDestination(0));
-				scn.addVectorToShapes(glm::vec2(scn.xLocalRotate, 3.f));
+				scn.addVectorToShapes(glm::vec2(scn.xLocalRotate, 5.f));
 				//scn.shapeTransformation(scn.xLocalRotate, 5.f);
 			}		
 
@@ -141,7 +141,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				//clock_t this_time = clock();
 				scn.addRotTime(this_time);
 				//scn.addRotTime(scn.getDestination(0));
-				scn.addVectorToShapes(glm::vec2(scn.xLocalRotate, -3.f));
+				scn.addVectorToShapes(glm::vec2(scn.xLocalRotate, -5.f));
 				//scn.shapeTransformation(scn.xLocalRotate, -5.f);
 			}
 			break;
@@ -200,7 +200,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			scn.addLink();
 			//printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
 			break;
-		case GLFW_KEY_1: {
+		/*case GLFW_KEY_1: {
 			scn.cameras[1]->changeCamPosition(1, true);
 			break;
 		}
@@ -247,7 +247,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_K: {
 			scn.cameras[1]->RotateZ(-1);
 			break;
-		}
+		}*/
 		case GLFW_KEY_U: {
 			scn.decreseSpeed();
 			break;

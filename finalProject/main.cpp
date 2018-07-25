@@ -180,16 +180,16 @@ int main(int argc, char** argv)
 			ImGui::Text("Use s to move down");
 			ImGui::Text("Avoid kiling objects");
 			ImGui::Text("Dont eat yourself!");
-			ImGui::Text("Dont hit the wals!");
+			ImGui::Text("Dont hit the walls!");
 			ImGui::Text("Collect incresing objects-shape of fruits");
-			ImGui::Text("You can shot objects to kill using space, but it will decrese your snake if you dont have free shots");
+			ImGui::Text("You can shot objects to kill using space, but it will decrese your snake if you dont have any free shots");
 			ImGui::Text("Your goal is get to the end with the larger snake you can");
 			ImGui::Text("Press P to stop");
 			ImGui::Text("Press C to change camera mode");
 			ImGui::Text("Press U to decrese your speed and I to increse your speed");
 			ImGui::Text("");
 			ImGui::Text("lets start!");
-			ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+			ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); 
 			if (ImGui::Button("																				start																					"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
 			{
 				gui = false;

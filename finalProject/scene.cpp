@@ -476,7 +476,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 	//glm::mat4 Normal2 = shapes[0]->makeTrans();
 	glm::mat4 MVP; 
 	glm::vec3 newPosition = getTipPosition(0);
-	cameras[1]->setPosition(glm::vec3(newPosition.x, newPosition.z+1.0, newPosition.y-1.0));
+	cameras[1]->setPosition(glm::vec3(newPosition.x, newPosition.z+1.0, -newPosition.y-1.0));
 	/*if (cameraType == 1) {
 		MVP = shapes[0]->makeTrans()*cameras[cameraType]->GetViewProjection();
 	}
@@ -651,9 +651,9 @@ void Scene::shapeTransformation(int type, float amt)
 		break;
 	case xLocalRotate:
 		if (pickedShape == -1)
-			myRotate(amt, vec3(1, 0, 0), xAxis1);
+			myRotate(amt, vec3(1, 0, 0), -1);
 		else
-			shapes[pickedShape]->myRotate(amt, vec3(1, 0, 0), xAxis1);
+			shapes[pickedShape]->myRotate(amt, vec3(1, 0, 0), -1);
 		break;
 	case xLocalRotate2:
 		shapes[pickedShape]->myRotate2(amt, vec3(1, 0, 0));
