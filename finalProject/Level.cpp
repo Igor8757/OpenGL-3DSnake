@@ -135,7 +135,6 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	int bottom = addTerrain("./res/textures/waterrock.jpg", 20, 4, 2, 0, 100);
 	LevelShapeTransformation(bottom, yLocalTranslate, -0.6);
 
-
 	addItems();
 	
 }
@@ -220,15 +219,18 @@ bool Level::checkCollisionOfSnake(int shape)
 		{
 			clock_t this_time = clock();
 			std::cout << "Link num " << i << " Colliding with shape num " << shape <<" !!" << std::endl;
+			message = "Link num " + std::to_string(i) + " Colliding with shape num " + std::to_string(shape) + " !!";
 			switch(LevelShapes.at(shape)->getKind())
 			{
 			case Shape::Terrain:
 				std::cout << "You hit wall and died" << std::endl;
+				message = "You hit wall and died";
 				KillSnake();
 				break;
 
 			case Shape::Enemy:
 				std::cout << "You were killed" << std::endl;
+				message = "You were killed";
 				KillSnake();
 				break;
 
@@ -238,15 +240,15 @@ bool Level::checkCollisionOfSnake(int shape)
 				std::cout << "Fruit Eaten" << std::endl;
 				Points += 100;
 				std::cout << "Points : " << Points << std::endl;
+				message = "Fruit Eaten" + std::to_string(Points) + "Points";
 				break;
-
 			case Shape::ItemCoin:
 				LevelShapes.erase(LevelShapes.begin() + shape);
 				std::cout << "Box Eaten" << std::endl;
 				Points += 200;
 				std::cout << "Points : " << Points << std::endl;
+				message = "Box Eaten" + std::to_string(Points) + "Points";
 				break;
-
 			case Shape::ItemDiamond:
 				LevelShapes.erase(LevelShapes.begin() + shape);
 				std::cout << "Diamond Eaten" << std::endl;
@@ -301,10 +303,12 @@ void Level::checkSnakeBulletCollision()
 				{
 				case Shape::Terrain:
 					std::cout << "Bullet hit wall." << std::endl;
+					message = "Bullet hit wall.";
 					break;
 				case Shape::Enemy:
 					std::cout << "Bullet hit enemy." << std::endl;
 					LevelShapes.erase(LevelShapes.begin() + j);
+					message = "Bullet hit enemy.";
 					break;
 				case Shape::ItemFruit:
 					break;
@@ -325,7 +329,7 @@ bool Level::checkCollisionOfSnakeHead()
 		if (shapes.at(0)->isColliding(*shapes.at(i)))
 		{
 			std::cout << "You ate yourself and died, good job" << std::endl;
-
+			message = "You ate yourself and died, good job";
 			KillSnake();
 			return true;
 		}
@@ -463,11 +467,11 @@ void Level::createKDTreesForLevelShapes()
 	}
 }
 
-void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis)
+void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis, int camType)
 {
 	glm::mat4 Normal = makeTrans();
-	glm::mat4 MVP = cameras[0]->GetViewProjection() * Normal;
-
+	glm::mat4 MVP = cameras[camType]->GetViewProjection() * Normal;
+	//glm::mat4 MVP = cameras[0]->GetViewProjection() * Normal;
 	shaders[shaderIndx]->Bind();
 
 	for (int i = 0; i<LevelShapes.size(); i++)

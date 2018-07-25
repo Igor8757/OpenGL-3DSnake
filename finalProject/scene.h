@@ -43,7 +43,7 @@ protected:
 	bool stopMove = false;
 
 
-	std::vector<Camera*> cameras; //light will have the properties of camera
+	 //light will have the properties of camera
 	std::vector<glm::vec3> rotPositions;
 	std::vector<clock_t> TimeOfRotiains;
 	std::vector<Shader*> shaders;
@@ -57,14 +57,16 @@ protected:
 	bool toopView = true;;
 	int freeShots = 2;
 public:
-	inline void incresFreeShots(int shots) { freeShots += shots; }
+	std::vector<Camera*> cameras;
 	inline void incresFreeShots() { freeShots++; }
 	inline void DecreseFreeShots() { freeShots--; }
 	inline int GetFreeShots() { return freeShots; }
+	inline void incresFreeShots(int shots) { freeShots += shots; }
 
 	bool gameOver = false;
 	inline bool getCameraMode() { return toopView;}
-	inline void setCameraMode() { toopView = !toopView; }
+	inline void setCameraMode() { 
+		toopView = !toopView; }
 	const int DISPLAY_WIDTH = 1200;
 	const int DISPLAY_HEIGHT = 800;
 	const float FAR = 100.0f;
@@ -75,8 +77,10 @@ public:
 	void shot(clock_t this_time);
 	void checekr();
 	void addRemoveLinks(clock_t curr_time, bool add) ;
-	inline void increseSpeed() { speed = speed + 0.2; };
-	inline void decreseSpeed() { speed = speed - 0.2; };
+	inline void increseSpeed() { speed = speed + 0.0002; };
+	inline void decreseSpeed() { speed = speed - 0.0002; };
+	inline void setSpeed() { speed = 0.007; }
+	inline void setFreeShots(int shots) { this->freeShots = 2; }
 	inline void addRotTime(clock_t curr_time) { TimeOfRotiains.push_back(curr_time); }
 	inline void addRotPositions(glm::vec3 rotPosition) { rotPositions.push_back(rotPosition); }
 	inline int GetLinkNum() { return linksNum; }
@@ -124,7 +128,7 @@ public:
 
 	int inline getPickedShape() { return pickedShape; }
 	int inline getShapesSize() { return shapes.size(); }
-	Camera * getCamera() { return cameras.at(0); }
+	Camera * getCamera() { return cameras.at(getCameraMode()); }
 
 	bool checkCollision(int shape1, int shape2);
 	void createKDTreesForShapes();

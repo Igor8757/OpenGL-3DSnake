@@ -15,7 +15,9 @@ public:
 		this->projection = glm::perspective(fov, aspect, zNear, zFar);
 		this->fov = fov;
 	}
-
+	void setPosition(glm::vec3 position) {
+		this-> pos = position;
+	}
 	void setProjection( float aspect, float zNear, float zFar)
 	{
 		this->projection = glm::perspective(fov,aspect, zNear, zFar);
@@ -77,6 +79,40 @@ public:
 
 		forward = glm::vec3(glm::normalize(rotation * glm::vec4(forward, 0.0)));
 		up = glm::vec3(glm::normalize(rotation * glm::vec4(up, 0.0)));
+	}
+	void changeCamPosition(int axies,bool up) {
+		switch (axies)
+		{
+		case(1): {
+			if (up) {
+				pos.x = pos.x + 1;
+			}
+			else {
+				pos.x = pos.x - 1;
+			}
+			break;
+		}
+		case(2): {
+			if (up) {
+				pos.y = pos.y + 1;
+			}
+			else {
+				pos.y = pos.y - 1;
+			}
+			break;
+		}
+		case(3): {
+			if (up) {
+				pos.z = pos.z + 1;
+			}
+			else {
+				pos.z = pos.z - 1;
+			}
+			break;
+		}
+		default:
+			break;
+		}
 	}
 protected:
 private:

@@ -92,8 +92,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			break;
 		case GLFW_KEY_SPACE:
-			if (scn.gameOver)
-				break;
+			//if (scn.gameOver)
+			//	break;
+			////scn.addRemoveLinks(this_time, false);
+			//if (scn.GetLinkNum() <= 1) {
+			//	break;
+			//}
+			//scn.removeLink();
+			//scn.shot(this_time);
+			////printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
 			if (scn.GetLinkNum() <= 1) {
 				break;
 			}
@@ -105,7 +112,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				scn.DecreseFreeShots();
 				scn.shot(this_time);
 			}
-			//printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
 			break;
 			
 		case GLFW_KEY_N:
@@ -117,6 +123,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_C:
 			scn.setCameraMode();
+			break;
 		case GLFW_KEY_W:
 			if(!scn.paused && !scn.gameOver)
 			{
@@ -185,17 +192,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_X:
 			//scn.addRemoveLinks(this_time, false);
-			if (scn.GetLinkNum() <= 1) {
-				break;
-			}
-			if (scn.GetFreeShots() <= 0) {
-				scn.removeLink();
-				scn.shot(this_time);
-			}
-			else {
-				scn.DecreseFreeShots();
-				scn.shot(this_time);
-			}
+			
 			//printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
 			break;
 		case GLFW_KEY_V:
@@ -203,6 +200,63 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			scn.addLink();
 			//printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
 			break;
+		case GLFW_KEY_1: {
+			scn.cameras[1]->changeCamPosition(1, true);
+			break;
+		}
+		case GLFW_KEY_2: {
+			scn.cameras[1]->changeCamPosition(1, false);
+			break;
+		}
+		case GLFW_KEY_3: {
+			scn.cameras[1]->changeCamPosition(2, true);
+			break;
+		}
+		case GLFW_KEY_4: {
+			scn.cameras[1]->changeCamPosition(2, false);
+			break;
+		}
+		case GLFW_KEY_5: {
+			scn.cameras[1]->changeCamPosition(3, true);
+			break;
+		}
+		case GLFW_KEY_6: {
+			scn.cameras[1]->changeCamPosition(3, false);
+			break;
+		}
+		case GLFW_KEY_7: {
+			scn.cameras[1]->RotateX(1);
+			break;
+		}
+		case GLFW_KEY_8: {
+			scn.cameras[1]->RotateX(-1);
+			break;
+		}
+		case GLFW_KEY_9: {
+			scn.cameras[1]->RotateY(1);
+			break;
+		}
+		case GLFW_KEY_0: {
+			scn.cameras[1]->RotateY(-1);
+			break;
+		}
+		case GLFW_KEY_M: {
+			scn.cameras[1]->RotateZ(1);
+			break;
+		}
+		case GLFW_KEY_K: {
+			scn.cameras[1]->RotateZ(-1);
+			break;
+		}
+		case GLFW_KEY_U: {
+			scn.decreseSpeed();
+			break;
+		}
+		case GLFW_KEY_I: {
+			scn.increseSpeed();
+			break;
+		}
+						
 		default:
 			break;
 		}
