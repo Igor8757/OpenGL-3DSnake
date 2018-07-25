@@ -212,6 +212,7 @@ void Level::checkSnakeBulletCollision()
 	if (snakeShots.size() <= 0) {
 		return;
 	}
+	std::string retStr;
 	for(int i = 0;i<snakeShots.size();i++)
 	{
 		for(int j = 1;j < LevelShapes.size();j++)
@@ -222,10 +223,12 @@ void Level::checkSnakeBulletCollision()
 				{
 				case Shape::Terrain:
 					std::cout << "Bullet hit wall." << std::endl;
+					retStr = "Bullet hit wall.";
 					break;
 				case Shape::Enemy:
 					std::cout << "Bullet hit enemy." << std::endl;
 					LevelShapes.erase(LevelShapes.begin() + j);
+					retStr = "Bullet hit enemy.";
 					break;
 				case Shape::ItemFruit:
 					break;
@@ -384,11 +387,11 @@ void Level::createKDTreesForLevelShapes()
 	}
 }
 
-void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis)
+void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis, int camType)
 {
 	glm::mat4 Normal = makeTrans();
-	glm::mat4 MVP = cameras[0]->GetViewProjection() * Normal;
-
+	glm::mat4 MVP = cameras[camType]->GetViewProjection() * Normal;
+	//glm::mat4 MVP = cameras[0]->GetViewProjection() * Normal;
 	shaders[shaderIndx]->Bind();
 
 	for (int i = 0; i<LevelShapes.size(); i++)

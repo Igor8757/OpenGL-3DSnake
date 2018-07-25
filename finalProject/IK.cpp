@@ -76,13 +76,14 @@ using namespace glm;
 		glLineWidth(3);
 		cameras.push_back(new Camera(glm::vec3(0.0f, 5.0f, -48.0f), CAM_ANGLE, relation, NEAR, FAR));
 		cameras.push_back(new Camera(glm::vec3(0.0f, 0.0f,  3.0f), CAM_ANGLE, relation, NEAR, FAR));
-		cameras.at(1)->Pitch(-50.0f);
+		cameras.at(1)->Pitch(-100.0f);
 		//	axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 		pickedShape = -1;
 		
 	}
 	void IK::init(Vertex *vertices, unsigned int *indices, int verticesSize, int indicesSize, bool cmaeraMode)
 	{
+		
 		toopView = cmaeraMode;
 		for (int i = 0; i < linksNum + 1; i++) {
 			newPositions.push_back(glm::vec3(0, 0, 0));			

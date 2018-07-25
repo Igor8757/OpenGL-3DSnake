@@ -57,8 +57,8 @@ Scene::Scene(vec3 position, float angle, float hwRelation, float near, float far
 {
 	glLineWidth(3);
 	cameras.push_back(new Camera(position, angle, hwRelation, near, far));
-	cameras.push_back(new Camera(glm::vec3(0,0,3), angle, hwRelation, near, far));
-	cameras.at(1)->Pitch(-50.0f);
+	cameras.push_back(new Camera(glm::vec3(0,-2,-1.01), angle, hwRelation, near, far));
+	cameras.at(1)->Pitch(-100.0f);
 	//	axisMesh = new Shape(axisVertices,sizeof(axisVertices)/sizeof(axisVertices[0]),axisIndices, sizeof(axisIndices)/sizeof(axisIndices[0]));
 	pickedShape = -1;
 }
@@ -262,19 +262,18 @@ void Scene::move() {
 		//glm::mat4* tempMat = shapes[0]->getTraslateMat();
 		//glm::mat4* tempMat2 = shapes[0]->getTraslateMat();
 		//shapes[0]->setTraslateMat(tempMat);
+
 		if(linksNum>1){
 			pickedShape = 1;
 			shapeTransformation((int)tempRot[0], -tempRot[1]);
 		}
-		//shapes[0]->setTraslateMat(tempMat2);
+		
 	}
 	for (int i = 1; i < linksNum; i++) {
-		float rr ;
 		if (shapes[i]->GerRotVecSize() > 0) {
 			if (checkIftimeToMove(i)) {
 				pickedShape = i;
 				glm::vec2 tempRot = shapes[i]->getRotVector();
-				rr = tempRot[1];
 				shapeTransformation((int)tempRot[0], tempRot[1]);
 				if (i < linksNum - 1) {
 					pickedShape = i + 1;
@@ -291,18 +290,19 @@ void Scene::move() {
 void Scene::moveCamera() {
 	pickedShape = -1;
 	cameras[0]->MoveUp(0.0055);
-	cameras[1]->Pitch(50);
-	cameras[1]->MoveUp(speed);
+	//cameras[1]->Pitch(50);
+	//cameras[1]->MoveUp(speed);
+	cameras[1]->MoveUp(0.0055);
 }
 void Scene::rotateCamera(glm::vec2 rotateVec) {
 	switch ((int)rotateVec[0])
 	{
 	case xLocalRotate: {
-		cameras[1]->RotateX(rotateVec[1]);
+		cameras[1]->Pitch(-rotateVec[1]);
 		break;
 	}
 	case yLocalRotate: {
-		cameras[1]->RotateY(rotateVec[1]);
+		cameras[1]->RotateZ(-rotateVec[1]);
 		break;
 	}
 	default:
@@ -474,7 +474,15 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 		return;
 	glm::mat4 Normal = makeTrans();
 	//glm::mat4 Normal2 = shapes[0]->makeTrans();
-	glm::mat4 MVP = cameras[cameraType]->GetViewProjection()*Normal;
+	glm::mat4 MVP; 
+	glm::vec3 newPosition = getTipPosition(0);
+	cameras[1]->setPosition(glm::vec3(newPosition.x, newPosition.z+1.0, newPosition.y-1.0));
+	/*if (cameraType == 1) {
+		MVP = shapes[0]->makeTrans()*cameras[cameraType]->GetViewProjection();
+	}
+	else {*/
+		MVP = cameras[cameraType]->GetViewProjection()*Normal;
+	//}
 	shaders[shaderIndx]->Bind();
 	for (int i = 0; i<shapes.size(); i++)
 	{
@@ -533,7 +541,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 		shaders[shaderIndx]->Bind();
 		shaders[shaderIndx]->Update(cameras[cameraType]->GetViewProjection()*scale(vec3(10, 10, 10)), Normal*scale(vec3(10, 10, 10)), 0, shapesNormal);
 		axisMesh->draw(GL_LINES);
-	}
+	} 
 	for (int i = 0; i < snakeShots.size(); i++)
 	{
 		//int j = i;
@@ -562,7 +570,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 		shaders[shaderIndx]->Update(MVP1, Normal1, linksNum + i);
 		objectsShots[i]->shot->draw(GL_TRIANGLES);
 	}
-	cameras[1]->Pitch(-50);
+	//cameras[1]->Pitch(-50);
 }
 
 void Scene::shapeRotation(vec3 v, float ang, int indx)
@@ -751,6 +759,8 @@ void Scene::resize(int width, int height, int near, int far)
 {
 	glViewport(0, 0, width, height);
 	cameras[0]->setProjection((float)width / (float)height, near, far);
+	cameras[1]->setProjection((float)width / (float)height, near, far);
+
 }
 
 float Scene::picking(double x, double y)

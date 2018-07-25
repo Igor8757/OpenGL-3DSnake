@@ -312,12 +312,7 @@ int main(int argc, char** argv)
 					scn.moveCamera();
 					scn.UpdateLevel();
 				}
-				if (scn.checkCollisionFullLevel()) {
-					//if (scn.checkCollision(3, 4)) {
-				}
-				else {
-
-				}
+				scn.checkCollisionFullLevel();
 				if (scn.isActive())
 				{
 					int j = 3;
@@ -344,7 +339,7 @@ int main(int argc, char** argv)
 				window_size_callback(display.m_window, viewport[2], viewport[3]);
 			}
 			scn.draw(0, 0, false, toop?0:1); //change false to true for axis in every joint
-			scn.levelDraw(0, 0, false);
+			scn.levelDraw(0, 0, false, toop ? 0 : 1);
 			
 			ImGui::Render();
 			ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());

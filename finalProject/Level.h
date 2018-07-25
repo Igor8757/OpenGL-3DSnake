@@ -40,7 +40,7 @@ public:
 	bool checkCollisionOfSnakeHead();
 
 	// Other Functions
-	void levelDraw(int shaderIndx, int cameraIndx, bool drawAxis);
+	void levelDraw(int shaderIndx, int cameraIndx, bool drawAxis, int camType);
 	virtual ~Level();
 
 };

@@ -43,7 +43,7 @@ protected:
 	bool stopMove = false;
 
 
-	std::vector<Camera*> cameras; //light will have the properties of camera
+	 //light will have the properties of camera
 	std::vector<glm::vec3> rotPositions;
 	std::vector<clock_t> TimeOfRotiains;
 	std::vector<Shader*> shaders;
@@ -57,13 +57,15 @@ protected:
 	bool toopView = true;;
 	int freeShots = 2;
 public:
+	std::vector<Camera*> cameras;
 	inline void incresFreeShots() { freeShots++; }
 	inline void DecreseFreeShots() { freeShots--; }
 	inline int GetFreeShots() { return freeShots; }
 	
 	bool gameOver = false;
 	inline bool getCameraMode() { return toopView;}
-	inline void setCameraMode() { toopView = !toopView; }
+	inline void setCameraMode() { 
+		toopView = !toopView; }
 	const int DISPLAY_WIDTH = 1200;
 	const int DISPLAY_HEIGHT = 800;
 	const float FAR = 100.0f;
@@ -123,7 +125,7 @@ public:
 
 	int inline getPickedShape() { return pickedShape; }
 	int inline getShapesSize() { return shapes.size(); }
-	Camera * getCamera() { return cameras.at(0); }
+	Camera * getCamera() { return cameras.at(getCameraMode()); }
 
 	bool checkCollision(int shape1, int shape2);
 	void createKDTreesForShapes();
