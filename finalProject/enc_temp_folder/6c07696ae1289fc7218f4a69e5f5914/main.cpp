@@ -265,7 +265,6 @@ int main(int argc, char** argv)
 						message = "";
 						scn.setFreeShots(2);
 						scn.setSpeed();
-						scn.setWinning();
 					}
 
 				}
@@ -303,7 +302,6 @@ int main(int argc, char** argv)
 						 message = "";
 						 scn.setFreeShots(2);
 						 scn.setSpeed();
-						 scn.setWinning();
 					}
 				}
 				ImGui::End();
