@@ -92,15 +92,26 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			break;
 		case GLFW_KEY_SPACE:
-			if (scn.gameOver)
-				break;
-			//scn.addRemoveLinks(this_time, false);
+			//if (scn.gameOver)
+			//	break;
+			////scn.addRemoveLinks(this_time, false);
+			//if (scn.GetLinkNum() <= 1) {
+			//	break;
+			//}
+			//scn.removeLink();
+			//scn.shot(this_time);
+			////printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
 			if (scn.GetLinkNum() <= 1) {
 				break;
 			}
-			scn.removeLink();
-			scn.shot(this_time);
-			//printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
+			if (scn.GetFreeShots() <= 0) {
+				scn.removeLink();
+				scn.shot(this_time);
+			}
+			else {
+				scn.DecreseFreeShots();
+				scn.shot(this_time);
+			}
 			break;
 		case GLFW_KEY_N:
 
@@ -180,17 +191,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_X:
 			//scn.addRemoveLinks(this_time, false);
-			if (scn.GetLinkNum() <= 1) {
-				break;
-			}
-			if (scn.GetFreeShots() <= 0) {
-				scn.removeLink();
-				scn.shot(this_time);
-			}
-			else {
-				scn.DecreseFreeShots();
-				scn.shot(this_time);
-			}
+			
 			//printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
 			break;
 		case GLFW_KEY_V:
@@ -247,11 +248,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		}
 		case GLFW_KEY_U: {
-			scn.cameras.at(1)->Pitch(-10.0f);
+			scn.decreseSpeed();
 			break;
 		}
 		case GLFW_KEY_I: {
-			scn.cameras.at(1)->Pitch(10.0f);
+			scn.increseSpeed();
 			break;
 		}
 						

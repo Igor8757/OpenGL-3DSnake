@@ -7,8 +7,14 @@ class Level : public IK
 private:
 	int wallHeight = 0;
 	int enemyHeight =0;
+	std::string message = "";
 public:
-
+	inline std::string getMessage() {
+		return message;
+	}
+	inline void setMessage(std::string other) {
+		this->message = other;
+	}
 	std::vector<Shape*> LevelShapes;
 	int Points = 0;
 

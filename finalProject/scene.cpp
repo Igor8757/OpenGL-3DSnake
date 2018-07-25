@@ -289,10 +289,10 @@ void Scene::move() {
 }
 void Scene::moveCamera() {
 	pickedShape = -1;
-	cameras[0]->MoveUp(0.0055);
+	cameras[0]->MoveUp(speed - 0.0015);
 	//cameras[1]->Pitch(50);
 	//cameras[1]->MoveUp(speed);
-	cameras[1]->MoveUp(0.0055);
+	//cameras[1]->MoveUp(0.0055);
 }
 void Scene::rotateCamera(glm::vec2 rotateVec) {
 	switch ((int)rotateVec[0])

@@ -76,8 +76,10 @@ public:
 	void shot(clock_t this_time);
 	void checekr();
 	void addRemoveLinks(clock_t curr_time, bool add) ;
-	inline void increseSpeed() { speed = speed + 0.2; };
-	inline void decreseSpeed() { speed = speed - 0.2; };
+	inline void increseSpeed() { speed = speed + 0.0002; };
+	inline void decreseSpeed() { speed = speed - 0.0002; };
+	inline void setSpeed() { speed = 0.007; }
+	inline void setFreeShots(int shots) { this->freeShots = 2; }
 	inline void addRotTime(clock_t curr_time) { TimeOfRotiains.push_back(curr_time); }
 	inline void addRotPositions(glm::vec3 rotPosition) { rotPositions.push_back(rotPosition); }
 	inline int GetLinkNum() { return linksNum; }

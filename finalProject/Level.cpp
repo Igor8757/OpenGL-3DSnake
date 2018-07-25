@@ -31,18 +31,6 @@ void Level::addItems() {
 	int enemy4 = addEnemy1(-12, enemyHeight, 40);
 	AddMovement(enemy4, 4, 0.025, xGlobalTranslate);
 
-	int enemy5 = addEnemy1(0, enemyHeight, 53);
-	AddMovement(enemy5, 8.5, 0.03, zGlobalTranslate);
-
-	int enemy6 = addEnemy1(0, enemyHeight, 62);
-	AddMovement(enemy6, 8.5, 0.03, zGlobalTranslate);
-
-	int enemy7 = addEnemy1(0, enemyHeight, 65);
-	AddMovement(enemy7, 3, 0.025, zGlobalTranslate);
-
-	int enemy8 = addEnemy1(0, enemyHeight, 80);
-	//AddMovement(enemy7, 4, 0.025, xGlobalTranslate);
-
 }
 Level::Level(glm::vec3 position, float angle, float hwRelation, float near, float far) : IK(position, angle, hwRelation, near, far)
 {
@@ -70,7 +58,7 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 
 	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, -0.75 , 50);
 
-	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, 0, 58);
+	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, 0, 60);
 
 	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, -1.5, 67);
 
@@ -79,15 +67,6 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, 4.8, 12.25);
 
 	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, -4.8, 12.25);
-
-	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, -4.8, 13);
-
-
-	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, -1.2, 100);
-	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, 1.2, 100);
-	int top = addTerrain("./res/textures/waterrock.jpg", 20, 2, 2, 0, 100);
-	LevelShapeTransformation(top, yLocalTranslate, 4);
-
 
 
 
@@ -172,14 +151,17 @@ bool Level::checkCollisionOfSnake(int shape)
 		{
 			clock_t this_time = clock();
 			std::cout << "Link num " << i << " Colliding with shape num " << shape <<" !!" << std::endl;
+			message = "Link num " + std::to_string(i) + " Colliding with shape num " + std::to_string(shape) + " !!";
 			switch(LevelShapes.at(shape)->getKind())
 			{
 			case Shape::Terrain:
 				std::cout << "You hit wall and died" << std::endl;
+				message = "You hit wall and died";
 				KillSnake();
 				break;
 			case Shape::Enemy:
 				std::cout << "You were killed" << std::endl;
+				message = "You hit wall and died";
 				KillSnake();
 				break;
 			case Shape::ItemFruit:
@@ -188,21 +170,21 @@ bool Level::checkCollisionOfSnake(int shape)
 				std::cout << "Fruit Eaten" << std::endl;
 				Points += 100;
 				std::cout << "Points : " << Points << std::endl;
-
+				message = "Fruit Eaten" + std::to_string(Points) + "Points";
 				break;
 			case Shape::ItemCoin:
 				LevelShapes.erase(LevelShapes.begin() + shape);
 				std::cout << "Box Eaten" << std::endl;
 				Points += 200;
 				std::cout << "Points : " << Points << std::endl;
-
+				message = "Box Eaten" + std::to_string(Points) + "Points";
 				break;
 			case Shape::ItemDiamond:
 				LevelShapes.erase(LevelShapes.begin() + shape);
 				std::cout << "Diamond Eaten" << std::endl;
 				Points += 500;
 				std::cout << "Points : " << Points << std::endl;
-
+				message = "Diamond Eaten" + std::to_string(Points) + "Points";
 				break;
 			case Shape::Default:
 				break;
@@ -233,7 +215,6 @@ void Level::checkSnakeBulletCollision()
 	if (snakeShots.size() <= 0) {
 		return;
 	}
-	std::string retStr;
 	for(int i = 0;i<snakeShots.size();i++)
 	{
 		for(int j = 1;j < LevelShapes.size();j++)
@@ -244,12 +225,12 @@ void Level::checkSnakeBulletCollision()
 				{
 				case Shape::Terrain:
 					std::cout << "Bullet hit wall." << std::endl;
-					retStr = "Bullet hit wall.";
+					message = "Bullet hit wall.";
 					break;
 				case Shape::Enemy:
 					std::cout << "Bullet hit enemy." << std::endl;
 					LevelShapes.erase(LevelShapes.begin() + j);
-					retStr = "Bullet hit enemy.";
+					message = "Bullet hit enemy.";
 					break;
 				case Shape::ItemFruit:
 					break;
@@ -270,7 +251,7 @@ bool Level::checkCollisionOfSnakeHead()
 		if (shapes.at(0)->isColliding(*shapes.at(i)))
 		{
 			std::cout << "You ate yourself and died, good job" << std::endl;
-
+			message = "You ate yourself and died, good job";
 			KillSnake();
 			return true;
 		}

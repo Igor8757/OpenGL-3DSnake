@@ -4,6 +4,8 @@
 #include <Windows.h>
 #include "GUI/imgui.h"
 #include "GUI/imgui_impl_glfw_gl3.h"
+
+
 void init()
 {
 	glfwSetKeyCallback(display.m_window, key_callback);
@@ -119,38 +121,29 @@ int main(int argc, char** argv)
 	bool toop = true;
 
 
-	//GLFWwindow* window = glfwCreateWindow(1280, 720, "ImGui GLFW+OpenGL3 example", NULL, NULL);
+	
 	while (!glfwWindowShouldClose(display.m_window))
 	{
 		if (gui == false) { 
 			glfwSetWindowShouldClose(display.m_window, GLFW_TRUE); 
 		}
-		// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-		// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
-		// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
-		// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+		
 		glfwPollEvents();
 		ImGui_ImplGlfwGL3_NewFrame();
 
-		// 1. Show a simple window.
-		// Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets automatically appears in a window called "Debug".
+		
 		{
 			ImGui::SetNextWindowPos(ImVec2(0, 0));
 			ImGui::Begin("Snake!", &open, ImVec2(DISPLAY_WIDTH, DISPLAY_HEIGHT), 0.9f, ImGuiWindowFlags_NoResize |
 				ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus |
 				ImGuiWindowFlags_MenuBar);
 			static float f = 0.0f;
-			//ImGui::Begin("Test Window", DISPLAY_WIDTH, DISPLAY_HEIGHT, 0, 0, 0, 4, 4);
-			//ImGui::Text("Hello, world!");   
-			// Display some text (you can use a format string too)
-			//ImGui::Text("dificulty");
 			if (ImGui::BeginMenuBar())
 			{
 				if (ImGui::BeginMenu("dificulty"))
 				{
-					if (ImGui::MenuItem("Ffew objects", "eazy")) { eazy = true; hard = false; normal = false; }
-					if (ImGui::MenuItem("Lot off objects", "normal")) { normal = true; hard = false; }
-					if (ImGui::MenuItem("Lot off shuting objects", "hard")) { hard = true; }
+					if (ImGui::MenuItem("Few objects", "eazy")) { eazy = true; hard = false; normal = false; }
+					if (ImGui::MenuItem("Lots off objects", "hard")) { hard = true; }
 					ImGui::EndMenu();
 				}
 				ImGui::EndMenuBar();
@@ -159,13 +152,6 @@ int main(int argc, char** argv)
 			ImGui::Text("dificulty-level:");
 			ImGui::Text(hard ? "	hard" : normal ? "	normal" : "	eazy");
 			ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
-			//ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our windows open/close state
-			//ImGui::Checkbox("Another Window", &show_another_window);
-			//ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
-			//ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-			//ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our windows open/close state
-			//ImGui::Checkbox("Another Window", &show_another_window);
 			if (ImGui::BeginMenuBar())
 			{
 				if (ImGui::BeginMenu("view"))
@@ -180,27 +166,27 @@ int main(int argc, char** argv)
 			ImGui::Text("view:");
 			ImGui::Text(toop ? "	Top view" : "	Snake view");
 			ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
-			ImGui::Text("Number of chains:%d", numOfLinks);
-			if (ImGui::Button("Increse number of chains"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
+			ImGui::Text("Number of links:%d", numOfLinks);
+			if (ImGui::Button("Increse number of links"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
 				numOfLinks++;
-			if (ImGui::Button("Decrese number of chains"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
+			if (ImGui::Button("Decrese number of links"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
 				numOfLinks--;
 			//ImGui::SameLine();
 			ImGui::Text(""); ImGui::Text("");
-			ImGui::Text("readme:");
+			ImGui::Text("Readme:");
 			ImGui::Text("Use w to move up");
 			ImGui::Text("Use d to move right");
 			ImGui::Text("Use a to move left");
 			ImGui::Text("Use s to move down");
 			ImGui::Text("Avoid kiling objects");
-			ImGui::Text("Avoid decresind objects");
-			if (hard) {
-				ImGui::Text("Avoid Shoting objects- shoot will decres your snake ");
-			}
+			ImGui::Text("Dont eat yourself!");
+			ImGui::Text("Dont hit the wals!");
 			ImGui::Text("Collect incresing objects-shape of fruits");
-			ImGui::Text("You can shoot at objects using space - but it will decrese your snake");
+			ImGui::Text("You can shot objects to kill using space, but it will decrese your snake if you dont have free shots");
 			ImGui::Text("Your goal is get to the end with the larger snake you can");
 			ImGui::Text("Press P to stop");
+			ImGui::Text("Press C to change camera mode");
+			ImGui::Text("Press U to decrese your speed and I to increse your speed");
 			ImGui::Text("");
 			ImGui::Text("lets start!");
 			ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
@@ -208,12 +194,10 @@ int main(int argc, char** argv)
 			{
 				gui = false;
 			}
-			//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 		}
 
 		ImGui::End();
-		// Rendering
 		int display_w, display_h;
 		glfwGetFramebufferSize(display.m_window, &display_w, &display_h);
 		glViewport(0, 0, display_w, display_h);
@@ -233,13 +217,15 @@ int main(int argc, char** argv)
 		scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]),toop);
 		glfwSetWindowShouldClose(display.m_window, GLFW_FALSE);
 		init();
-		//glfwSetInputMode(display.m_window,GLFW_STICKY_MOUSE_BUTTONS,1);
 		initCollisionDetection();
 		int x = 0;
+		std::string message ="";
+		std::string guiMsg = "";
 		while (!glfwWindowShouldClose(display.m_window))
 		{
 			//glfwPollEvents();
 			if (scn.gameOver) {
+				int endPoints = scn.Points + ((scn.GetLinkNum() - startLinkNum)>0? scn.GetLinkNum() - startLinkNum:0 * 100) + scn.GetFreeShots()*200;
 				ImGui_ImplGlfwGL3_NewFrame();
 				{
 					ImGui::SetNextWindowPos(ImVec2(0, 0));
@@ -251,14 +237,18 @@ int main(int argc, char** argv)
 					ImGui::SetWindowFontScale(3.5);
 					ImGui::Text("					Game Over!");
 					ImGui::SetWindowFontScale(1.7);
-					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
 					ImGui::Text("Your dificulty-level:");
 					ImGui::Text(hard ? "	hard" : normal ? "	normal" : "	eazy");
-					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
-					ImGui::Text("finised with :%d", scn.GetLinkNum(), "Number of Links");
-					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); 
+					ImGui::Text("Finised with :%d", scn.GetLinkNum(), "Number of Links");
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); 
 					ImGui::Text("Number of points:%d", scn.Points);
-					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					ImGui::Text(""); 
+					ImGui::Text("Your total points is:%d", endPoints);
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); 
+					ImGui::Text(guiMsg.c_str());
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
 					if (ImGui::Button("												Start over												"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
 					{
 						scn.setLinkNum(startLinkNum);
@@ -266,6 +256,11 @@ int main(int argc, char** argv)
 						scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]), toop);
 						initCollisionDetection();
 						scn.gameOver = false;
+						scn.setMessage("");
+						guiMsg = "";
+						message = "";
+						scn.setFreeShots(2);
+						scn.setSpeed();
 					}
 
 				}
@@ -288,15 +283,21 @@ int main(int argc, char** argv)
 					ImGui::Text("Number of points:%d", scn.Points);
 					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
 					ImGui::Text("freeShotes:%d", scn.GetFreeShots());
-					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
+					ImGui::Text(guiMsg.c_str());
+					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
 					ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
 					if (ImGui::Button("												Start over												"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
 					{
 						scn.setLinkNum(startLinkNum);
 						scn.levelStartOver();
 						scn.init(vertices, indices, sizeof(vertices) / sizeof(vertices[0]), sizeof(indices) / sizeof(indices[0]), toop);
-						initCollisionDetection();
-						//scn.gameOver = false;
+						 initCollisionDetection();
+						 scn.setMessage("");
+						 guiMsg = "";
+						 message = "";
+						 scn.setFreeShots(2);
+						 scn.setSpeed();
 					}
 				}
 				ImGui::End();
@@ -313,6 +314,10 @@ int main(int argc, char** argv)
 					scn.UpdateLevel();
 				}
 				scn.checkCollisionFullLevel();
+				message = scn.getMessage();
+				if (message != "") {
+					guiMsg = message;
+				}
 				if (scn.isActive())
 				{
 					int j = 3;
