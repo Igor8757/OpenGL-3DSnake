@@ -197,6 +197,7 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 
 	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, -1.2, 100);
 	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, 1.2, 100);
+	
 	int top = addTerrain("./res/textures/waterrock.jpg", 20, 4, 2, 0, 100);
 	LevelShapeTransformation(top, yLocalTranslate, 3.4);
 
