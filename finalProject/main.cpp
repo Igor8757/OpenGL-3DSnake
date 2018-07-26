@@ -226,7 +226,8 @@ int main(int argc, char** argv)
 		{
 			//glfwPollEvents();
 			if (scn.gameOver) {
-				int endPoints = scn.Points + ((scn.GetLinkNum() - startLinkNum)>0? scn.GetLinkNum() - startLinkNum:0 * 100) + scn.GetFreeShots()*200*scn.getWinning()?5:1;
+				int endPoints = scn.Points + ((scn.GetLinkNum() - startLinkNum)>0? scn.GetLinkNum() - startLinkNum:0 * 100) + scn.GetFreeShots()*200;
+				endPoints = endPoints * (scn.getWinning() ? 5 : 1);
 				ImGui_ImplGlfwGL3_NewFrame();
 				{
 					ImGui::SetNextWindowPos(ImVec2(0, 0));
