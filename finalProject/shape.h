@@ -13,11 +13,12 @@ class Shape : public MovableGLM
 	Texture *tex;
 	bool isCopy;
 	std::vector<glm::vec2> rotVectors;
-	int kind = Default;
 public:
+	int kind = Default;
+
 	inline unsigned int getKind() { return kind; }
 	inline unsigned int setKind(enum objKind k) { kind = k; }
-	enum objKind {Default,Snake,ItemBox,ItemFruit,ItemCoin, ItemDiamond,Enemy,Terrain,shotingObj,killObj,bullet, shotObj};
+	enum objKind {Default, WinBlock,Snake,ItemBox,ItemFruit,ItemCoin, ItemDiamond,Enemy,Terrain,shotingObj,killObj,bullet, shotObj};
 	Mesh * mesh;
 	glm::vec2 getRotVector();
 	inline void setRotVectors(std::vector<glm::vec2> other) { rotVectors = other; }

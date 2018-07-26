@@ -326,7 +326,7 @@ bool Shape::_isCollidingA(Node& nodeA, Node& nodeB, Shape &other, Node &current)
 
 		return true;
 	}
-	if (collisionRecDepth >= 5)
+	if (collisionRecDepth >= 10)
 	{
 		return true;
 	}
