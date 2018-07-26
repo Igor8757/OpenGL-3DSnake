@@ -168,22 +168,22 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			break;
 		case GLFW_KEY_KP_8:
-			scn.getCamera()->MoveUp(5);
+			scn.cameras[0]->MoveUp(5);
 			break;
 		case GLFW_KEY_KP_2:
-			scn.getCamera()->MoveUp(-5);
+			scn.cameras[0]->MoveUp(-5);
 			break;
 		case GLFW_KEY_KP_4:
-			scn.getCamera()->MoveRight(5);
+			scn.cameras[0]->MoveRight(5);
 			break;
 		case GLFW_KEY_KP_6:
-			scn.getCamera()->MoveRight(-5);
+			scn.cameras[0]->MoveRight(-5);
 			break;
 		case GLFW_KEY_KP_7:
-			scn.getCamera()->MoveForward(-5);
+			scn.cameras[0]->MoveForward(-5);
 			break;
 		case GLFW_KEY_KP_9:
-			scn.getCamera()->MoveForward(5);
+			scn.cameras[0]->MoveForward(5);
 			break;
 		
 		case GLFW_KEY_Z:

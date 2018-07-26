@@ -172,13 +172,15 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	}
 	addTerrain("./res/textures/waterrock.jpg", 42, wallHeight, 3, 0, -4);
 
+	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight - 5, 10, 2, 5);
+
 	addTerrain("./res/textures/waterrock.jpg", 25, wallHeight, 2, 0.65, 13);
 
-	 addTerrain("./res/textures/waterrock.jpg", 2, wallHeight -5, 10, 2, 5);
+	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, -0.75, 20);
+
+	addTerrain("./res/textures/waterrock.jpg", 10, wallHeight , 2, -0.75, 20);
 
 	addTerrain("./res/textures/waterrock.jpg", 30, wallHeight, 2, 0.4, 40);
-
-	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, -0.75, 20);
 
 	addTerrain("./res/textures/waterrock.jpg", 23, wallHeight, 2, -0.75 , 50);
 
@@ -195,14 +197,23 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, -4.8, 13);
 
 
+<<<<<<< HEAD
 	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, -1.2, 100);
 	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, 1.2, 100);
 	
+=======
+	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, -1.5, 100);
+	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, 1.5, 100);
+>>>>>>> f863dc1974c845dd89c1a1bcc15ce3c0632e5095
 	int top = addTerrain("./res/textures/waterrock.jpg", 20, 4, 2, 0, 100);
 	LevelShapeTransformation(top, yLocalTranslate, 3.4);
 
 	int bottom = addTerrain("./res/textures/waterrock.jpg", 20, 4, 2, 0, 100);
 	LevelShapeTransformation(bottom, yLocalTranslate, -0.6);
+
+	int winTerrain = addTerrain("./res/textures/grass.bmp", 20, 4, 2, 0, 100);
+	LevelShapeTransformation(winTerrain, yLocalTranslate, 1.4);
+	LevelShapes.at(winTerrain)->kind = Shape::WinBlock;
 
 }
 
@@ -218,6 +229,11 @@ int Level::addEnemy1(float x, float y, float z)
 	LevelShapeTransformation(enemy, zGlobalRotate, 180);
 	LevelShapeTransformation(enemy, yGlobalRotate, 90);
 	return enemy;
+}
+
+int Level::addWinShape()
+{
+
 }
 
 void Level::UpdateLevel()
@@ -279,7 +295,7 @@ bool Level::checkCollisionOfSnake(int shape)
 {
 	
 	bool colliding = false;
-	for (int i = 0;i < linksNum & !colliding;i++)
+	for (int i = 0;i < std::max(linksNum,3) & !colliding;i++)
 	{
 		colliding = shapes.at(i)->isColliding(*LevelShapes.at(shape));
 		if(colliding)
@@ -331,6 +347,11 @@ bool Level::checkCollisionOfSnake(int shape)
 				std::cout << "Points : " << Points << std::endl;
 				break;
 
+			case Shape::WinBlock:
+				std::cout << "You Won !!" << std::endl;
+				winning = true;
+				break;
+
 			case Shape::Default:
 				break;
 			}
@@ -378,8 +399,10 @@ void Level::checkSnakeBulletCollision()
 					message = "Bullet hit enemy.";
 					break;
 				case Shape::ItemFruit:
+					continue;
 					break;
 				case Shape::Default:
+					continue;
 					break;
 				}
 				snakeShots.erase(snakeShots.begin() + i);
@@ -552,6 +575,8 @@ void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis, int camType
 
 	for (int i = 0; i<LevelShapes.size(); i++)
 	{
+		if (LevelShapes.at(i)->getKind() == Shape::WinBlock)
+			continue;
 		mat4 Normal1 = mat4(1);
 		
 		mat4 MVP1 = MVP * Normal1;

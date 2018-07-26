@@ -36,6 +36,7 @@ public:
 	void LevelShapeTransformation(int shape, int type, float amt);
 	void levelStartOver();
 	int addEnemy1(float x, float y, float z);
+	int addWinShape();
 
 	void addItemsEasy();
 	void addItemsHard();
