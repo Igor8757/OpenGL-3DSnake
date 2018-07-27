@@ -105,6 +105,28 @@ void Shader::Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx)
 	glUniform3f(m_uniforms[3], r / 255.0f, g / 255.0f, b / 255.0f);
 }
 
+void Shader::Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx, glm::vec3 canProj)
+{
+
+
+	//if(Normal[0][3]>0 || Normal[3][0]>0)
+	//{
+	//	printMat(Normal);
+	//	printMat(MVP);
+	//}
+
+	int r = ((shpIndx + 1) & 0x000000FF) >> 0;
+	int g = ((shpIndx + 1) & 0x0000FF00) >> 8;
+	int b = ((shpIndx + 1) & 0x00FF0000) >> 16;
+	glUniformMatrix4fv(m_uniforms[0], 1, GL_FALSE, &MVP[0][0]);
+	glUniformMatrix4fv(m_uniforms[1], 1, GL_FALSE, &Normal[0][0]);
+
+	glm::vec3 normal = glm::normalize(glm::vec3(0.0f, 0.3f, -1.0f));
+
+	glUniform3f(m_uniforms[2], canProj.x, canProj.y, canProj.z);
+	glUniform3f(m_uniforms[3], r / 255.0f, g / 255.0f, b / 255.0f);
+}
+
 std::string Shader::LoadShader(const std::string& fileName)
 {
     std::ifstream file;

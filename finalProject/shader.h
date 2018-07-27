@@ -13,6 +13,8 @@ public:
 	void Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx, std::vector<glm::mat4> matArray);
 	void Update( glm::mat4 MVP ,glm::mat4 Normal , int const shpIndx);
 
+	void Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx, glm::vec3 canProj);
+
 	virtual ~Shader();
 protected:
 private:

@@ -311,7 +311,7 @@ void Shape::makeKDTree(const IndexedModel& model) {
 	for (int i = 0; i < model.positions.size(); i++) {
 		glm::vec3 vertex1 = model.positions.at(i); 
 		//glm::vec3 vertex = getVectorInSystem(glm::mat4(1), vertex1);
-		glm::vec3 vertex = vertex1 * (scaleFactor * 0.87f);
+		glm::vec3 vertex = vertex1 * (scaleFactor * 0.75f);
 		BoundingBox b;
 		b.position = vertex;
 		posList.push_back(b);
