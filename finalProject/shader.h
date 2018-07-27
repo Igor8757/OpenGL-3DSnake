@@ -10,7 +10,7 @@ public:
 	Shader(const std::string& fileName);
 
 	void Bind();
-	void Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx, std::vector<glm::mat4> matArray);
+	void Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx, std::vector<glm::mat4> matArray,int linksNum);
 	void Update( glm::mat4 MVP ,glm::mat4 Normal , int const shpIndx);
 
 	void Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx, glm::vec3 canProj);
@@ -19,7 +19,7 @@ public:
 protected:
 private:
 	static const unsigned int NUM_SHADERS = 2;
-	static const unsigned int NUM_UNIFORMS = 6;
+	static const unsigned int NUM_UNIFORMS = 7;
 	void operator=(const Shader& shader) {}
 	Shader(const Shader& shader) {}
 	

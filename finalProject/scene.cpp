@@ -213,21 +213,7 @@ bool Scene::checkIftimeToMove(int shapeIdx) {
 	int rotCurrShapesize = shapes[shapeIdx]->GerRotVecSize();
 	int rotShapesSize = TimeOfRotiains.size();
 	int timeToCheck = rotShapesSize - rotCurrShapesize;
-	//glm::vec3 position = getDestination(shapeIdx);
-	//if (position.x + 0.1  >= rotPositions[positionToCheck].x
-	//	&&position.x - 0.1  <= rotPositions[positionToCheck].x
-	//	&&position.y + 0.1  >= rotPositions[positionToCheck].y
-	//	&&position.y - 0.1  <= rotPositions[positionToCheck].y
-	//	&&position.z + 0.1  >= rotPositions[positionToCheck].z
-	//	&&position.z - 0.1  <= rotPositions[positionToCheck].z) {
-	//	if (shapeIdx == linksNum-1) {
-	//		rotPositions.reserve(rotPositions.size());
-	//		rotPositions.pop_back();
-	//		rotPositions.reserve(rotPositions.size());
-	//	}
-	//	//shapes[shapeIdx + 1]->myRevRotate();
-	//	return true;
-	//}
+	
 	clock_t last_time = TimeOfRotiains[timeToCheck];
 	clock_t this_time = clock();
 
@@ -238,6 +224,8 @@ bool Scene::checkIftimeToMove(int shapeIdx) {
 		if (shapeIdx == linksNum - 1)
 		{
 			TimeOfRotiains.erase(TimeOfRotiains.begin());
+		
+			straight_time = clock();
 		}
 		return true;
 	}
@@ -247,11 +235,9 @@ bool Scene::checkIftimeToMove(int shapeIdx) {
 
 void Scene::move() {
 	
-	moveSnakeShot();
+	
 	checkIftimeToAddRemove();
 	shapes[0]->myTranslate(vec3(0, 0, -speed), 1);
-	/*mat4 Normal1 = mat4(1);
-	Normal1 = shapes[0]->makeTrans() * Normal1;*/
 	
 	
 	if (shapes[0]->GerRotVecSize() > 0) {
@@ -259,16 +245,13 @@ void Scene::move() {
 		glm::vec2 tempRot = shapes[0]->getRotVector();
 		shapeTransformation((int)tempRot[0], tempRot[1]);
 		rotateCamera(tempRot);
-		//glm::mat4* tempMat = shapes[0]->getTraslateMat();
-		//glm::mat4* tempMat2 = shapes[0]->getTraslateMat();
-		//shapes[0]->setTraslateMat(tempMat);
-
-		if(linksNum>1){
+		if (linksNum > 1) {
 			pickedShape = 1;
 			shapeTransformation((int)tempRot[0], -tempRot[1]);
 		}
-		
+		straighSnake = true;
 	}
+	
 	for (int i = 1; i < linksNum; i++) {
 		if (shapes[i]->GerRotVecSize() > 0) {
 			if (checkIftimeToMove(i)) {
@@ -279,13 +262,12 @@ void Scene::move() {
 					pickedShape = i + 1;
 					shapeTransformation((int)tempRot[0], -tempRot[1]);
 				}
+
+
 			}
 		}
-		//else {
-		//break;
-		//}
 	}
-	
+	moveSnakeShot();
 }
 void Scene::moveCamera() {
 	pickedShape = -1;
@@ -323,66 +305,15 @@ void Scene::checkIftimeToAddRemove() {
 	if (time_counter > (double)((1.4014 - speed)*temp) * CLOCKS_PER_SEC) {
 		if (addRemoveLinksVec[0].add)
 			addLink();
-		else
-			removeLink();
+		
 		addRemoveLinksVec.erase(addRemoveLinksVec.begin());
 	}
-
+	if (!addRemoveLinksVec[0].add) {
+		removeLink();
+		addRemoveLinksVec.erase(addRemoveLinksVec.begin());
+	}
 }
-//bool Scene::checkIftimeToMove(int shapeIdx) {
-//	int rotCurrShapesize = shapes[shapeIdx]->GerRotVecSize();
-//	int rotShapesSize = TimeOfRotiains.size();
-//	int timeToCheck = rotShapesSize - rotCurrShapesize;
 
-//	clock_t last_time = TimeOfRotiains[timeToCheck];
-//	clock_t this_time = clock();
-
-//	double time_counter = (double)(this_time - last_time);
-
-//	//last_time = this_time;
-//	int temp = linksNum - shapeIdx - 1;
-//	if (time_counter > (double)((1.91 + speed)*temp) * CLOCKS_PER_SEC)
-//	{
-//		if (shapeIdx = 0)
-//		{
-//			
-//			TimeOfRotiains.erase(TimeOfRotiains.begin());
-//			//TimeOfRotiains.pop_back();
-//			//TimeOfRotiains.reserve(rotPositions.size());
-//		}
-//		return true;
-
-//	}
-//	return false;
-
-//}
-//void Scene::addLink() {
-//	pickedShape = linksNum;
-
-//	std::vector<Shape*>::iterator it;
-//	it = shapes.begin();
-//	//shapes.insert(it + linksNum, 200);
-//	chainParents.push_back(-1);
-//	Shape *tempShape = new Shape(1, 1, "./res/textures/plane.png");
-//  tempShape->makeKDTree(tempShape->mesh->model);
-//	shapes.insert(it + 1, tempShape);
-//	shapes[1]->setTraslateMat(shapes[0]->getTraslateMat());
-//	pickedShape = 1;
-//	shapeTransformation(zScale, scaleFactor);
-//	linksNum++;
-//	for (int i = 1; i < linksNum ; i++)
-//	{
-//		setParent(i, i - 1);
-//	}
-//	//addShape(1, 1, "./res/textures/plane.png", -1);
-//	
-//	shapesNormal.push_back(glm::mat4(1));
-//	shapes[1]->setRotVectors(shapes[0]->getRotVectors());
-//	shapes[0]->myTranslate(vec3(0, 0, -1), 1);
-//	//tranlateBack.push_back(4);
-//	
-//	
-//}
 void Scene::removeLink() {
 	std::vector<Shape*>::iterator it;
 	std::vector<glm::mat4>::iterator it2;
@@ -390,7 +321,7 @@ void Scene::removeLink() {
 	it = shapes.begin();
 	//it2 = shapesNormal.begin();
 	if (linksNum == 1) {
-		Pause();
+		//Pause();
 		return;
 	}
 	if (linksNum == 2) {
@@ -421,44 +352,9 @@ void Scene::removeLink() {
 	
 }
 
-//void Scene::move() {
-//	/*stopMove = true;
-//	if (stopMove) {
-//		return;
-//	}*/
-//	if (tranlateBack.size() > 0)
-//	{
-//		if (tranlateBack[0] <= 0)
-//		{
-//			tranlateBack.erase(tranlateBack.begin());
-//		}
-//		else {
-//			pickedShape = 0;
-//			shapes[0]->myTranslate(vec3(0, 0, -1), 1);
-//			shapes[0]->myTranslate(vec3(0, 0, 1-(1-4/ (tranlateBack[0]-1))), 1);
-//		}
-//	}
-//	checkIftimeToAddRemove();
-//	for (int i = 0; i < linksNum; i++) {
-//		pickedShape = i;
-//		shapes[i]->myTranslate(vec3(0, 0, speed), 1);
-//	}
-//	pickedShape = linksNum - 1;
-//	if (shapes[pickedShape]->GerRotVecSize() > 0) {
-//		//pickedShape = 3;
-//		glm::vec2 tempRot = shapes[pickedShape]->getRotVector();
-//		shapeTransformation((int)tempRot[0], tempRot[1]);
 
-//	}
-//	for (int i = linksNum - 2; i >= 0; i--) {
-//		if (shapes[i]->GerRotVecSize() > 0) {
-//			if (checkIftimeToMove(i)) {
-//				pickedShape = i;
-//				glm::vec2 tempRot = shapes[i]->getRotVector();
-//				shapeTransformation((int)tempRot[0], tempRot[1]);
-//			}
-//		}
-//	}
+
+
 
 
 
@@ -466,6 +362,22 @@ void Scene::removeLink() {
 void Scene::addVectorToShapes(glm::vec2 addVector) {
 	for (int i = 0; i < linksNum; i++) {
 		shapes[i]->addRotVector(addVector);
+	}
+}
+void Scene::updateShapesNormal(glm::mat4 MVP) {
+	for (int i = 0; i < shapes.size(); i++)
+	{
+		//int j = i;
+		//			int counter = 0;
+		mat4 Normal1 = mat4(1);
+		for (int j = i; chainParents[j] > -1; j = chainParents[j])
+		{
+			Normal1 = shapes[chainParents[j]]->makeTrans() * Normal1;//first move
+																	 //Normal1 = shapes[chainParents[j]]->makeTrans2() * Normal1;//seconed move
+		}
+		mat4 MVP1 = MVP * Normal1;
+		if (i<linksNum)
+			shapesNormal.at(i) = MVP1;
 	}
 }
 void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
@@ -477,12 +389,8 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 	glm::mat4 MVP; 
 	glm::vec3 newPosition = getTipPosition(0);
 	cameras[1]->setPosition(glm::vec3(newPosition.x, newPosition.z+1.0, -newPosition.y-1.0));
-	/*if (cameraType == 1) {
-		MVP = shapes[0]->makeTrans()*cameras[cameraType]->GetViewProjection();
-	}
-	else {*/
-		MVP = cameras[cameraType]->GetViewProjection()*Normal;
-	//}
+	MVP = cameras[cameraType]->GetViewProjection()*Normal;
+	//updateShapesNormal(MVP);
 	shaders[shaderIndx]->Bind();
 	for (int i = 0; i<shapes.size(); i++)
 	{
@@ -494,52 +402,27 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 			Normal1 = shapes[chainParents[j]]->makeTrans() * Normal1;//first move
 																	 //Normal1 = shapes[chainParents[j]]->makeTrans2() * Normal1;//seconed move
 		}
-
-
 		mat4 MVP1 = MVP * Normal1;
 		Normal1 = Normal * Normal1;
-		/*
-		if (shaderIndx == 0 && drawAxis && chainParents[i] >= 0)
-		{
-			shaders[shaderIndx]->Update(axisMesh->makeTransScale(MVP1), axisMesh->makeTransScale(Normal1), 0, shapesNormal);
-			axisMesh->draw(GL_LINES);
-		}
-		*/
 		MVP1 = MVP1 * shapes[i]->makeTransScale(mat4(1));
 		Normal1 = Normal1 * shapes[i]->makeTrans();
 		if (i<linksNum)
 			shapesNormal.at(i) = MVP1;
-		shaders[shaderIndx]->Update(MVP1, Normal1, i, shapesNormal);
+		shaders[shaderIndx]->Update(MVP1, Normal1, i, shapesNormal,linksNum);
 
 		if (shaderIndx == 1)
 			shapes[i]->draw(GL_TRIANGLES);
 		else
 			shapes[i]->draw(GL_TRIANGLES);
 
-		/*
-		// BB drawing
-		Node *box = shapes[0]->kdtree.getRoot();
-		Shape *shape = new Shape(box->data.vertices, sizeof(box->data.vertices) / sizeof(box->data.vertices[0]),
-			box->data.indices, sizeof(box->data.indices) / sizeof(box->data.indices[0]));
-		glm::mat4 MVP2;
-		glm::mat4 Normal2;
-		if (shapes[0]->kdtree.bonus) {
-			MVP2 = MVP * shapes[0]->translateMat[0] * glm::transpose(box->data.rotmat) * shapes[0]->rotateMat * shapes[0]->translateMat[1];
-			Normal2 = Normal * shapes[0]->translateMat[0] * glm::transpose(box->data.rotmat) *shapes[0]->rotateMat * shapes[0]->translateMat[1] * box->data.rotmat;
-		}
-		else {
-			MVP2 = MVP * shapes[0]->makeTrans(glm::mat4(1));
-			Normal2 = Normal * shapes[0]->makeTrans();
-		}
-		shaders[shaderIndx]->Update(MVP1, Normal1, linksNum);
-		shape->draw(GL_LINE_LOOP);
-		delete shape;*/
+	
+	
 	}
 	
 	if (shaderIndx == 0)
 	{
 		shaders[shaderIndx]->Bind();
-		shaders[shaderIndx]->Update(cameras[cameraType]->GetViewProjection()*scale(vec3(10, 10, 10)), Normal*scale(vec3(10, 10, 10)), 0, shapesNormal);
+		shaders[shaderIndx]->Update(cameras[cameraType]->GetViewProjection()*scale(vec3(10, 10, 10)), Normal*scale(vec3(10, 10, 10)), 0, shapesNormal, linksNum);
 		axisMesh->draw(GL_LINES);
 	} 
 	for (int i = 0; i < snakeShots.size(); i++)
@@ -558,19 +441,16 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 	}
 	for (int i = 0; i < objectsShots.size(); i++)
 	{
-		//int j = i;
-		//			int counter = 0;
+	
 		mat4 Normal1 = mat4(1);
 
 		mat4 MVP1 = MVP * Normal1;
 		Normal1 = Normal * Normal1;
 		MVP1 = MVP1 * objectsShots[i]->shot->makeTransScale(mat4(1));
 		Normal1 = Normal1 * objectsShots[i]->shot->makeTrans();
-		//shaders[shaderIndx]->Bind();
 		shaders[shaderIndx]->Update(MVP1, Normal1, linksNum + i);
 		objectsShots[i]->shot->draw(GL_TRIANGLES);
 	}
-	//cameras[1]->Pitch(-50);
 }
 
 void Scene::shapeRotation(vec3 v, float ang, int indx)

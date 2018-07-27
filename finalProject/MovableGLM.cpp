@@ -116,9 +116,7 @@ void MovableGLM::myTranslate(vec3 vec, int indx)
 	glm::mat4 forword = glm::translate(glm::mat4(1), glm::vec3(0, 0, 1));
 	glm::mat4 backworld = glm::translate(glm::mat4(1), glm::vec3(0, 0, -1));
 	translateMat[indx] = translateMat[indx] * translate(forword*rotateMat*backworld, scaleFactor * vec);
-
 	rotateMat = glm::mat4(1);
-
 }
 void MovableGLM::myTranslate2(vec3 vec, int indx) {
 	translateMat[indx] = translateMat[indx] * translate(glm::mat4(1), scaleFactor * vec);

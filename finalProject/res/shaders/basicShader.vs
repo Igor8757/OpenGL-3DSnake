@@ -12,15 +12,24 @@ varying vec3 weights0;
 uniform mat4 MVP;
 uniform mat4 Normal;
 uniform int index;
+uniform int size;
 uniform mat4[20] transMat; 
 
 void main()
 {
 	gl_Position = MVP * vec4(position, 1.0);
-	if(index <=0 || index > 3){
-		gl_Position = MVP * vec4(position, 1.0);
+	if(index == 0 ){
+		for (int i = 1 ; i < 3 ; i++)	{
+    			gl_Position +=  weights[i]* transMat[index-1+i] * vec4(position, 1.0);; 		
+    		}
 	}
-	else{
+	else if (index == size)
+	{
+		for (int i = 0 ; i < 2 ; i++)	{
+    			gl_Position +=  weights[i]* transMat[index-1+i] * vec4(position, 1.0);; 		
+    		}
+	}
+	else if(index < size){
 	        for (int i = 0 ; i < 3 ; i++)	{
     			gl_Position +=  weights[i]* transMat[index-1+i] * vec4(position, 1.0);; 		
     		}

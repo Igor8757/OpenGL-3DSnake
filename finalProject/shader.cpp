@@ -43,6 +43,8 @@ Shader::Shader(const std::string& fileName)
 	m_uniforms[3] = glGetUniformLocation(m_program, "lightColor");
 	m_uniforms[4] = glGetUniformLocation(m_program, "transMat");
 	m_uniforms[5] = glGetUniformLocation(m_program, "index");
+	m_uniforms[6] = glGetUniformLocation(m_program, "size");
+
 }
 
 Shader::~Shader()
@@ -61,7 +63,7 @@ void Shader::Bind()
 	glUseProgram(m_program);
 }
 
-void Shader::Update( glm::mat4 MVP ,glm::mat4 Normal , int const shpIndx,std::vector<glm::mat4> matArray)
+void Shader::Update( glm::mat4 MVP ,glm::mat4 Normal , int const shpIndx,std::vector<glm::mat4> matArray,int linksNum)
 {
 
 	
@@ -77,7 +79,7 @@ void Shader::Update( glm::mat4 MVP ,glm::mat4 Normal , int const shpIndx,std::ve
 	glUniformMatrix4fv(m_uniforms[0], 1, GL_FALSE, &MVP[0][0]);
 	glUniformMatrix4fv(m_uniforms[1], 1, GL_FALSE, &Normal[0][0]);
 	glUniformMatrix4fv(m_uniforms[4], matArray.size(), GL_FALSE, &matArray[0][0][0]);
-
+	glUniform1i(m_uniforms[6], linksNum-1);
 	glUniform1i(m_uniforms[5],shpIndx);
 	glUniform3f(m_uniforms[2], 0.0f, 0.0f, 1.0f);
 	glUniform3f(m_uniforms[3], r/255.0f, g/255.0f, b/255.0f);
@@ -100,7 +102,7 @@ void Shader::Update(glm::mat4 MVP, glm::mat4 Normal, int const shpIndx)
 	glUniformMatrix4fv(m_uniforms[1], 1, GL_FALSE, &Normal[0][0]);
 
 	glm::vec3 normal = glm::normalize(glm::vec3(0.0f, 0.3f, -1.0f));
-
+	glUniform1i(m_uniforms[5], shpIndx);
 	glUniform3f(m_uniforms[2], 0.0f, 0.0f, 1.0f);
 	glUniform3f(m_uniforms[3], r / 255.0f, g / 255.0f, b / 255.0f);
 }

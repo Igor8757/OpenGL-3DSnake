@@ -186,9 +186,11 @@ int main(int argc, char** argv)
 			ImGui::Text("Press P to stop");
 			ImGui::Text("Press C to change camera mode");
 			ImGui::Text("Press U to decrese your speed and I to increse your speed");
+			ImGui::Text("Lock around the map using the arrows keys");
+			ImGui::Text("You can cheet using V key to add links");
 			ImGui::Text("");
 			ImGui::Text("lets start!");
-			ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); 
+			ImGui::Text(""); 
 			if (ImGui::Button("																				start																					"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
 			{
 				gui = false;
