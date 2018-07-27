@@ -17,11 +17,11 @@ void Level::addItemsEasy() {
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -7, 50);
 
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 80);
-	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 80)
-	;
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 80);
+	
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 99);
-	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 99
-	);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 99);
+	
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 113);
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 113);
 
@@ -197,14 +197,13 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, -4.8, 13);
 
 
-<<<<<<< HEAD
+
 	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, -1.2, 100);
 	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, 1.2, 100);
-	
-=======
+
 	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, -1.5, 100);
 	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, 1.5, 100);
->>>>>>> f863dc1974c845dd89c1a1bcc15ce3c0632e5095
+
 	int top = addTerrain("./res/textures/waterrock.jpg", 20, 4, 2, 0, 100);
 	LevelShapeTransformation(top, yLocalTranslate, 3.4);
 
