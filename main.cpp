@@ -149,7 +149,7 @@ int main(int argc, char** argv)
 			}
 
 			ImGui::Text("dificulty-level:");
-			ImGui::Text(hard ? "	hard" : normal ? "	normal" : "	eazy");
+			ImGui::Text(hard ? "	hard" : normal ? "	normal" : "	easy");
 			ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
 			if (ImGui::BeginMenuBar())
 			{
@@ -166,26 +166,26 @@ int main(int argc, char** argv)
 			ImGui::Text(toop ? "	Top view" : "	Snake view");
 			ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text("");
 			ImGui::Text("Number of links:%d", numOfLinks);
-			if (ImGui::Button("Increse number of links"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
+			if (ImGui::Button("Increase number of links"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
 				numOfLinks++;
-			if (ImGui::Button("Decrese number of links"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
+			if (ImGui::Button("Decrease number of links"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
 				numOfLinks--;
 			//ImGui::SameLine();
 			ImGui::Text(""); ImGui::Text("");
 			ImGui::Text("Readme:");
-			ImGui::Text("Use w to move up");
-			ImGui::Text("Use d to move right");
-			ImGui::Text("Use a to move left");
-			ImGui::Text("Use s to move down");
-			ImGui::Text("Avoid kiling objects");
+			ImGui::Text("Use W to move up");
+			ImGui::Text("Use D to move right");
+			ImGui::Text("Use A to move left");
+			ImGui::Text("Use S to move down");
+			ImGui::Text("Avoid the killing objects");
 			ImGui::Text("Dont eat yourself!");
 			ImGui::Text("Dont hit the walls!");
-			ImGui::Text("Collect incresing objects-shape of fruits");
-			ImGui::Text("You can shot objects to kill using space, but it will decrese your snake if you dont have any free shots");
+			ImGui::Text("Collect increasing objects-shape of fruits");
+			ImGui::Text("You can shoot objects to kill using space, but it will decrese your snake if you dont have any free shots");
 			ImGui::Text("Your goal is get to the end with the larger snake you can");
 			ImGui::Text("Press P to stop");
 			ImGui::Text("Press C to change camera mode");
-			ImGui::Text("Press U to decrese your speed and I to increse your speed");
+			ImGui::Text("Press U to decrease your speed and I to increase your speed");
 			ImGui::Text("");
 			ImGui::Text("lets start!");
 			ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); ImGui::Text(""); 
