@@ -1,0 +1,22 @@
+﻿  display.cpp
+c:\veloxsource\velox\velox3dpreview\display.cpp(65): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  lineMesh.cpp
+c:\veloxsource\velox\velox3dpreview\linemesh.cpp(2): fatal error C1083: Cannot open precompiled header file: 'x64\Release\VeloxSimulator.pch': No such file or directory
+  main.cpp
+c:\veloxsource\velox\velox3dpreview\main.cpp(4): fatal error C1083: Cannot open precompiled header file: 'x64\Release\VeloxSimulator.pch': No such file or directory
+  mesh.cpp
+c:\veloxsource\velox\velox3dpreview\mesh.cpp(9): fatal error C1083: Cannot open precompiled header file: 'x64\Release\VeloxSimulator.pch': No such file or directory
+  MovableGLM.cpp
+c:\veloxsource\velox\velox3dpreview\movableglm.cpp(3): fatal error C1083: Cannot open precompiled header file: 'x64\Release\VeloxSimulator.pch': No such file or directory
+  obj_loader.cpp
+c:\veloxsource\velox\velox3dpreview\obj_loader.cpp(6): fatal error C1083: Cannot open precompiled header file: 'x64\Release\VeloxSimulator.pch': No such file or directory
+  scene.cpp
+c:\veloxsource\velox\velox3dpreview\scene.cpp(190): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  shader.cpp
+c:\veloxsource\velox\velox3dpreview\shader.cpp(175): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  shape.cpp
+c:\veloxsource\velox\velox3dpreview\shape.cpp(97): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  stdafx.cpp
+c:\veloxsource\velox\velox3dpreview\stdafx.cpp(5): fatal error C1083: Cannot open precompiled header file: 'x64\Release\VeloxSimulator.pch': No such file or directory
+  texture.cpp
+c:\veloxsource\velox\velox3dpreview\texture.cpp(84): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
