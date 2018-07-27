@@ -197,14 +197,11 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, -4.8, 13);
 
 
-<<<<<<< HEAD
 	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, -1.2, 100);
 	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, 1.2, 100);
 	
-=======
 	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, -1.5, 100);
 	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, 1.5, 100);
->>>>>>> f863dc1974c845dd89c1a1bcc15ce3c0632e5095
 	int top = addTerrain("./res/textures/waterrock.jpg", 20, 4, 2, 0, 100);
 	LevelShapeTransformation(top, yLocalTranslate, 3.4);
 
@@ -295,7 +292,7 @@ bool Level::checkCollisionOfSnake(int shape)
 {
 	
 	bool colliding = false;
-	for (int i = 0;i < std::max(linksNum,3) & !colliding;i++)
+	for (int i = 0;i < std::min(linksNum,3) & !colliding;i++)
 	{
 		colliding = shapes.at(i)->isColliding(*LevelShapes.at(shape));
 		if(colliding)
@@ -584,6 +581,8 @@ void Level::levelDraw(int shaderIndx, int cameraIndx, bool drawAxis, int camType
 
 		MVP1 = MVP1 * LevelShapes[i]->makeTransScale(mat4(1));
 		Normal1 = Normal1 * LevelShapes[i]->makeTrans();
+		glm::mat4 proj = cameras.at(0)->GetViewProjection();
+		//shaders[shaderIndx]->Update(MVP1, Normal1, i, glm::vec3(proj[0][0],proj[1][1],proj[2][2]));
 		shaders[shaderIndx]->Update(MVP1, Normal1, i);
 		LevelShapes.at(i)->draw(GL_TRIANGLES);
 		

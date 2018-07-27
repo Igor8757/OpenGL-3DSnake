@@ -77,7 +77,6 @@ int main(int argc, char** argv)
 	scn.addShader("./res/shaders/basicShader");
 	scn.addShader("./res/shaders/pickingShader");
 	scn.addShader("./res/shaders/phongShader");
-	scn.addShader("./res/shaders/basicShader2");
 
 
 	// Setup window
@@ -351,7 +350,7 @@ int main(int argc, char** argv)
 				window_size_callback(display.m_window, viewport[2], viewport[3]);
 			}
 			scn.draw(0, 0, false, toop?0:1); //change false to true for axis in every joint
-			scn.levelDraw(0, 0, false, toop ? 0 : 1);
+			scn.levelDraw(2, 0, false, toop ? 0 : 1);
 			
 			ImGui::Render();
 			ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
