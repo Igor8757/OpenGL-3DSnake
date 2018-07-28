@@ -367,8 +367,9 @@ void Scene::addVectorToShapes(glm::vec2 addVector) {
 void Scene::updateShapesNormal(glm::mat4 MVP) {
 	for (int i = 0; i < shapes.size(); i++)
 	{
-		//int j = i;
-		//			int counter = 0;
+		
+		glm::mat4 Normal = makeTrans();
+		
 		mat4 Normal1 = mat4(1);
 		for (int j = i; chainParents[j] > -1; j = chainParents[j])
 		{
@@ -376,6 +377,7 @@ void Scene::updateShapesNormal(glm::mat4 MVP) {
 																	 //Normal1 = shapes[chainParents[j]]->makeTrans2() * Normal1;//seconed move
 		}
 		mat4 MVP1 = MVP * Normal1;
+		MVP1 = MVP1 * shapes[i]->makeTransScale(mat4(1));
 		if (i<linksNum)
 			shapesNormal.at(i) = MVP1;
 	}
@@ -390,7 +392,7 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 	glm::vec3 newPosition = getTipPosition(0);
 	cameras[1]->setPosition(glm::vec3(newPosition.x, newPosition.z+1.0, -newPosition.y-1.0));
 	MVP = cameras[cameraType]->GetViewProjection()*Normal;
-	//updateShapesNormal(MVP);
+	updateShapesNormal(MVP);
 	shaders[shaderIndx]->Bind();
 	for (int i = 0; i<shapes.size(); i++)
 	{
@@ -406,8 +408,8 @@ void Scene::draw(int shaderIndx, int cameraIndx, bool drawAxis,int cameraType)
 		Normal1 = Normal * Normal1;
 		MVP1 = MVP1 * shapes[i]->makeTransScale(mat4(1));
 		Normal1 = Normal1 * shapes[i]->makeTrans();
-		if (i<linksNum)
-			shapesNormal.at(i) = MVP1;
+		//if (i<linksNum)
+			//shapesNormal.at(i) = MVP1;
 		shaders[shaderIndx]->Update(MVP1, Normal1, i, shapesNormal,linksNum);
 
 		if (shaderIndx == 1)
