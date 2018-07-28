@@ -1,4 +1,4 @@
-We did all the Requirements + this Additional Points:
+We did all the Requirements (the collition check will be only for the 3 first links - because the snake is resaizebale ) until + this Additional Points:
 Moving obstacles.
 Gui.
 Special snake Movements.

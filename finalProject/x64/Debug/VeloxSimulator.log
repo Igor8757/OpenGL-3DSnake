@@ -1,0 +1,51 @@
+﻿  curves.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\curves.cpp(356): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  display.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\display.cpp(63): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  EulerAngles.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\eulerangles.cpp(190): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  imgui.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\gui\imgui.cpp(707): warning C4005: 'IMGUI_CDECL': macro redefinition
+  c:\users\david\documents\github\opengl-3dsnake2\finalproject\gui\imgui.cpp(705): note: see previous definition of 'IMGUI_CDECL'
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\gui\imgui.cpp(13372): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  imgui_demo.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\gui\imgui_demo.cpp(63): warning C4005: 'IM_NEWLINE': macro redefinition
+  c:\users\david\documents\github\opengl-3dsnake2\finalproject\gui\imgui_demo.cpp(61): note: see previous definition of 'IM_NEWLINE'
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\gui\imgui_demo.cpp(3194): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  imgui_draw.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\gui\imgui_draw.cpp(100): error C2006: '#include': expected a filename, found 'identifier'
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\gui\imgui_draw.cpp(115): error C2006: '#include': expected a filename, found 'identifier'
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\gui\imgui_draw.cpp(2972): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  imgui_impl_glfw_gl3.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\gui\imgui_impl_glfw_gl3.cpp(531): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  IK.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\ik.cpp(398): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  kdtree.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\kdtree.cpp(385): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  Level.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\level.cpp(691): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  lineMesh.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\linemesh.cpp(68): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  main.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\main.cpp(371): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  mesh.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\mesh.cpp(105): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  MovableGLM.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\movableglm.cpp(213): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  obj_loader.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\obj_loader.cpp(429): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  RubicsCube.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\rubicscube.cpp(244): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  scene.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\scene.cpp(761): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  shader.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\shader.cpp(196): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  shape.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\shape.cpp(427): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  solver.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\solver.cpp(17): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  Generating Code...
+  Compiling...
+  texture.cpp
+c:\users\david\documents\github\opengl-3dsnake2\finalproject\texture.cpp(36): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  Generating Code...
