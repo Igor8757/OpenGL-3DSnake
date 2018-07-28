@@ -1,20 +1,14 @@
+We did all the Requirements (the collition check will be only for the 3 first links - because the snake is resaizebale ) until + this Additional Points:
+Moving obstacles.
+Gui.
+Special snake Movements.
+2 difficulty levels.
+Resizebale snake links.
+Snake can shoot.
 
-- IMPORTANT:
-To run this game on visual studio, set the Solution Configuration to Release and the Platform to x86.
+All the instructions of the game are inside the game (gui part).
 
-
-Game info:
-press W to move up
-press S to move down
-press A to move left
-press D to move right
-press SPACE to shoot (will result in losing snake links if you have no free shots)
-press C to switch cameras
-press U / I to decrease / increase your movement speed
-
-Avoid walls and moving sea creatures.
-Dont eat yourself
-Collect as much items to get more points
-Your goal is to get to the end of the reef to your cave with as much points as possible.
-
-GOOD LUCK!
+To open the porject open file-finalProject.sln.
+Make sure the project is in Relese version, *86.
+To optimisied the game speed go to: project-> proprtyes ->C/C++ ->Optimization:
+Optimization->Maximum Optimization(favor speed),Whole Program Optimization->yes.

@@ -47,6 +47,7 @@ protected:
 	std::vector<glm::vec3> rotPositions;
 	std::vector<clock_t> TimeOfRotiains;
 	std::vector<Shader*> shaders;
+	
 	std::vector<Shape*> shapes;
 	std::vector<addRemovLinks> addRemoveLinksVec;
 	std::vector<int>tranlateBack;
@@ -56,7 +57,12 @@ protected:
 	void moveSnakeShot();
 	bool toopView = true;;
 	int freeShots = 2;
+	void updateShapesNormal(glm::mat4 MVP);
+	bool straighSnake = false;;
+	clock_t straight_time ;
+
 public:
+	
 	std::vector<Camera*> cameras;
 	inline void incresFreeShots() { freeShots++; }
 	inline void DecreseFreeShots() { freeShots--; }

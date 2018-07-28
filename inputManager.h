@@ -39,73 +39,40 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_ESCAPE:
 			glfwSetWindowShouldClose(window, GLFW_TRUE);
 			break;
-		case GLFW_KEY_RIGHT:
-			if (scn.cameraMode)
+		case GLFW_KEY_RIGHT: {
+			if (scn.getCameraMode()) {
 				scn.shapeTransformation(scn.zGlobalRotate, -5.1f);
-			else if (scn.boxMode) {
-				scn.shapeTransformation(scn.xGlobalTranslate, -0.5f);
 			}
-			else
-			{
-				scn.shapeTransformation(scn.zLocalRotate, 5.f);
-			}		//						cout<< "right: "<<endl;
-
 			break;
-		case GLFW_KEY_LEFT:
-			if (scn.cameraMode) {
+		}
+		case GLFW_KEY_LEFT: {
+			if (scn.getCameraMode() ) {
 				scn.shapeTransformation(scn.zGlobalRotate, 5.1f);
 			}
-			else if (scn.boxMode) {
 
-				scn.shapeTransformation(scn.xGlobalTranslate, 0.5f);
-			}
-			else {
-				scn.shapeTransformation(scn.zLocalRotate, -5.f);
-			}
-			//					cout<< "left: "<<endl;
 			break;
-		case GLFW_KEY_UP:
+		}
+		case GLFW_KEY_UP: {
 			//cout<< "up: "<<endl;
-			if (scn.cameraMode)
+			if (scn.getCameraMode() )
 			{
 				scn.shapeTransformation(scn.xGlobalRotate, 5.1f);
 			}
-			else if (scn.boxMode) {
-				scn.shapeTransformation(scn.zGlobalTranslate, 0.5f);
-			}
-			else {
-				scn.shapeTransformation(scn.xGlobalRotate, 5.f);
-			}
 			break;
-		case GLFW_KEY_DOWN:
-			if (scn.cameraMode)
+		}
+		case GLFW_KEY_DOWN: {
+			if (scn.getCameraMode() )
 			{
 				scn.shapeTransformation(scn.xGlobalRotate, -5.f);
 			}
-			else if (scn.boxMode) {
-
-				scn.shapeTransformation(scn.zGlobalTranslate, -0.5f);
-			}
-			else {
-				scn.shapeTransformation(scn.xGlobalRotate, -5.f);
-				//cout<< "down: "<<endl;
-			}
 			break;
+		}
 		case GLFW_KEY_SPACE:
-			//if (scn.gameOver)
-			//	break;
-			////scn.addRemoveLinks(this_time, false);
-			//if (scn.GetLinkNum() <= 1) {
-			//	break;
-			//}
-			//scn.removeLink();
-			//scn.shot(this_time);
-			////printf("::N:: Next Link, the current link is : %d\n", scn.getPickedShape());
-			if (scn.GetLinkNum() <= 1) {
+			if (scn.GetLinkNum() <= 2) {
 				break;
 			}
 			if (scn.GetFreeShots() <= 0) {
-				scn.removeLink();
+				scn.addRemoveLinks(this_time, false);;
 				scn.shot(this_time);
 			}
 			else {
@@ -160,11 +127,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_A:
 			if (!scn.paused && !scn.gameOver)
 			{
-				//clock_t this_time = clock();
 				scn.addRotTime(this_time);
-				//scn.addRotTime(scn.getDestination(0));
 				scn.addVectorToShapes(glm::vec2(scn.yLocalRotate, 5.f));
-				//scn.shapeTransformation(scn.yLocalRotate, 5.f);
 			}
 			break;
 		case GLFW_KEY_KP_8:

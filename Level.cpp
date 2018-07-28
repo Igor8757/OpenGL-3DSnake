@@ -17,11 +17,11 @@ void Level::addItemsEasy() {
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -7, 50);
 
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 80);
-	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 80)
-	;
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 80);
+	
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 99);
-	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 99
-	);
+	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 99);
+	
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, 15, 113);
 	addItem("./res/objs/coin.obj", "./res/textures/gold.jpg", Shape::ItemCoin, -15, 113);
 
@@ -197,11 +197,21 @@ Level::Level(glm::vec3 position, float angle, float hwRelation, float near, floa
 	addTerrain("./res/textures/waterrock.jpg", 2, wallHeight, 12, -4.8, 13);
 
 
+
+
+	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, -1.2, 100);
+	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, 1.2, 100);
+
+	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, -1.5, 100);
+	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, 1.5, 100);
+
+
 	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, -1.2, 100);
 	addTerrain("./res/textures/waterrock.jpg", 20, wallHeight, 2, 1.2, 100);
 	
-	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, -1.5, 100);
-	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight, 2, 1.5, 100);
+	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight +3, 2, -1.5, 100);
+	addTerrain("./res/textures/waterrock.jpg", 15, wallHeight +3, 2, 1.5, 100);
+
 	int top = addTerrain("./res/textures/waterrock.jpg", 20, 4, 2, 0, 100);
 	LevelShapeTransformation(top, yLocalTranslate, 3.4);
 
@@ -230,7 +240,7 @@ int Level::addEnemy1(float x, float y, float z)
 
 int Level::addWinShape()
 {
-
+	return 0;
 }
 
 void Level::UpdateLevel()
@@ -292,7 +302,7 @@ bool Level::checkCollisionOfSnake(int shape)
 {
 	
 	bool colliding = false;
-	for (int i = 0;i < std::min(linksNum,3) & !colliding;i++)
+	for (int i = 0;i < std::min(linksNum,2) & !colliding;i++)
 	{
 		colliding = shapes.at(i)->isColliding(*LevelShapes.at(shape));
 		if(colliding)
@@ -347,6 +357,7 @@ bool Level::checkCollisionOfSnake(int shape)
 			case Shape::WinBlock:
 				std::cout << "You Won !!" << std::endl;
 				winning = true;
+				gameOver = true;
 				break;
 
 			case Shape::Default:
