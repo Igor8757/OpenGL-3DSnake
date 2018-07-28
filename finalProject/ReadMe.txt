@@ -8,7 +8,7 @@ Snake can shot.
 
 All the instructions of the game are inside the game (gui part).
 
-To open the porject open file-finalProject.sln.
+To run juust run the finalProject.exe or you can open file-finalProject.sln.
 Make sure the project is in Relese version, *86.
 To optimisied the game speed go to: project-> proprtyes ->C/C++ ->Optimization:
 Optimization->Maximum Optimization(favor speed),Whole Program Optimization->yes.
